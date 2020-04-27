@@ -97,7 +97,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('API','AzureAD','Azure','MSGraph','GraphAPI','Administrative Unit')
+        Tags = @('API','AzureAD','Azure','MSGraph','GraphAPI','AdministrativeUnit')
 
         # A URL to the license for this module.
         # LicenseUri = ''
