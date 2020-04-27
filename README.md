@@ -1,2 +1,89 @@
+![image](http://www.lucas-cueff.com/files/gallery.png)
+
 # Use-AzureAD
-cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly
+Simple PowerShell module to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
+
+(c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
+
+## Notes
+currently Powershell Core and AzureADPreview are not working well together (logon / token request issue)
+The issue is opened here : https://github.com/PowerShell/PowerShell/issues/10473
+Waiting for the fix, this module will **work only with Windows Powershell 5.1**
+
+## Notes version (0.5) :
+**first public release - beta version**
+ - cmdlet to get a valid access token (MFA supported) for Microsoft Graph Beta APIs
+ - cmdlet to get a valid token for Microsoft Graph API standard / cloud endpoint (ressource graph.windows.net) and be able to use AzureADPreview cmdlets without reauthenticating
+ - cmdlet to get all properties available (ex : extensionattribute) for an AAD user account
+ - cmdlet to set a web proxy to be used with Use-AzureAD and AzureADPreview cmdlets
+ - cmdlet to get all info for current logged in (@ Azure AD Tenant and Graph APIs) AAD user account
+ - cmdlet to create / synchronize your on premise Active Directory OUs with Azure AD Administrive Units (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
+ - cmdlet to add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
+ - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
+ - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
+
+## Why another Azure AD module ?
+I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
+I have opened several request for change on Azure feedback website and also I have voted for several ones...
+Here are my current issues, I have tried to resolve them with this PowerShell Module :
+ - the BETA API of MS Graph are more powerfull than the v1.0 used by the PowerShell modules AzureAD or AzureADPreview
+   - for instance, Get-AzureADUser cannot give you the value of the extensionattributexx !!!
+   - You can create dynamic group based on the value hosted in those attributes but you cannot get the value of them for a user account... a shame...
+ - There is no easy way to be authenticated at the same time on MS Graph API v1.0 and the Beta ones because Microsoft used a different endpoint in the Powershell modules AzureAD and AzureADPreview :
+   - graph.windows.net is used by default in the MS modules, the Beta Graph is available with grap.microsoft.com/beta/
+   - ==> the ressources URI are different so you must request tokens 2 times !!!
+ - there is no tool available to synchronize on premise AD Organizational Unit and Azure AD Administrative unit
+   - you must do it manually !
+ - there is no tool available to add an Azure AD User account automatically to an Administrative Unit based on criteria
+   - again you must do it manually !
+ - there is no tool avaialable for massive provisionning in administrative unit
+   - except bulk import with CSV from the portal but... wait we are in 2020 not in the 1990 !
+ - the way Microsoft is managing the Administrative Unit role membership is a nightmare
+   - for adding someone :
+     - you need to be sure the role is enable from the directory template role,
+     - then resolve your self all required GUIDs,
+     - create some object to build the request,
+     - then submit the request...
+     - ==> wait, in on prem AD we are talking about a one liner stuff with easy name to remember !
+ - several cmdlet are buggy and not implement paging feature
+   - for instance you are limited to the first 100 objects only when you want to get all members of an admin unit... (Get-AzureADAdministrativeUnitMember)
+   - the API administrativeUnits is able to handle it but they just forgot to implement it in the PowerShell module...
+### Azure requests for changes opened
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276534-azureadpreview
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276597-azureadpreview-get-azureadadministrativeunitmem
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276621-azureadpreview-odata-advanced-paging
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/39167986-sync-onprem-ad-ous-to-aad-administrative-units
+
+## How-to
+a how-to is available here : https://github.com/MS-LUF/Use-AzureAD/blob/master/Howto.md
+
+## install Use-AzureAD from PowerShell Gallery repository
+You can easily install it from powershell gallery repository
+https://www.powershellgallery.com/packages/Use-AzureAD/
+using a simple powershell command and an internet access :-) 
+```
+	Install-Module -Name Use-AzureAD
+```
+
+## import module from PowerShell 
+```
+	C:\PS> import-module Use-AzureAD.psm1
+```
+
+## module content
+documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD/tree/master/docs
+### function
+ - Clear-AzureADAccessToken
+ - Connect-AzureADFromAccessToken
+ - Get-AzureADAccessToken
+ - Get-AzureADAdministrativeUnitAllMembers
+ - Get-AzureADMyInfo
+ - Get-AzureADTenantInfo
+ - Get-AzureADUserAllInfo
+ - Invoke-APIMSGraphBeta
+ - Set-AzureADAdministrativeUnitAdminRole
+ - Set-AzureADProxy
+ - Sync-ADOUtoAzureADAdministrativeUnit
+ - Sync-ADUsertoAzureADAdministrativeUnitMember
+ - Test-ADModule
+ - Test-AzureADAccesToken
