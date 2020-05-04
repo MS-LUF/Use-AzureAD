@@ -16,6 +16,12 @@
 # - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
 # - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
 #
+# v0.6 : last public release - beta version - focus on Azure AD Connect Cloud Provisionning Tools
+# - cmdlet to get your current schema for a specific provisionning agent / service principal
+# - cmdlet to update your current schema for a specific provisionning agent / service principal
+# - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
+# - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
+#
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
 <#
@@ -292,6 +298,49 @@ Function Connect-AzureADFromAccessToken {
     } else {
         throw "No valid Access Token found - exiting"
     }
+}
+Function Connect-MSOnlineFromAccessToken {
+    <#
+        .SYNOPSIS 
+        Connect to your Azure AD Tenant / classic MS Graph endpoint used by MSOnline module using an existing Access token requested with Get-AzureADAccessToken
+    
+        .DESCRIPTION
+        Connect to your Azure AD Tenant / classic MS Graph endpoint used by MSOnline module using an existing Access token requested with Get-AzureADAccessToken
+                
+        .OUTPUTS
+        None
+                
+        .EXAMPLE
+        Connect to your Azure AD Tenant / classic MS Graph endpoint used by MSOnline module using an existing Access token requested with Get-AzureADAccessToken
+        C:\PS> Connect-MSOnlineFromAccessToken
+    #>
+        [cmdletbinding()]
+        Param ()
+        Test-AzureADAccesToken
+        Test-ADModule -MSOnline | out-null
+        $AadModule = Test-ADModule -AzureAD
+        if ($global:AADConnectInfo.AccessToken) {
+            $resourceURI = "https://graph.windows.net"
+            $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
+            $redirectUri = new-object System.Uri("http://localhost/")
+            $authority = "https://login.microsoftonline.com/$(($global:AADConnectInfo.UserName).host)"
+            try {
+                $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
+                $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
+                [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
+                [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
+                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
+                $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($global:AADConnectInfo.UserName, "OptionalDisplayableId")
+                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
+            } catch {
+                Write-Error -Message "$($_.Exception.Message)"
+                throw "Not Able to log you on your Azure AD Tenant - exiting"
+            }
+            Connect-MsolService -AccessToken $authResult.result.AccessToken
+        } else {
+            throw "No valid Access Token found - exiting"
+        }
 }
 Function Set-AzureADProxy {
 <#
@@ -860,7 +909,7 @@ Function Get-AzureADUserAllInfo {
     C:\PS> Get-AzureADUserAllInfo -userUPN "my-admin@mydomain.tld"
 #>
     [cmdletbinding()]
-	Param (
+    Param (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
             [Microsoft.Open.AzureAD.Model.User]$inputobject,
         [parameter(Mandatory=$false)]
@@ -999,11 +1048,214 @@ Function Get-AzureADAdministrativeUnitAllMembers {
         Invoke-APIMSGraphBeta @params
     }
 }
+Function Get-AzureADConnectCloudProvisionningServiceSyncSchema {
+<#
+	.SYNOPSIS 
+	Get Azure AD Connect Cloud Sync schema for a provisionning agent
+
+	.DESCRIPTION
+	Get all properties of an Azure AD Connect Cloud Sync schema for a provisionning agent (synchronizationRules, schema, objectMappings rules...)
+	
+	.PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the SPN used by your provisionning agent
+    
+    .PARAMETER OnPremADFQDN
+    -OnPremADFQDN string
+    FQDN of your on premise AD Domain managed through Azure AD Connect Cloud Provisionning (provisionning agent must already be declared)
+		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+
+    Name                       MemberType   Definition
+    ----                       ----------   ----------
+    Equals                     Method       bool Equals(System.Object obj)
+    GetHashCode                Method       int GetHashCode()
+    GetType                    Method       type GetType()
+    ToString                   Method       string ToString()
+    @odata.context             NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals..
+    directories                NoteProperty Object[] directories=System.Object[]
+    directories@odata.context  NoteProperty string directories@odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals...
+    id                         NoteProperty string id=AD2AADProvisioning...
+    provisioningTaskIdentifier NoteProperty string provisioningTaskIdentifier=AD2AADProvisioning...
+    synchronizationRules       NoteProperty Object[] synchronizationRules=System.Object[]
+    version                    NoteProperty string version=Date:2020-05-03T16:45:55.0837002Z...
+            
+	.EXAMPLE
+	Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
+	C:\PS> Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$OnPremADFQDN,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [GUID]$ObjectID
+    )
+    process {
+        if (!($OnPremADFQDN) -and !($ObjectID)) {
+            throw "Use OnPremADFQDN or ObjectID parameter - exiting"
+        }
+        $params = @{
+            API = "serviceprincipals"
+            Method = "GET"
+        }
+        if ($OnPremADFQDN) {
+            $params.add('APIParameter',"?`$filter=startswith(Displayname,'$($OnPremADFQDN)')")
+        } elseif ($ObjectID) {
+            $params.add('APIParameter',$ObjectID)
+        }
+        $spnobj = Invoke-APIMSGraphBeta @params
+        write-verbose -message "SPN ID : $($spnobj.id)"
+        $params['APIParameter'] = "$($spnobj.id)/synchronization/jobs/?`$filter=templateId eq 'AD2AADProvisioning'"
+        $syncjobsobj = Invoke-APIMSGraphBeta @params
+        write-verbose -message "AD2AADProvisioning ID : $syncjobsobj.id"
+        if ($syncjobsobj.id -notlike "AD2AADProvisioning.*") {
+            throw "Azure AD Service Principal does not seem to be an AD2AAD provisionning object - exiting"
+        }
+        $params['APIParameter'] = "$($spnobj.id)/synchronization/jobs/$($syncjobsobj.id)/schema"
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema {
+    <#
+        .SYNOPSIS 
+        Get Azure AD Connect Cloud Sync default schema (Azure AD Connect Cloud Sync template)
+    
+        .DESCRIPTION
+        Get all properties of the Azure AD Connect Cloud Sync default schema - Azure AD Connect Cloud Sync template (synchronizationRules, schema, objectMappings rules...)
+        
+        .PARAMETER ObjectId
+        -ObjectId guid
+        GUID of the SPN used by your provisionning agent
+        
+        .PARAMETER OnPremADFQDN
+        -OnPremADFQDN string
+        FQDN of your on premise AD Domain managed through Azure AD Connect Cloud Provisionning (provisionning agent must already be declared)
+            
+        .OUTPUTS
+           TypeName : System.Management.Automation.PSCustomObject
+    
+        Name                       MemberType   Definition
+        ----                       ----------   ----------
+        Equals                     Method       bool Equals(System.Object obj)
+        GetHashCode                Method       int GetHashCode()
+        GetType                    Method       type GetType()
+        ToString                   Method       string ToString()
+        @odata.context             NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals..
+        directories                NoteProperty Object[] directories=System.Object[]
+        directories@odata.context  NoteProperty string directories@odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals...
+        id                         NoteProperty string id=AD2AADProvisioning...
+        provisioningTaskIdentifier NoteProperty string provisioningTaskIdentifier=AD2AADProvisioning...
+        synchronizationRules       NoteProperty Object[] synchronizationRules=System.Object[]
+        version                    NoteProperty string version=Date:2020-05-03T16:45:55.0837002Z...
+                
+        .EXAMPLE
+        Get Azure AD Connect Cloud Sync default schema of domain mydomain.tld
+        C:\PS> Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremADFQDN mydomain.tld
+    #>
+        [cmdletbinding()]
+        Param (
+            [Parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+                [string]$OnPremADFQDN,
+            [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+                [GUID]$ObjectID
+        )
+        process {
+            if (!($OnPremADFQDN) -and !($ObjectID)) {
+                throw "Use OnPremADFQDN or ObjectID parameter - exiting"
+            }
+            $params = @{
+                API = "serviceprincipals"
+                Method = "GET"
+            }
+            if ($OnPremADFQDN) {
+                $params.add('APIParameter',"?`$filter=startswith(Displayname,'$($OnPremADFQDN)')")
+            } elseif ($ObjectID) {
+                $params.add('APIParameter',$ObjectID)
+            }
+            $spnobj = Invoke-APIMSGraphBeta @params
+            write-verbose -message "SPN ID : $($spnobj.id)"
+            $params['APIParameter'] = "$($spnobj.id)/synchronization/templates/AD2AADProvisioning/"
+            Invoke-APIMSGraphBeta @params
+        }
+    }
+Function Update-AzureADConnectCloudProvisionningServiceSyncSchema {
+<#
+	.SYNOPSIS 
+	Update your Azure AD Connect Cloud Sync schema for a provisionning agent
+
+	.DESCRIPTION
+	Update your  Azure AD Connect Cloud Sync schema for a provisionning agent (synchronizationRules, schema, objectMappings rules...)
+	
+	.PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the SPN used by your provisionning agent
+    
+    .PARAMETER OnPremADFQDN
+    -OnPremADFQDN string
+    FQDN of your on premise AD Domain managed through Azure AD Connect Cloud Provisionning (provisionning agent must already be declared)
+    
+    .PARAMETER inputobject
+    -inputobject PSCustomObject
+    a PSCustom Object containing your new schema to upload
+	.OUTPUTS 
+   	None (except warning)
+            
+	.EXAMPLE
+	Update your Azure AD Connect Cloud Sync schema for provisionning agent of domain mydomain.tld, new schema available in $schema object
+	C:\PS> Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld -inputobject $schema
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$OnPremADFQDN,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [GUID]$ObjectID,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+            [pscustomobject]$inputobject
+    )
+    process {
+        if (!($OnPremADFQDN) -and !($ObjectID)) {
+            throw "Use OnPremADFQDN or ObjectID parameter - exiting"
+        }
+        if ($inputobject.'@odata.context' -notlike "*AD2AADProvisioning*") {
+            throw "PSCustomObject inputobject seems to be invalid (not containing an Azure AD Cloud Provisionning Schema) - exiting"
+        }
+        $params = @{
+            API = "serviceprincipals"
+            Method = "GET"
+        }
+        if ($OnPremADFQDN) {
+            $params.add('APIParameter',"?`$filter=startswith(Displayname,'$($OnPremADFQDN)')")
+        } elseif ($ObjectID) {
+            $params.add('APIParameter',$ObjectID)
+        }
+        $spnobj = Invoke-APIMSGraphBeta @params
+        write-verbose -message "SPN ID : $($spnobj.id)"
+        $params['APIParameter'] = "$($spnobj.id)/synchronization/jobs/?`$filter=templateId eq 'AD2AADProvisioning'"
+        $syncjobsobj = Invoke-APIMSGraphBeta @params
+        write-verbose -message "AD2AADProvisioning ID : $syncjobsobj.id"
+        if ($syncjobsobj.id -notlike "AD2AADProvisioning.*") {
+            throw "Azure AD Service Principal does not seem to be an AD2AAD provisionning object - exiting"
+        }
+        $params['method'] = "PUT"
+        $params['APIParameter'] = "$($spnobj.id)/synchronization/jobs/$($syncjobsobj.id)/schema"
+        $params.add('APIBody',(ConvertTo-Json -InputObject $inputobject -Depth 100))
+        Invoke-APIMSGraphBeta @params
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
         [parameter(Mandatory=$false)]
-        [validateSet("users","me","administrativeUnits")]
+        [validateSet("users","me","administrativeUnits","serviceprincipals")]
             [string]$API,
         [parameter(Mandatory=$true)]
         [validateSet("GET","POST","PUT","PATCH","DELETE")]
@@ -1036,8 +1288,16 @@ Function Invoke-APIMSGraphBeta {
             }
         }
         write-verbose -message "$($Method) to $($uri)"
+        $params = @{ UseBasicParsing = $true;
+            headers = $authHeader;
+            Uri = $uri;
+            Method = $Method
+        }
+        if ($Method -ne "GET") {
+            $params.add("Body",$APIBody)
+        }
         try {
-            $response = Invoke-WebRequest -UseBasicParsing -headers $authHeader -Uri $uri -Method $Method
+            $response = Invoke-WebRequest @params
         } catch {
             $ex = $_.Exception
             $errorResponse = $ex.Response.GetResponseStream()
@@ -1060,7 +1320,7 @@ Function Invoke-APIMSGraphBeta {
                 Invoke-APIMSGraphBeta -Method GET -Paging $result.'@odata.nextLink'
             }
         } else {
-            throw "response is null - exiting"
+            Write-Warning "response is null - exiting"
         }
     }
 }
@@ -1070,7 +1330,9 @@ Function Test-ADModule {
         [parameter(Mandatory=$false)]
         [switch]$AzureAD,
         [parameter(Mandatory=$false)]
-        [switch]$AD
+        [switch]$AD,
+        [parameter(Mandatory=$false)]
+        [switch]$MSOnline
     )
     Process {
         if ($AzureAD.IsPresent) {
@@ -1097,6 +1359,18 @@ Function Test-ADModule {
             }
             $AdModule
         }
+        if ($MSOnline.IsPresent) {
+            try {
+                $AdModule = get-module -Name MSOnline
+                if (!($AdModule)) {
+                    import-module -name MSOnline
+                    $MSOnlineModule = get-module -Name MSOnline
+                }
+            } catch {
+                throw "MSOnline module is missing, please install this module using 'install-module MSOnline' - exiting"
+            }
+            $MSOnlineModule
+        }
     }
 }
 Function Test-AzureADAccesToken {
@@ -1109,4 +1383,6 @@ Function Test-AzureADAccesToken {
 
 Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-AzureADAccessToken, Connect-AzureADFromAccessToken, Clear-AzureADAccessToken, 
                                 Set-AzureADProxy, Test-ADModule, Sync-ADOUtoAzureADAdministrativeUnit, Invoke-APIMSGraphBeta, Get-AzureADUserAllInfo, Test-AzureADAccesToken,
-                                Sync-ADUsertoAzureADAdministrativeUnitMember,Set-AzureADAdministrativeUnitAdminRole, Get-AzureADAdministrativeUnitAllMembers
+                                Sync-ADUsertoAzureADAdministrativeUnitMember,Set-AzureADAdministrativeUnitAdminRole, Get-AzureADAdministrativeUnitAllMembers, Connect-MSOnlineFromAccessToken,
+                                Get-AzureADConnectCloudProvisionningServiceSyncSchema, Update-AzureADConnectCloudProvisionningServiceSyncSchema,
+                                Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema

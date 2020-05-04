@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '0.5'
+ModuleVersion = '0.6'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -71,7 +71,8 @@ PowerShellVersion = '5.1'
 # Fonctions a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas leentree. Utilisez un tableau vide si vous neavez aucune fonction a exporter.
 FunctionsToExport = 'Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADMyInfo','Get-AzureADTenantInfo','Get-AzureADUserAllInfo',
                     'Invoke-APIMSGraphBeta','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember',
-                    'Test-ADModule','Test-AzureADAccesToken'
+                    'Test-ADModule','Test-AzureADAccesToken','Connect-MSOnlineFromAccessToken', 'Get-AzureADConnectCloudProvisionningServiceSyncSchema', 'Update-AzureADConnectCloudProvisionningServiceSyncSchema',
+                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -109,7 +110,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v0.5 : first public release : get a valid access token (MFA supported) for Microsoft Graph Beta APIs, get a valid token for Microsoft Graph API standard / cloud endpoint (ressource graph.windows.net) and be able to use AzureADPreview cmdlets without reauthenticating, get all properties available (ex : extensionattribute) for an AAD user account, set a web proxy to be used with Use-AzureAD and AzureADPreview cmdlets, get all info for current logged in (@ Azure AD Tenant and Graph APIs) AAD user account, create / synchronize your on premise Active Directory OUs with Azure AD Administrive Units (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules), add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules), add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on), list all members of an Azure AD Administrative Unit'
+        ReleaseNotes = 'v0.6 : cmdlet to get your current schema for a specific provisionning agent / service principal, cmdlet to update your current schema for a specific provisionning agent / service principal, cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning, cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 

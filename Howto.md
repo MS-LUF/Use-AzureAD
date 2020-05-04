@@ -3,7 +3,10 @@
 # Use-AzureAD - How-To
 
 ## ChangeLog
-**first public release - beta version**. Enjoy your AzureAD stuff with Power[Shell](Of Love)
+### v0.5 first public release - beta version
+### v0.6 last public release - beta version
+- add example on Cloud provisionning schema operation (get / update)
+Enjoy your AzureAD stuff with Power[Shell](Of Love)
 
 (c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -31,7 +34,10 @@ When you will have your Access Token, we can use it to request another access to
 ```
     C:\PS> Connect-AzureADFromAccessToken
 ```
-
+Now, you can also use the same token to use MSOnline module
+```
+    C:\PS> Connect-MSOnlineFromAccessToken
+```
 ## Output of Use-AzureAD functions / cmdlets
 Depending on cmdlet, output could be a PSCustomObject (TypeName: System.Management.Automation.PSCustomObject) or a Microsoft.Open.AzureAD.Model (TypeName : Microsoft.Open.AzureAD.Model.xxxx)
 When I am dealing directly with APIs you will find PSCustomObject, when I am wrapping AzureAD cmdlet you will find Microsoft.Open.AzureAD.Model
@@ -121,3 +127,150 @@ Ok, let's go !
 ```
     C:\PS> Set-AzureADAdministrativeUnitAdminRole -userUPN user1@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-AL -AdministrativeRole 'User Account Administrator' -Verbose
 ```
+### Example 6
+Before playing with this use case, please take a look at the basic here : https://docs.microsoft.com/en-us/azure/active-directory/cloud-provisioning/tutorial-pilot-aadc-aadccp
+I have just installed Azure AD Connect Cloud Provisionning for one of our affiliates with its own AD forest (myaffiliate.xyz). My provisionning agent is in place and I have started to sync a pilot OU for testing purpose but the default rules sync applied don't fit my need, I want to check them first then modify them.
+Ok, first step, Get the current schema (including directory attributes definition, objectmappings / ruleset and so on :-) ). This schema is available for each provisionning agent installed and this schema is a copy of a default schema available for Azure AD Connect Cloud Provisionning.
+So first, get the current schema for your affiliate myaffiliate.xyz
+```
+    C:\PS> $schema = Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN "myaffiliate.xyz" -Verbose
+```
+#### Understanding the Schema
+Take a look at the PSCustomObject generated. You can find all the classic "schema" (ldap speaking), it means, all definition of attributes (name, type...). For instance, take a look of the azure AD one :
+```
+    C:\PS> ($schema.directories | Where-Object {$_.name -eq "Azure Active Directory"}).objects.attributes
+```
+Look at the properties :
+```
+    anchor            NoteProperty bool anchor=False
+    caseExact         NoteProperty bool caseExact=False
+    defaultValue      NoteProperty object defaultValue=null
+    metadata          NoteProperty Object[] metadata=System.Object[]
+    multivalued       NoteProperty bool multivalued=False
+    mutability        NoteProperty string mutability=ReadWrite
+    name              NoteProperty string name=AccountEnabled
+    referencedObjects NoteProperty Object[] referencedObjects=System.Object[]
+    required          NoteProperty bool required=False
+```
+For instance, look at the first property : anchor as boolean ==> it means you can use this property of an attribute to add a new source anchor / immutable id source for your sync :)
+Now, take a look objectmappings for the user class / object, it will give us all the default sync rules for the users object (attribute and related mapping, including transformation rules as your on premise Azure AD Connect instance) :
+```
+    C:\PS> $schema.synchronizationRules.objectmappings | Where-Object {$_.name -like "*users*"}
+```
+Now, we will look closer to one of your key mapping attribute : userprincipalname :
+```
+    C:\PS> ($schema.synchronizationRules.objectmappings | Where-Object {$_.name -like "*users*"}).attributemappings | Where-Object {$_.targetattributename -eq "userprincipalname"}
+```
+```
+    defaultValue            :
+    exportMissingReferences : False
+    flowBehavior            : FlowWhenChanged
+    flowType                : Always
+    matchingPriority        : 0
+    targetAttributeName     : UserPrincipalName
+    source                  : @{expression=IIF(IsPresent([userPrincipalName]), [userPrincipalName], IIF(IsPresent([sAMAccountName]), Join("@", [sAMAccountName], ), Error("AccountName is not present")));
+                            name=IIF; type=Function; parameters=System.Object[]}
+```
+Look, closer at the source property... If you know the default transformation rule of Azure AD Connect, it will look familiar to you :)
+Now, to conclude, zoom on the source property of this object mapping attribute :
+```
+    expression                                                                                                                                                     name type     parameters
+    ----------                                                                                                                                                     ---- ----     ----------
+    IIF(IsPresent([userPrincipalName]), [userPrincipalName], IIF(IsPresent([sAMAccountName]), Join("@", [sAMAccountName], ), Error("AccountName is not present"))) IIF  Function {@{key=one; value=}, @{key=four;...
+```
+You can see you can use all the functions (VBA style) already available with on premise Azure AD Connect (or the old Forefront Identity Manager...)
+More information here : https://docs.microsoft.com/en-us/azure/active-directory/cloud-provisioning/reference-expressions
+If you want to use a complex expression like this one, you must split your expression by function in sub object... Take a look :)
+#### Updating the Schema
+Well well, I think I am now ready to play with the schema and inplement several updates to take into account the specific use case of my affiliate : myaffiliate.xyz
+So, here is my wishlist :
+- set my cloud userprincipalname matching my on premise mail adress (hosted in mail attribute in my local AD)
+- enable all my account by default because I am synchronizing a ressource forest with all my account disabled
+- change my source anchor value matching my on premise attribute EmployeeID
+Before starting, a "nice" warning :) **only object mapping update is supported by Micro$osft** even if you can rewrite all the schema from scratch (and it works well, I have played with it :) ) It's not supported to modify the source anchor for instance. But at the end, technically it works well :)
+Note : To simplify my use case, I have decided to remove completly the objectmappings for contacts, groups, inetorgperson and keep only users (not supported by much easier to parse for checking / testing purpose). So I also had to update the schema directory to remove the reference to group/inetorperson/contact class of my attributes to have a valid schema.
+##### userprincipalname use case
+First thing to do : duplicate your schema object to be sure you can restore it quickly in case of emergency :)
+```
+    C:\PS> $newschema = $schema | select-object *
+```
+Now, let's go for our first update, changing the userprincipalname mapping. Basically we want to implement a basic mapping attribute to attribute without any advanced sync functions... Easy / peasy :-)
+I give you the soluce :
+```
+    defaultValue            :
+    exportMissingReferences : False
+    flowBehavior            : FlowWhenChanged
+    flowType                : Always
+    matchingPriority        : 0
+    targetAttributeName     : UserPrincipalName
+    source                  : @{expression=[mail]; name=mail; type=Attribute; parameters=System.Object[]}
+```
+```
+    C:\PS> (($newschema.synchronizationRules.objectmappings | Where-Object {$_.name -like "*users*"}).attributemappings | Where-Object {$_.targetattributename -eq "userprincipalname"}).source
+```
+We need to modify the source attribute of our objectmapping entry UserPrincipalName :
+- expression : [mail] (string)
+  - we need to use [] when we use attribute, like in Azure AD Connect on premise sync rule
+- name : mail (string)
+  - copy / paste from the expression without []
+- type : Attribute (string)
+  - here we can use several values depending on what we want to do, for instance : **Attribute** for a basic attribute to attribute mapping (our use case), or **Constant** if you want to set a value (boolean, string, integer) to an attribute or also **Function** if you want to use a sync function (Like expression in Azure AD Connect if you know how it works).
+- parameters : empty array ==> @()
+  - to be used with functions mainly, you must set it to an empty powershell array if you don't use it like in our use case ==> or the JSON generated won't be compliant.
+**big fucking warning : everything is case sensitive, so be careful !!!!**
+Now our update is done locally on our new schema $newschema, let's to the update !
+```
+    C:\PS> Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN "myaffiliate.xyz" -inputobject $newschema
+```
+If everything is ok, you will just receive a warning from the cmdlet because you receive an empty response from the API (normal behavior). If the schema is KO, you will receive a bad request error.
+##### enable disabled account / enable signin for disabled on prem account
+This trick can be useful especially when you are dealing with complex environment. For instance : building a dedicating consolidated AD Forest hosting all your objects because your AD environemnt is to complex to be synchronized "as is".
+Again, you should download your current schema, copy the object and start to play with the new one ;-)
+Now, let's go for the second update, changing AccountEnabled mapping. Basically we want to implement a boolean constant to "True" to enable the cloud account whatever our on prem status (in real life, my advice is to manage through a Function instead of Constant and tag your account with another attribute when you want to enable it or not).
+I give you the soluce :
+```
+    defaultValue            :
+    exportMissingReferences : False
+    flowBehavior            : FlowWhenChanged
+    flowType                : Always
+    matchingPriority        : 0
+    targetAttributeName     : AccountEnabled
+    source                  : @{expression="True"; name=True; type=Constant; parameters=System.Object[]}
+```
+```
+    C:\PS> (($newschema.synchronizationRules.objectmappings | Where-Object {$_.name -like "*users*"}).attributemappings | Where-Object {$_.targetattributename -eq "accountenabled"}).source
+```
+We need to modify the source attribute of our objectmapping entry AccountEnabled :
+- expression : '"True"' (string)
+  - we need to double quote it, so protect it with simple quote
+- name : True (string)
+  - copy / paste from the expression without []
+- type : Constant (string)
+- parameters : empty array
+And, again, when ready, just do the update :)
+### Example 7
+I gave you two Azure AD Connect Cloud Provisionning schema sample I have made with the following update :
+#### Azure_Cloud_Provisionning-Sample1
+https://github.com/MS-LUF/Use-AzureAD/blob/master/sample/Azure_Cloud_Provisionning-Sample1.json
+- Remove contact, group, inetorperson sync
+- Update directory schema to exclude those class from the attributes
+- SourceAnchor update to use EmployeeID (both directory schema and objectmapping rule)
+- use mail as UserPrincipalName
+#### Azure_Cloud_Provisionning-Sample2
+https://github.com/MS-LUF/Use-AzureAD/blob/master/sample/Azure_Cloud_Provisionning-Sample2.json
+The schema generated by the Example 6 part ;-)
+- Remove contact, group, inetorperson sync
+- Update directory schema to exclude those class from the attributes
+- enable all account (AccountEnabled set to true)
+- use mail as UserPrincipalName
+### Example 8
+I have lost my schema backup, everything is broken, help ! No problemo, Azure AD have a lot of templates object available and guess why, there is one available for the schema (ID : AD2AADProvisioning).
+So basically, you can rebuild your default schema based on this template :)
+Let's get the default schema !
+```
+    C:\PS> $defaultschema = Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremADFQDN "myaffiliate.xyz"
+```
+```
+    C:\PS> $default.schema
+```
+Now you can restore part of your schema with the default values available then update it again online :-)
