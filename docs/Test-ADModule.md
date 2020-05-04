@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Test-ADModule [-AzureAD] [-AD] [<CommonParameters>]
+Test-ADModule [-AzureAD] [-AD] [-MSOnline] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,6 +47,21 @@ Accept wildcard characters: False
 
 ### -AzureAD
 {{Fill AzureAD Description}}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Nommé
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MSOnline
+{{Fill MSOnline Description}}
 
 ```yaml
 Type: SwitchParameter

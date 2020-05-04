@@ -38,7 +38,7 @@ PS C:\> {{ Add example code here }}
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: users, me, administrativeUnits
+Accepted values: users, me, administrativeUnits, serviceprincipals
 
 Required: False
 Position: 0
