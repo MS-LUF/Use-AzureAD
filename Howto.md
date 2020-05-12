@@ -4,9 +4,12 @@
 
 ## ChangeLog
 ### v0.5 first public release - beta version
-### v0.6 last public release - beta version
+### v0.6 - beta version
 - add example on Cloud provisionning schema operation (get / update)
 Enjoy your AzureAD stuff with Power[Shell](Of Love)
+### v0.7 last public release - beta version
+- add example to deal with Administrative Unit with hidden membership
+- add example to deal with delta views
 
 (c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -274,3 +277,46 @@ Let's get the default schema !
     C:\PS> $default.schema
 ```
 Now you can restore part of your schema with the default values available then update it again online :-)
+### Example 9
+I want to create a new Azure AD Administrative Unit to manage all my top VIPs accounts but I don't want any users to be able to list the VIPs' members. Is there any technical solution ?
+The answer is yes ! you can use a "hidden" property (indeed, hidden if you use Microsoft modules like AzureADPreview) of administrative unit to hide membership to non admin unit members or advanced directory roles like Global Reader or Global Administrator for instance.
+Warning : **this property can be set only during a new creation and cannot be removed after** So if you want to move from public membership to hidden membership or vice-versa, you need to create a new admin unit and remove the previous one... It's a current limitation... Hope it will evolve...
+So back to business, How can I create an admin unit with hidden membership ? For our use case, here is the answer :
+```
+    C:\PS> New-AzureADAdministrativeUnitHidden -displayName "TopVIP" -description "Top Vip Admin Unit"
+```
+Easy ! You just have to add your users accounts in the admin ou and the membership will be hidden by default.
+### Example 10
+Wait, now I have created several admin units with hidden membership and I want to know what are the admin unit with hidden membership vs the public one. 
+Again, easy peasy : For the hidden one
+```
+    C:\PS> Get-AzureADAdministrativeUnitHidden 
+```
+And for the public one :
+```
+    C:\PS> Get-AzureADAdministrativeUnitHidden -public $true
+```
+### Example 11
+Well, I have a huge migration scheduled, I have planned to manage some migration waves, migrating 1000 users by day. It would be perfect if can check every day the **delta** from day before to verify new users are correctly provisionned with all correct values.
+when I was reading Microsoft Docs online, I have found a very useful API called "Delta" that can do the job for you ! It's quite simple, you make a first request to create a kind of initial "view" then you can retrieve all updates done since your first request in a max period of time of 30 days. You can retrieve, added/updated/deleted objects and also properties of objects. It's magic :) Not all objects are supported right now, but "directory" speaking : users, groups and admin units are already supported :)
+More information here : https://docs.microsoft.com/en-us/graph/delta-query-overview
+In our use case, find below how to manage it with my cmdlet :
+#### create the initial view
+in our sample use case, we will imagine, we want to focus especially on two attributes manager and department :
+```
+    C:\PS> $delta = New-AzureADDeltaView -ObjectType Users -SelectProperties @("manager","department") -Verbose
+```
+#### consult the delta 
+we are 24 hours later and now we want to check the changes from the initial view :
+```
+    C:\PS> Get-AzureADDeltaFromView -inputobject $delta
+```
+Quite simple !
+#### follow the delta in time
+When you will get your updated view, this update generate also a new "initial view" updated that you can consult after to move forward in the timeline and don't take into account these results and focus on the new delta.
+```
+    C:\PS> $delta2 = Get-AzureADDeltaFromView -inputobject $delta
+```
+```
+    C:\PS> Get-AzureADDeltaFromView -inputobject $delta2
+```

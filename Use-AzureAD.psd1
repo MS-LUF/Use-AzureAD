@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '0.6'
+ModuleVersion = '0.7'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -72,7 +72,7 @@ PowerShellVersion = '5.1'
 FunctionsToExport = 'Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADMyInfo','Get-AzureADTenantInfo','Get-AzureADUserAllInfo',
                     'Invoke-APIMSGraphBeta','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember',
                     'Test-ADModule','Test-AzureADAccesToken','Connect-MSOnlineFromAccessToken', 'Get-AzureADConnectCloudProvisionningServiceSyncSchema', 'Update-AzureADConnectCloudProvisionningServiceSyncSchema',
-                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema'
+                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema', 'New-AzureADAdministrativeUnitHidden', 'Get-AzureADAdministrativeUnitHidden','New-AzureADObjectDeltaView', 'Get-AzureADObjectDeltaView'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -110,7 +110,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v0.6 : cmdlet to get your current schema for a specific provisionning agent / service principal, cmdlet to update your current schema for a specific provisionning agent / service principal, cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning, cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating'
+        ReleaseNotes = 'v0.7 - create an Administrative Unit with hidden members; get Administrative Units with hidden members; create delta view for users, groups, admin units objects; get all updates from a delta view for users, groups, admin units objects'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 

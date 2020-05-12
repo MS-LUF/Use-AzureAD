@@ -15,12 +15,17 @@
 # - cmdlet to add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
 # - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
 # - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
-#
-# v0.6 : last public release - beta version - focus on Azure AD Connect Cloud Provisionning Tools
+# v0.6 :  beta version - focus on Azure AD Connect Cloud Provisionning Tools
 # - cmdlet to get your current schema for a specific provisionning agent / service principal
 # - cmdlet to update your current schema for a specific provisionning agent / service principal
 # - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
 # - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
+#
+# v0.7 : last public release - beta version - update Administrative Unit features (missing features from Microsoft Cmdlets and new API features)
+# - cmdlet to create an Administrative Unit with hidden members
+# - cmdlet to get Administrative Units with hidden members
+# - cmdlet to create delta view for users, groups, admin units objects
+# - cmdlet to get all updates from a delta view for users, groups, admin units objects
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -1048,6 +1053,132 @@ Function Get-AzureADAdministrativeUnitAllMembers {
         Invoke-APIMSGraphBeta @params
     }
 }
+Function New-AzureADAdministrativeUnitHidden {
+<#
+	.SYNOPSIS 
+	Create a new Administrative Unit with hidden membership
+
+	.DESCRIPTION
+	Create a new Administrative Unit with hidden membership. Only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
+	
+	.PARAMETER displayName
+	-displayName String
+    display name of the new admin unit
+    
+    .PARAMETER description
+	-description String
+	description name of the new admin unit
+		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+
+    Name            MemberType   Definition
+    ----            ----------   ----------
+    Equals          Method       bool Equals(System.Object obj)
+    GetHashCode     Method       int GetHashCode()
+    GetType         Method       type GetType()
+    ToString        Method       string ToString()
+    deletedDateTime NoteProperty object deletedDateTime=null
+    description     NoteProperty string description=Hidden Test Admin unit
+    displayName     NoteProperty string displayName=testHidden
+    id              NoteProperty string id=...
+    visibility      NoteProperty string visibility=HiddenMembership
+		
+	.EXAMPLE
+	Create a new Administrative Unit with hidden membership called testHidden
+	C:\PS> New-AzureADAdministrativeUnitHidden -displayName "testHidden" -description "Hidden Test Admin unit"
+#>
+    [cmdletbinding()]
+	Param (
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+            [String]$displayName,
+        [parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+            [String]$description
+    )
+    process {
+        Test-AzureADAccesToken
+        $body = [PSCustomObject]@{
+            displayName = $displayName
+            description = $description
+            visibility = "HiddenMembership"
+        }
+        $params = @{
+            API = "administrativeUnits"
+            Method = "POST"
+            APIBody = (ConvertTo-Json -InputObject $body -Depth 100)
+        }
+        write-verbose -Message "JSON Body : $(ConvertTo-Json -InputObject $body -Depth 100)"
+        Invoke-APIMSGraphBeta @params
+    } 
+}
+Function Get-AzureADAdministrativeUnitHidden {
+<#
+	.SYNOPSIS 
+	Get Administrative Units with hidden membership
+
+	.DESCRIPTION
+	Get Administratives Unit with hidden membership. Only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
+	
+	.PARAMETER public
+	-public boolean
+    choose if you want to display Administrative Unit with hidden membership or public membership
+
+    .PARAMETER inputobject
+    -inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit
+    Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+
+    Name            MemberType   Definition
+    ----            ----------   ----------
+    Equals          Method       bool Equals(System.Object obj)
+    GetHashCode     Method       int GetHashCode()
+    GetType         Method       type GetType()
+    ToString        Method       string ToString()
+    deletedDateTime NoteProperty object deletedDateTime=null
+    description     NoteProperty string description=Hidden Test Admin unit
+    displayName     NoteProperty string displayName=testHidden
+    id              NoteProperty string id=...
+    visibility      NoteProperty string visibility=HiddenMembership
+		
+	.EXAMPLE
+	Get Administrative Units with hidden membership
+    C:\PS> Get-AzureADAdministrativeUnitHidden
+    
+    .EXAMPLE
+	Get Administrative Units with public membership
+	C:\PS> Get-AzureADAdministrativeUnitHidden -public $true
+#>
+    [cmdletbinding()]
+	Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.AdministrativeUnit]$inputobject,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [bool]$public
+    )
+    process {
+        Test-AzureADAccesToken
+        $params = @{
+            API = "administrativeUnits"
+            Method = "GET"
+        }
+        if ($inputobject.ObjectId) {
+            $params.Add('APIParameter',$inputobject.ObjectId)  
+        }
+        $adminunitobj = Invoke-APIMSGraphBeta @params
+        if (($public -eq $false) -and !($inputobject)) {
+            $adminunitobj | Where-Object { $_.visibility -eq "HiddenMembership"}
+        } elseif (($public -eq $true) -and !($inputobject)) {
+            $adminunitobj | Where-Object { $_.visibility -ne "HiddenMembership"}
+        } else {
+            $adminunitobj
+        }
+    }
+}
 Function Get-AzureADConnectCloudProvisionningServiceSyncSchema {
 <#
 	.SYNOPSIS 
@@ -1183,7 +1314,7 @@ Function Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema {
             $params['APIParameter'] = "$($spnobj.id)/synchronization/templates/AD2AADProvisioning/"
             Invoke-APIMSGraphBeta @params
         }
-    }
+}
 Function Update-AzureADConnectCloudProvisionningServiceSyncSchema {
 <#
 	.SYNOPSIS 
@@ -1251,11 +1382,133 @@ Function Update-AzureADConnectCloudProvisionningServiceSyncSchema {
         Invoke-APIMSGraphBeta @params
     }
 }
+Function New-AzureADObjectDeltaView {
+<#
+	.SYNOPSIS 
+	Create a new delta view for an Azure AD object
+
+	.DESCRIPTION
+    Create a new delta view for an Azure AD object. It can be used on several objects (groups, users, administrative units...) to retrieve change information occured between two moments (properties updated/removed/added, objects updated/removed/added).
+    This cmdlet create the initial view (available at server side for 30 days maximum) and the cmdlet Get-AzureADObjectDeltaView will retrieve the changes occured between the first view creation.
+	
+	.PARAMETER ObjectType
+	-ObjectType String {"Users","Groups","AdministrativeUnits"}
+    target object type you want to use for the delta view
+    
+    .PARAMETER SelectProperties
+    -SelectProperties String - array of strings
+    object properties you want to watch, by default all properties will be followed
+
+    .PARAMETER FilterIDs
+    -FilterIDs String - array of strings
+    object GUID you want to watch, by default all object from the object type selected will be followed
+		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		
+	.EXAMPLE
+	Create an initial delta view for manager and department properties of all users objects
+    C:\PS> New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")
+    
+    .EXAMPLE
+	Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects
+	C:\PS> New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose
+#>
+    [cmdletbinding()]
+    param (
+        [parameter(Mandatory=$true)]
+        [validateSet("Users","Groups","AdministrativeUnits")]
+            [string]$ObjectType,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string[]]$SelectProperties,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string[]]$FilterIDs
+    )
+    process {
+        Test-AzureADAccesToken
+        $params = @{
+            API = $ObjectType
+            Method = "GET"
+        }
+        if ($SelectProperties) {
+            if ($SelectProperties.Count -gt 1) {
+                $properties = $SelectProperties -join ","
+            } else {
+                $properties = $SelectProperties
+            }
+            Write-verbose -Message "Select properties : $($properties)"
+            $parameterproperties = "`$select=" + $properties
+        }
+        if ($FilterIDs) {
+            if ($FilterIDs.count -gt 1) {
+                    $UpdFilterIDs = @()
+                foreach ($FilterID in $FilterIDs) {
+                    $UpdFilterIDs += "id eq '{0}'" -f $FilterID
+                }
+                $properties = $UpdFilterIDs -join " or "
+            } else {
+                $properties = "id eq '$($FilterIDs)'"
+            }
+            Write-verbose -Message "Select filter : $($properties)"
+            $parameterfilters = "`$filter=" + $properties
+        }
+        if ($parameterproperties -and $parameterfilters) {
+            $parameters = "delta?" + $parameterproperties + "&" + $parameterfilters
+        } elseif ($parameterproperties -or $parameterfilters) {
+            $parameters = "delta?" + $parameterproperties + $parameterfilters
+        } else {
+            $parameters = "delta"
+        }
+        Write-verbose -Message "parameters : $($parameters)"
+        $params.Add('APIParameter',$parameters) 
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Get-AzureADObjectDeltaView {
+<#
+	.SYNOPSIS 
+	Get all changes from a delta view for an Azure AD object
+
+	.DESCRIPTION
+    Get all changes from a delta view for an Azure AD object. A delta view for an Azure AD object must be created first with New-AzureADObjectDeltaView. 
+    It can be used on several objects (groups, users, administrative units...) to retrieve change information occured between two moments (properties updated/removed/added, objects updated/removed/added).
+    A maximum of 30 days changes can be retrieved.
+	
+	.PARAMETER inputobject
+	-inputobject PSCustomObject
+    PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get all updates from an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects previously saved in $delta
+    C:\PS> $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose
+    C:\PS> Get-AzureADDeltaFromView -inputobject $delta
+#>
+    [cmdletbinding()]
+    param (
+        [parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [ValidateNotNullOrEmpty()]
+            $inputobject
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($inputobject[-1].deltaLink)) {
+            throw "Not able to find deltalink property of the object - please use New-AzureADObjectDeltaView cmdlet to generate a view first - exiting"
+        } else {
+            write-verbose -Message "Delta link : $($inputobject[-1].deltaLink)"
+            Invoke-APIMSGraphBeta -Method GET -Paging $inputobject[-1].deltaLink
+        }
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
         [parameter(Mandatory=$false)]
-        [validateSet("users","me","administrativeUnits","serviceprincipals")]
+        [validateSet("users","me","administrativeUnits","serviceprincipals","groups")]
             [string]$API,
         [parameter(Mandatory=$true)]
         [validateSet("GET","POST","PUT","PATCH","DELETE")]
@@ -1278,7 +1531,7 @@ Function Invoke-APIMSGraphBeta {
             'x-ms-client-request-id' = [guid]::NewGuid()
             'x-ms-correlation-id'    = [guid]::NewGuid()
         }
-        if ($paging.AbsoluteUri -like "*skiptoken=*") {
+        if (($paging.AbsoluteUri -like "*skiptoken=*") -or ($paging.AbsoluteUri -like "*deltatoken=*")) {
             $uri = $paging.AbsoluteUri
             write-verbose -Message $uri
         } else {
@@ -1310,6 +1563,7 @@ Function Invoke-APIMSGraphBeta {
         }
         if ($response.Content) {
             $result = ConvertFrom-Json $response.Content
+            write-verbose -Message $response.Content
             if ($result.value) {
                 $result.value
             } else {
@@ -1318,6 +1572,11 @@ Function Invoke-APIMSGraphBeta {
             if ($result.'@odata.nextLink') {
                 write-verbose -Message "Paging : $($result.'@odata.nextLink')"
                 Invoke-APIMSGraphBeta -Method GET -Paging $result.'@odata.nextLink'
+            }
+            if ($result.'@odata.deltaLink') {
+                [PSCustomObject]@{
+                    deltaLink = $result.'@odata.deltaLink'
+                }
             }
         } else {
             Write-Warning "response is null - exiting"
@@ -1385,4 +1644,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Set-AzureADProxy, Test-ADModule, Sync-ADOUtoAzureADAdministrativeUnit, Invoke-APIMSGraphBeta, Get-AzureADUserAllInfo, Test-AzureADAccesToken,
                                 Sync-ADUsertoAzureADAdministrativeUnitMember,Set-AzureADAdministrativeUnitAdminRole, Get-AzureADAdministrativeUnitAllMembers, Connect-MSOnlineFromAccessToken,
                                 Get-AzureADConnectCloudProvisionningServiceSyncSchema, Update-AzureADConnectCloudProvisionningServiceSyncSchema,
-                                Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema
+                                Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitHidden, Get-AzureADAdministrativeUnitHidden,
+                                New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView

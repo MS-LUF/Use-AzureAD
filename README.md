@@ -21,11 +21,16 @@ Waiting for the fix, this module will **work only with Windows Powershell 5.1**
  - cmdlet to add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
  - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
  - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
-### 0.6 last public release - beta version
+### 0.6 - beta version
  - cmdlet to get your current schema for a specific provisionning agent / service principal
  - cmdlet to update your current schema for a specific provisionning agent / service principal
  - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
  - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
+### 0.7 last public release - beta version
+ - cmdlet to create an Administrative Unit with hidden members
+ - cmdlet to get Administrative Units with hidden members
+ - cmdlet to create delta view for users, groups, admin units objects
+ - cmdlet to get all updates from a delta view for users, groups, admin units objects
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -96,3 +101,7 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Get-AzureADConnectCloudProvisionningServiceSyncSchema
  - Update-AzureADConnectCloudProvisionningServiceSyncSchema
  - Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema
+ - New-AzureADObjectDeltaView
+ - Get-AzureADObjectDeltaView
+ - New-AzureADAdministrativeUnitHidden
+ - Get-AzureADAdministrativeUnitHidden
