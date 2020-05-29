@@ -15,17 +15,23 @@
 # - cmdlet to add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
 # - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
 # - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
-# v0.6 :  beta version - focus on Azure AD Connect Cloud Provisionning Tools
+# v0.6 : beta version - focus on Azure AD Connect Cloud Provisionning Tools
 # - cmdlet to get your current schema for a specific provisionning agent / service principal
 # - cmdlet to update your current schema for a specific provisionning agent / service principal
 # - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
 # - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
-#
-# v0.7 : last public release - beta version - update Administrative Unit features (missing features from Microsoft Cmdlets and new API features)
+# v0.7 : beta version - update Administrative Unit features (missing features from Microsoft Cmdlets and new API features)
 # - cmdlet to create an Administrative Unit with hidden members
 # - cmdlet to get Administrative Units with hidden members
 # - cmdlet to create delta view for users, groups, admin units objects
 # - cmdlet to get all updates from a delta view for users, groups, admin units objects
+#
+# v0.8 : last public release - beta version - fix azuread proxy bug when using SSO, add cmdlets to manage Azure AD Dynamic Security Groups
+# - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
+# - new cmdlets to add, get, update Azure AD Dynamic Membership security groups
+# - cmdlet to test Dynamic membership for users
+# Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
+# System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -54,18 +60,6 @@ Function Get-AzureADAccessToken {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name           MemberType   Definition
-    ----           ----------   ----------
-    Equals         Method       bool Equals(System.Object obj)
-    GetHashCode    Method       int GetHashCode()
-    GetType        Method       type GetType()
-    ToString       Method       string ToString()
-    AccessToken    NoteProperty string AccessToken=xxxxx...
-    ObjectID       NoteProperty string ObjectID=e3ab4983-22c4-417b-b18d-0271f81a9cde
-    TenantID       NoteProperty string TenantID=fbf266be-12e8-48a4-bd5f-c513713bd96d
-    TokenExpiresOn NoteProperty DateTimeOffset TokenExpiresOn=26/04/2020 16:20:40 +00:00
-    UserName       NoteProperty mailaddress UserName=my-admin@mydomain.tld
 		
 	.EXAMPLE
 	Get an access token for my admin account (my-admin@mydomain.tld)
@@ -122,72 +116,6 @@ Function Get-AzureADMyInfo {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name                            MemberType   Definition
-    ----                            ----------   ----------
-    Equals                          Method       bool Equals(System.Object obj)
-    GetHashCode                     Method       int GetHashCode()
-    GetType                         Method       type GetType()
-    ToString                        Method       string ToString()
-    @odata.context                  NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#users/$entity
-    accountEnabled                  NoteProperty bool accountEnabled=True
-    ageGroup                        NoteProperty object ageGroup=null
-    assignedLicenses                NoteProperty Object[] assignedLicenses=System.Object[]
-    assignedPlans                   NoteProperty Object[] assignedPlans=System.Object[]
-    businessPhones                  NoteProperty Object[] businessPhones=System.Object[]
-    city                            NoteProperty object city=null
-    companyName                     NoteProperty object companyName=null
-    consentProvidedForMinor         NoteProperty object consentProvidedForMinor=null
-    country                         NoteProperty object country=null
-    createdDateTime                 NoteProperty string createdDateTime=2020-04-21T15:17:08Z
-    creationType                    NoteProperty object creationType=null
-    deletedDateTime                 NoteProperty object deletedDateTime=null
-    department                      NoteProperty object department=null
-    deviceKeys                      NoteProperty Object[] deviceKeys=System.Object[]
-    displayName                     NoteProperty string displayName=admin
-    employeeId                      NoteProperty object employeeId=null
-    externalUserState               NoteProperty object externalUserState=null
-    externalUserStateChangeDateTime NoteProperty object externalUserStateChangeDateTime=null
-    faxNumber                       NoteProperty object faxNumber=null
-    givenName                       NoteProperty string givenName=firsname
-    id                              NoteProperty string id=72a50bb8-20cf-494c-969d-fbcd2324b822
-    identities                      NoteProperty Object[] identities=System.Object[]
-    imAddresses                     NoteProperty Object[] imAddresses=System.Object[]
-    infoCatalogs                    NoteProperty Object[] infoCatalogs=System.Object[]
-    isResourceAccount               NoteProperty object isResourceAccount=null
-    jobTitle                        NoteProperty object jobTitle=null
-    legalAgeGroupClassification     NoteProperty object legalAgeGroupClassification=null
-    mail                            NoteProperty object mail=null
-    mailNickname                    NoteProperty string mailNickname=my-admin
-    mobilePhone                     NoteProperty string mobilePhone=
-    officeLocation                  NoteProperty object officeLocation=null
-    onPremisesDistinguishedName     NoteProperty object onPremisesDistinguishedName=null
-    onPremisesDomainName            NoteProperty object onPremisesDomainName=null
-    onPremisesExtensionAttributes   NoteProperty System.Management.Automation.PSCustomObject onPremisesExtensionAttributes=@{extensionAttribute1=; extensionAttribute2=; extensionAttribute3=; extensionAttribute...
-    onPremisesImmutableId           NoteProperty object onPremisesImmutableId=null
-    onPremisesLastSyncDateTime      NoteProperty object onPremisesLastSyncDateTime=null
-    onPremisesProvisioningErrors    NoteProperty Object[] onPremisesProvisioningErrors=System.Object[]
-    onPremisesSamAccountName        NoteProperty object onPremisesSamAccountName=null
-    onPremisesSecurityIdentifier    NoteProperty object onPremisesSecurityIdentifier=null
-    onPremisesSyncEnabled           NoteProperty object onPremisesSyncEnabled=null
-    onPremisesUserPrincipalName     NoteProperty object onPremisesUserPrincipalName=null
-    otherMails                      NoteProperty Object[] otherMails=System.Object[]
-    passwordPolicies                NoteProperty object passwordPolicies=null
-    passwordProfile                 NoteProperty object passwordProfile=null
-    postalCode                      NoteProperty object postalCode=null
-    preferredDataLocation           NoteProperty object preferredDataLocation=null
-    preferredLanguage               NoteProperty object preferredLanguage=null
-    provisionedPlans                NoteProperty Object[] provisionedPlans=System.Object[]
-    proxyAddresses                  NoteProperty Object[] proxyAddresses=System.Object[]
-    refreshTokensValidFromDateTime  NoteProperty string refreshTokensValidFromDateTime=2020-04-21T15:24:29Z
-    showInAddressList               NoteProperty object showInAddressList=null
-    signInSessionsValidFromDateTime NoteProperty string signInSessionsValidFromDateTime=2020-04-21T15:24:29Z
-    state                           NoteProperty object state=null
-    streetAddress                   NoteProperty object streetAddress=null
-    surname                         NoteProperty string surname=name
-    usageLocation                   NoteProperty string usageLocation=US
-    userPrincipalName               NoteProperty string userPrincipalName=my-admin@mydomain.tld
-    userType                        NoteProperty string userType=Member
 		
 	.EXAMPLE
 	Get all user account properties of my current account (my-admin@mydomain.tld)
@@ -214,18 +142,6 @@ Function Get-AzureADTenantInfo {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name           MemberType   Definition
-    ----           ----------   ----------
-    Equals         Method       bool Equals(System.Object obj)
-    GetHashCode    Method       int GetHashCode()
-    GetType        Method       type GetType()
-    ToString       Method       string ToString()
-    AccessToken    NoteProperty string AccessToken=xxxxx...
-    ObjectID       NoteProperty string ObjectID=e3ab4983-22c4-417b-b18d-0271f81a9cde
-    TenantID       NoteProperty string TenantID=fbf266be-12e8-48a4-bd5f-c513713bd96d
-    TokenExpiresOn NoteProperty DateTimeOffset TokenExpiresOn=26/04/2020 16:20:40 +00:00
-    UserName       NoteProperty mailaddress UserName=my-admin@mydomain.tld
 		
 	.EXAMPLE
 	Get an access token for my admin account (my-admin@mydomain.tld)
@@ -260,18 +176,6 @@ Function Connect-AzureADFromAccessToken {
 			
 	.OUTPUTS
    	TypeName : Microsoft.Open.Azure.AD.CommonLibrary.PSAzureContext
-
-    Name         MemberType Definition
-    ----         ---------- ----------
-    Equals       Method     bool Equals(System.Object obj)
-    GetHashCode  Method     int GetHashCode()
-    GetType      Method     type GetType()
-    ToString     Method     string ToString()
-    Account      Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureAccount Account {get;}
-    Environment  Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureEnvironment Environment {get;}
-    Tenant       Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureTenant Tenant {get;}
-    TenantDomain Property   string TenantDomain {get;}
-    TenantId     Property   guid TenantId {get;}
 		
 	.EXAMPLE
 	Connect to your Azure AD Tenant / classic MS Graph endpoint used by AzureADPreview module using an existing Access token requested with Get-AzureADAccessToken
@@ -375,22 +279,6 @@ Function Set-AzureADProxy {
 		
 	.OUTPUTS
    	TypeName : System.Net.WebProxy
-
-    Name                  MemberType Definition
-    ----                  ---------- ----------
-    Equals                Method     bool Equals(System.Object obj)
-    GetHashCode           Method     int GetHashCode()
-    GetObjectData         Method     void ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-    GetProxy              Method     uri GetProxy(uri destination), uri IWebProxy.GetProxy(uri destination)
-    GetType               Method     type GetType()
-    IsBypassed            Method     bool IsBypassed(uri host), bool IWebProxy.IsBypassed(uri host)
-    ToString              Method     string ToString()
-    Address               Property   uri Address {get;set;}
-    BypassArrayList       Property   System.Collections.ArrayList BypassArrayList {get;}
-    BypassList            Property   string[] BypassList {get;set;}
-    BypassProxyOnLocal    Property   bool BypassProxyOnLocal {get;set;}
-    Credentials           Property   System.Net.ICredentials Credentials {get;set;}
-    UseDefaultCredentials Property   bool UseDefaultCredentials {get;set;}
 		
 	.EXAMPLE
 	Remove Proxy
@@ -417,7 +305,7 @@ Function Set-AzureADProxy {
         } ElseIf ($Proxy) {
             $proxyobj = New-Object System.Net.WebProxy $proxy.AbsoluteUri            
             if ($ProxyCredential){
-                $proxy.Credentials = $ProxyCredential
+                $proxyobj.Credentials = $ProxyCredential
             } Elseif ($ProxyUseDefaultCredentials.IsPresent){
                 $proxyobj.UseDefaultCredentials = $true
             } 
@@ -483,23 +371,6 @@ Function Sync-ADOUtoAzureADAdministrativeUnit {
 		
 	.OUTPUTS
    	TypeName : Microsoft.Open.AzureAD.Model.AdministrativeUnit
-
-    Name                             MemberType Definition
-    ----                             ---------- ----------
-    Equals                           Method     bool Equals(System.Object obj), bool Equals(Microsoft.Open.AzureAD.Model.AdministrativeUnit other), bool Equals(Microsoft.Open.AzureAD.Model.DirectoryObject, Mic...
-    GetHashCode                      Method     int GetHashCode()
-    GetType                          Method     type GetType()
-    ShouldSerializeDeletionTimeStamp Method     bool ShouldSerializeDeletionTimeStamp()
-    ShouldSerializeObjectId          Method     bool ShouldSerializeObjectId()
-    ShouldSerializeObjectType        Method     bool ShouldSerializeObjectType()
-    ToJson                           Method     string ToJson()
-    ToString                         Method     string ToString()
-    Validate                         Method     System.Collections.Generic.IEnumerable[System.ComponentModel.DataAnnotations.ValidationResult] Validate(System.ComponentModel.DataAnnotations.ValidationContext v...
-    DeletionTimeStamp                Property   System.Nullable[datetime] DeletionTimeStamp {get;}
-    Description                      Property   string Description {get;set;}
-    DisplayName                      Property   string DisplayName {get;set;}
-    ObjectId                         Property   string ObjectId {get;}
-    ObjectType                       Property   string ObjectType {get;}
 		
 	.EXAMPLE
     Create new cloud Azure AD administrative Unit for each on prem' OU found with a name starting with "TP-"
@@ -705,20 +576,6 @@ Function Set-AzureADAdministrativeUnitAdminRole {
 		
 	.OUTPUTS
    	TypeName : Microsoft.Open.AzureAD.Model.ScopedRoleMembership
-
-    Name                       MemberType Definition
-    ----                       ---------- ----------
-    Equals                     Method     bool Equals(System.Object obj), bool Equals(Microsoft.Open.AzureAD.Model.ScopedRoleMembership other), bool IEquatable[ScopedRoleMembership].Equals(Microsoft.Open.Azure...
-    GetHashCode                Method     int GetHashCode()
-    GetType                    Method     type GetType()
-    ShouldSerializeId          Method     bool ShouldSerializeId()
-    ToJson                     Method     string ToJson()
-    ToString                   Method     string ToString()
-    Validate                   Method     System.Collections.Generic.IEnumerable[System.ComponentModel.DataAnnotations.ValidationResult] Validate(System.ComponentModel.DataAnnotations.ValidationContext validat...
-    AdministrativeUnitObjectId Property   string AdministrativeUnitObjectId {get;set;}
-    Id                         Property   string Id {get;}
-    RoleMemberInfo             Property   Microsoft.Open.AzureAD.Model.RoleMemberInfo RoleMemberInfo {get;set;}
-    RoleObjectId               Property   string RoleObjectId {get;set;}
 		
 	.EXAMPLE
 	Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld
@@ -838,72 +695,6 @@ Function Get-AzureADUserAllInfo {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name                            MemberType   Definition
-    ----                            ----------   ----------
-    Equals                          Method       bool Equals(System.Object obj)
-    GetHashCode                     Method       int GetHashCode()
-    GetType                         Method       type GetType()
-    ToString                        Method       string ToString()
-    @odata.context                  NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#users/$entity
-    accountEnabled                  NoteProperty bool accountEnabled=True
-    ageGroup                        NoteProperty object ageGroup=null
-    assignedLicenses                NoteProperty Object[] assignedLicenses=System.Object[]
-    assignedPlans                   NoteProperty Object[] assignedPlans=System.Object[]
-    businessPhones                  NoteProperty Object[] businessPhones=System.Object[]
-    city                            NoteProperty object city=null
-    companyName                     NoteProperty object companyName=null
-    consentProvidedForMinor         NoteProperty object consentProvidedForMinor=null
-    country                         NoteProperty object country=null
-    createdDateTime                 NoteProperty string createdDateTime=2020-04-21T15:17:08Z
-    creationType                    NoteProperty object creationType=null
-    deletedDateTime                 NoteProperty object deletedDateTime=null
-    department                      NoteProperty object department=null
-    deviceKeys                      NoteProperty Object[] deviceKeys=System.Object[]
-    displayName                     NoteProperty string displayName=admin
-    employeeId                      NoteProperty object employeeId=null
-    externalUserState               NoteProperty object externalUserState=null
-    externalUserStateChangeDateTime NoteProperty object externalUserStateChangeDateTime=null
-    faxNumber                       NoteProperty object faxNumber=null
-    givenName                       NoteProperty string givenName=firsname
-    id                              NoteProperty string id=72a50bb8-20cf-494c-969d-fbcd2324b822
-    identities                      NoteProperty Object[] identities=System.Object[]
-    imAddresses                     NoteProperty Object[] imAddresses=System.Object[]
-    infoCatalogs                    NoteProperty Object[] infoCatalogs=System.Object[]
-    isResourceAccount               NoteProperty object isResourceAccount=null
-    jobTitle                        NoteProperty object jobTitle=null
-    legalAgeGroupClassification     NoteProperty object legalAgeGroupClassification=null
-    mail                            NoteProperty object mail=null
-    mailNickname                    NoteProperty string mailNickname=my-admin
-    mobilePhone                     NoteProperty string mobilePhone=
-    officeLocation                  NoteProperty object officeLocation=null
-    onPremisesDistinguishedName     NoteProperty object onPremisesDistinguishedName=null
-    onPremisesDomainName            NoteProperty object onPremisesDomainName=null
-    onPremisesExtensionAttributes   NoteProperty System.Management.Automation.PSCustomObject onPremisesExtensionAttributes=@{extensionAttribute1=; extensionAttribute2=; extensionAttribute3=; extensionAttribute...
-    onPremisesImmutableId           NoteProperty object onPremisesImmutableId=null
-    onPremisesLastSyncDateTime      NoteProperty object onPremisesLastSyncDateTime=null
-    onPremisesProvisioningErrors    NoteProperty Object[] onPremisesProvisioningErrors=System.Object[]
-    onPremisesSamAccountName        NoteProperty object onPremisesSamAccountName=null
-    onPremisesSecurityIdentifier    NoteProperty object onPremisesSecurityIdentifier=null
-    onPremisesSyncEnabled           NoteProperty object onPremisesSyncEnabled=null
-    onPremisesUserPrincipalName     NoteProperty object onPremisesUserPrincipalName=null
-    otherMails                      NoteProperty Object[] otherMails=System.Object[]
-    passwordPolicies                NoteProperty object passwordPolicies=null
-    passwordProfile                 NoteProperty object passwordProfile=null
-    postalCode                      NoteProperty object postalCode=null
-    preferredDataLocation           NoteProperty object preferredDataLocation=null
-    preferredLanguage               NoteProperty object preferredLanguage=null
-    provisionedPlans                NoteProperty Object[] provisionedPlans=System.Object[]
-    proxyAddresses                  NoteProperty Object[] proxyAddresses=System.Object[]
-    refreshTokensValidFromDateTime  NoteProperty string refreshTokensValidFromDateTime=2020-04-21T15:24:29Z
-    showInAddressList               NoteProperty object showInAddressList=null
-    signInSessionsValidFromDateTime NoteProperty string signInSessionsValidFromDateTime=2020-04-21T15:24:29Z
-    state                           NoteProperty object state=null
-    streetAddress                   NoteProperty object streetAddress=null
-    surname                         NoteProperty string surname=name
-    usageLocation                   NoteProperty string usageLocation=US
-    userPrincipalName               NoteProperty string userPrincipalName=my-admin@mydomain.tld
-    userType                        NoteProperty string userType=Member
 		
 	.EXAMPLE
 	Get all users properties available for the Azure AD account my-admin@mydomain.tld
@@ -957,72 +748,6 @@ Function Get-AzureADAdministrativeUnitAllMembers {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name                            MemberType   Definition
-    ----                            ----------   ----------
-    Equals                          Method       bool Equals(System.Object obj)
-    GetHashCode                     Method       int GetHashCode()
-    GetType                         Method       type GetType()
-    ToString                        Method       string ToString()
-    @odata.context                  NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#users/$entity
-    accountEnabled                  NoteProperty bool accountEnabled=True
-    ageGroup                        NoteProperty object ageGroup=null
-    assignedLicenses                NoteProperty Object[] assignedLicenses=System.Object[]
-    assignedPlans                   NoteProperty Object[] assignedPlans=System.Object[]
-    businessPhones                  NoteProperty Object[] businessPhones=System.Object[]
-    city                            NoteProperty object city=null
-    companyName                     NoteProperty object companyName=null
-    consentProvidedForMinor         NoteProperty object consentProvidedForMinor=null
-    country                         NoteProperty object country=null
-    createdDateTime                 NoteProperty string createdDateTime=2020-04-21T15:17:08Z
-    creationType                    NoteProperty object creationType=null
-    deletedDateTime                 NoteProperty object deletedDateTime=null
-    department                      NoteProperty object department=null
-    deviceKeys                      NoteProperty Object[] deviceKeys=System.Object[]
-    displayName                     NoteProperty string displayName=admin
-    employeeId                      NoteProperty object employeeId=null
-    externalUserState               NoteProperty object externalUserState=null
-    externalUserStateChangeDateTime NoteProperty object externalUserStateChangeDateTime=null
-    faxNumber                       NoteProperty object faxNumber=null
-    givenName                       NoteProperty string givenName=firsname
-    id                              NoteProperty string id=72a50bb8-20cf-494c-969d-fbcd2324b822
-    identities                      NoteProperty Object[] identities=System.Object[]
-    imAddresses                     NoteProperty Object[] imAddresses=System.Object[]
-    infoCatalogs                    NoteProperty Object[] infoCatalogs=System.Object[]
-    isResourceAccount               NoteProperty object isResourceAccount=null
-    jobTitle                        NoteProperty object jobTitle=null
-    legalAgeGroupClassification     NoteProperty object legalAgeGroupClassification=null
-    mail                            NoteProperty object mail=null
-    mailNickname                    NoteProperty string mailNickname=my-admin
-    mobilePhone                     NoteProperty string mobilePhone=
-    officeLocation                  NoteProperty object officeLocation=null
-    onPremisesDistinguishedName     NoteProperty object onPremisesDistinguishedName=null
-    onPremisesDomainName            NoteProperty object onPremisesDomainName=null
-    onPremisesExtensionAttributes   NoteProperty System.Management.Automation.PSCustomObject onPremisesExtensionAttributes=@{extensionAttribute1=; extensionAttribute2=; extensionAttribute3=; extensionAttribute...
-    onPremisesImmutableId           NoteProperty object onPremisesImmutableId=null
-    onPremisesLastSyncDateTime      NoteProperty object onPremisesLastSyncDateTime=null
-    onPremisesProvisioningErrors    NoteProperty Object[] onPremisesProvisioningErrors=System.Object[]
-    onPremisesSamAccountName        NoteProperty object onPremisesSamAccountName=null
-    onPremisesSecurityIdentifier    NoteProperty object onPremisesSecurityIdentifier=null
-    onPremisesSyncEnabled           NoteProperty object onPremisesSyncEnabled=null
-    onPremisesUserPrincipalName     NoteProperty object onPremisesUserPrincipalName=null
-    otherMails                      NoteProperty Object[] otherMails=System.Object[]
-    passwordPolicies                NoteProperty object passwordPolicies=null
-    passwordProfile                 NoteProperty object passwordProfile=null
-    postalCode                      NoteProperty object postalCode=null
-    preferredDataLocation           NoteProperty object preferredDataLocation=null
-    preferredLanguage               NoteProperty object preferredLanguage=null
-    provisionedPlans                NoteProperty Object[] provisionedPlans=System.Object[]
-    proxyAddresses                  NoteProperty Object[] proxyAddresses=System.Object[]
-    refreshTokensValidFromDateTime  NoteProperty string refreshTokensValidFromDateTime=2020-04-21T15:24:29Z
-    showInAddressList               NoteProperty object showInAddressList=null
-    signInSessionsValidFromDateTime NoteProperty string signInSessionsValidFromDateTime=2020-04-21T15:24:29Z
-    state                           NoteProperty object state=null
-    streetAddress                   NoteProperty object streetAddress=null
-    surname                         NoteProperty string surname=name
-    usageLocation                   NoteProperty string usageLocation=US
-    userPrincipalName               NoteProperty string userPrincipalName=my-admin@mydomain.tld
-    userType                        NoteProperty string userType=Member
 		
 	.EXAMPLE
 	Get all Azure AD user member of the admin unit TP-AL
@@ -1071,18 +796,6 @@ Function New-AzureADAdministrativeUnitHidden {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name            MemberType   Definition
-    ----            ----------   ----------
-    Equals          Method       bool Equals(System.Object obj)
-    GetHashCode     Method       int GetHashCode()
-    GetType         Method       type GetType()
-    ToString        Method       string ToString()
-    deletedDateTime NoteProperty object deletedDateTime=null
-    description     NoteProperty string description=Hidden Test Admin unit
-    displayName     NoteProperty string displayName=testHidden
-    id              NoteProperty string id=...
-    visibility      NoteProperty string visibility=HiddenMembership
 		
 	.EXAMPLE
 	Create a new Administrative Unit with hidden membership called testHidden
@@ -1131,18 +844,6 @@ Function Get-AzureADAdministrativeUnitHidden {
     		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name            MemberType   Definition
-    ----            ----------   ----------
-    Equals          Method       bool Equals(System.Object obj)
-    GetHashCode     Method       int GetHashCode()
-    GetType         Method       type GetType()
-    ToString        Method       string ToString()
-    deletedDateTime NoteProperty object deletedDateTime=null
-    description     NoteProperty string description=Hidden Test Admin unit
-    displayName     NoteProperty string displayName=testHidden
-    id              NoteProperty string id=...
-    visibility      NoteProperty string visibility=HiddenMembership
 		
 	.EXAMPLE
 	Get Administrative Units with hidden membership
@@ -1197,20 +898,6 @@ Function Get-AzureADConnectCloudProvisionningServiceSyncSchema {
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
-
-    Name                       MemberType   Definition
-    ----                       ----------   ----------
-    Equals                     Method       bool Equals(System.Object obj)
-    GetHashCode                Method       int GetHashCode()
-    GetType                    Method       type GetType()
-    ToString                   Method       string ToString()
-    @odata.context             NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals..
-    directories                NoteProperty Object[] directories=System.Object[]
-    directories@odata.context  NoteProperty string directories@odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals...
-    id                         NoteProperty string id=AD2AADProvisioning...
-    provisioningTaskIdentifier NoteProperty string provisioningTaskIdentifier=AD2AADProvisioning...
-    synchronizationRules       NoteProperty Object[] synchronizationRules=System.Object[]
-    version                    NoteProperty string version=Date:2020-05-03T16:45:55.0837002Z...
             
 	.EXAMPLE
 	Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
@@ -1267,22 +954,8 @@ Function Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema {
         FQDN of your on premise AD Domain managed through Azure AD Connect Cloud Provisionning (provisionning agent must already be declared)
             
         .OUTPUTS
-           TypeName : System.Management.Automation.PSCustomObject
-    
-        Name                       MemberType   Definition
-        ----                       ----------   ----------
-        Equals                     Method       bool Equals(System.Object obj)
-        GetHashCode                Method       int GetHashCode()
-        GetType                    Method       type GetType()
-        ToString                   Method       string ToString()
-        @odata.context             NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals..
-        directories                NoteProperty Object[] directories=System.Object[]
-        directories@odata.context  NoteProperty string directories@odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals...
-        id                         NoteProperty string id=AD2AADProvisioning...
-        provisioningTaskIdentifier NoteProperty string provisioningTaskIdentifier=AD2AADProvisioning...
-        synchronizationRules       NoteProperty Object[] synchronizationRules=System.Object[]
-        version                    NoteProperty string version=Date:2020-05-03T16:45:55.0837002Z...
-                
+        TypeName : System.Management.Automation.PSCustomObject
+                    
         .EXAMPLE
         Get Azure AD Connect Cloud Sync default schema of domain mydomain.tld
         C:\PS> Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremADFQDN mydomain.tld
@@ -1504,6 +1177,394 @@ Function Get-AzureADObjectDeltaView {
         }
     }
 }
+Function Get-AzureADDynamicGroup {
+<#
+	.SYNOPSIS 
+	Retrieve information about an Azure AD security dynamic group
+
+	.DESCRIPTION
+    Retrieve all available properties about an existing security group with dynamic membership
+	
+	.PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+
+    .PARAMETER Displayname
+    -DisplayName String
+    Displayname of an existing Azure AD Group object
+
+    .PARAMETER All
+    -All switch
+    swith parameter that can be used to retrieve all existing Azure AD security group with dynamic membership rule
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get dynamic group with ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADDynamicGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	Get all security group with dynamic membership
+    C:\PS> Get-AzureADDynamicGroup -all
+
+    .EXAMPLE
+    Get dynamic group with Dynam_test display name
+    C:\PS> Get-AzureADDynamicGroup -DisplayName "Dynam_test"
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$DisplayName,
+        [parameter(Mandatory=$false)]
+            [switch]$All
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject) -and !($all.IsPresent) -and !($DisplayName)) {
+            throw "Please use ObjectID or inputobject or DisplayName parameter or All switch - exiting"
+        }
+        $GroupFilter = "?`$filter=groupTypes/any(c:c+eq+'DynamicMembership')"
+        $params = @{
+            API = "groups"
+            Method = "GET"
+        }
+        if ($inputobject.ObjectId) {
+            $params.add('APIParameter',$inputobject.ObjectId)
+        } elseif ($ObjectID) {
+            $params.add('APIParameter',$ObjectID)
+        } elseif ($DisplayName) {
+            $params.add('APIParameter',$GroupFilter + "and displayName eq '$($DisplayName)'")
+        } else {
+            $params.add('APIParameter',$GroupFilter)
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function New-AzureADDynamicGroup {
+<#
+	.SYNOPSIS 
+	Create a new Azure AD security dynamic group
+
+	.DESCRIPTION
+    Create a new Azure AD security dynamic group and set its membership rule
+	
+    .PARAMETER Description
+    -Description String
+    Description of the new group
+
+    .PARAMETER Displayname
+    -DisplayName String
+    Displayname of the new group
+
+    .PARAMETER MembershipRule
+    -MembershipRule string
+    Membership rule (string) of the new dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Create a new dynamic group Dynam_test5 with a membership rule based on user extensionAttribute9 value "test"
+    C:\PS> New-AzureADDynamicGroup -DisplayName "Dynam_test5" -Description "Dynam_test5" -MemberShipRule '(user.extensionAttribute9 -eq "test")'
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [ValidateNotNullOrEmpty()]
+            [string]$DisplayName,
+        [parameter(Mandatory=$true)]
+            [ValidateNotNullOrEmpty()]
+            [string]$Description,
+        [parameter(Mandatory=$true)]
+            [ValidateNotNullOrEmpty()]
+            [string]$MemberShipRule
+    )
+    process {
+        Test-AzureADAccesToken
+        $ExistingGroup = Get-AzureADDynamicGroup -DisplayName $DisplayName
+        If ($ExistingGroup.id) {
+            throw "$($DisplayName) group is already existing with ID $($ExistingGroup.id)"
+        } Else {
+            $tmpbody = @{
+                description = $Description
+                displayName = $DisplayName
+                groupTypes = @("DynamicMembership")
+                mailEnabled = $false
+                mailNickname = ($DisplayName -replace '[^a-zA-Z0-9]', '')
+                membershipRule = $MemberShipRule
+                membershipruleProcessingState = "On"
+                SecurityEnabled = $true
+            }
+            $params = @{
+                API = "groups"
+                Method = "POST"
+                APIBody = $tmpbody | ConvertTo-Json -Depth 99
+            }
+            write-verbose -Message $params.APIBody
+            Invoke-APIMSGraphBeta @params
+        }
+    }
+}
+Function Remove-AzureADDynamicGroup {
+<#
+	.SYNOPSIS 
+	Delete an existing Azure AD security dynamic group
+
+	.DESCRIPTION
+    Delete an existing Azure AD security dynamic group
+
+    .PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+	
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Remove an existing group named Dynam_test2 (displayname)
+    C:\PS> Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject - exiting"
+        }
+        if ($inputobject.ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $inputobject.ObjectID
+        } elseif ($ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $ObjectID
+        }
+        if ($ExistingGroup.id) {
+            $params = @{
+                API = "groups"
+                Method = "DELETE"
+                APIParameter = $ExistingGroup.id
+            }
+            Invoke-APIMSGraphBeta @params
+        } else {
+            throw "Azure AD Group not existing in directory"
+        }
+    }
+}
+Function Set-AzureADDynamicGroup {
+<#
+	.SYNOPSIS 
+	Update properties of an existing Azure AD security dynamic group
+
+	.DESCRIPTION
+    Update properties of an existing Azure AD security dynamic group, including processing state of the rule.
+
+    .PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+	
+    .PARAMETER NewDescription
+    -NewDescription String
+    Description of the new group
+
+    .PARAMETER NewDisplayname
+    -NewDisplayName String
+    Displayname of the new group
+
+    .PARAMETER NewMembershipRule
+    -NewMembershipRule string
+    Membership rule (string) of the dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
+    
+    .PARAMETER DisableRuleProcessingState
+    -DisableRuleProcessingState Switch
+    Disable processing state of the current rule
+
+    .PARAMETER EnableRuleProcessingState
+    -EnableRuleProcessingState Switch
+    Enable processing state of the current rule
+
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Update existing dynamic group 17a58653-3654-40bd-85ce-333ece486793 with a new description and membership rule
+    C:\PS> Set-AzureADDynamicGroup -ObjectId 17a58653-3654-40bd-85ce-333ece486793 -NewDescription "test description" -NewMemberShipRule '(user.extensionAttribute1 -eq "test2")'
+
+    .EXAMPLE
+	Update existing dynamic group 17a58653-3654-40bd-85ce-333ece486793 to disable processing state of the current rule
+    C:\PS> Set-AzureADDynamicGroup -ObjectId 17a58653-3654-40bd-85ce-333ece486793 -DisableRuleProcessingState
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID,
+        [Parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$NewDisplayName,
+        [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$NewDescription,
+        [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$NewMemberShipRule,
+        [parameter(Mandatory=$false)]
+            [switch]$DisableRuleProcessingState,
+        [parameter(Mandatory=$false)]
+            [switch]$EnableRuleProcessingState
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject - exiting"
+        }
+        if (!($NewDisplayName) -and !($NewDescription) -and !($NewMemberShipRule) -and !($DisableRuleProcessingState) -and !($EnableRuleProcessingState)) {
+            throw "Please select at least one parameter to update : NewDisplayName, NewDescription, NewMemberShipRule, DisableRuleProcessingState, EnableRuleProcessingState - exiting"
+        }
+        if ($DisableRuleProcessingState -and $EnableRuleProcessingState) {
+            throw "Please select between DisableRuleProcessingState and EnableRuleProcessingState parameters - exiting"
+        }
+        if ($inputobject.ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $inputobject.ObjectID
+        } elseif ($ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $ObjectID
+        }
+        if ($ExistingGroup.id) {
+            $tmpbody = @{}
+            if ($NewDisplayName) {
+                $tmpbody.add('displayName',$NewDisplayName)
+                $tmpbody.add('mailNickname',($NewDisplayName -replace '[^a-zA-Z0-9]', ''))
+            }
+            if ($NewDescription) {
+                $tmpbody.add('description',$NewDescription)
+            }
+            if ($NewMemberShipRule) {
+                $tmpbody.add('membershipRule',$NewMemberShipRule)
+            }
+            if ($DisableRuleProcessingState) {
+                $tmpbody.add('membershipruleProcessingState',"Paused")
+            }
+            if ($EnableRuleProcessingState) {
+                $tmpbody.add('membershipruleProcessingState',"On")
+            }
+            $params = @{
+                API = "groups"
+                Method = "PATCH"
+                APIParameter = $ExistingGroup.id
+                APIBody = $tmpbody | ConvertTo-Json -Depth 99
+            }
+            write-verbose -Message $params.APIBody
+            Invoke-APIMSGraphBeta @params
+        } else {
+            throw "Azure AD Group not existing in directory"
+        }
+    }
+}
+Function Test-AzureADUserForGroupDynamicMembership {
+<#
+	.SYNOPSIS 
+	Delete an existing Azure AD security dynamic group
+
+	.DESCRIPTION
+    Delete an existing Azure AD security dynamic group
+
+    .PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+
+    .PARAMETER MemberID
+    -MemberID Guid
+    Guid of an Azure AD user account that you want to test from a membership perspective of the group
+
+    .PARAMETER NewMembershipRule
+    -NewMembershipRule string
+    Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
+	
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Test if ca57f8b0-0c86-4677-8167-7d37534bd3bc object user account is member of 53cf95f1-49be-463e-9856-77c2b2c3e4a0 dynamic group using a specific rule
+    C:\PS> Test-AzureADUserForGroupDynamicMembership -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -MemberID ca57f8b0-0c86-4677-8167-7d37534bd3bc -MemberShipRule 'user.extensionAttribute9 -eq "test2"'
+
+    .EXAMPLE
+	Test if ca57f8b0-0c86-4677-8167-7d37534bd3bc object user account is member of 53cf95f1-49be-463e-9856-77c2b2c3e4a0 dynamic group
+    C:\PS> Test-AzureADUserForGroupDynamicMembership -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -MemberID ca57f8b0-0c86-4677-8167-7d37534bd3bc
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID,
+        [parameter(Mandatory=$true)]
+            [guid]$MemberID,
+        [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$MemberShipRule
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject - exiting"
+        }
+        if ($inputobject.ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $inputobject.ObjectID
+        } elseif ($ObjectID) {
+            $ExistingGroup = Get-AzureADDynamicGroup -ObjectId $ObjectID
+        }
+        if ($ExistingGroup.id) {
+            try {
+                $existinguser = get-azureaduser -objectid $MemberID
+            } catch {
+                throw "Azure AD User not exising in directory"
+            }
+            $tmpbody = @{
+                memberId = $existinguser.objectid
+            }
+            $params = @{
+                API = "groups"
+                Method = "POST"
+            }
+            if ($MemberShipRule) {
+                $tmpbody.add('membershipRule',$MemberShipRule)
+                $params.add('APIParameter',"evaluateDynamicMembership")
+            } else {
+                $params.add('APIParameter',($ExistingGroup.id + "/evaluateDynamicMembership"))
+            }
+            $params.add('APIBody', ($tmpbody | ConvertTo-Json -Depth 99))
+            write-verbose -Message $params.APIBody
+            Invoke-APIMSGraphBeta @params
+        } else {
+            throw "Azure AD Group not existing in directory"
+        }
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
@@ -1645,4 +1706,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Sync-ADUsertoAzureADAdministrativeUnitMember,Set-AzureADAdministrativeUnitAdminRole, Get-AzureADAdministrativeUnitAllMembers, Connect-MSOnlineFromAccessToken,
                                 Get-AzureADConnectCloudProvisionningServiceSyncSchema, Update-AzureADConnectCloudProvisionningServiceSyncSchema,
                                 Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitHidden, Get-AzureADAdministrativeUnitHidden,
-                                New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView
+                                New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView, 
+                                Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership

@@ -7,7 +7,7 @@ Simple PowerShell module to manage your Azure Active Directory Tenant (focusing 
 
 ## Notes
 currently Powershell Core and AzureADPreview are not working well together (logon / token request issue)
-The issue is opened here : https://github.com/PowerShell/PowerShell/issues/10473
+The issue is opened here : https://github.com/PowerShell/PowerShell/issues/10473  
 Waiting for the fix, this module will **work only with Windows Powershell 5.1**
 
 ## Notes version :
@@ -26,11 +26,17 @@ Waiting for the fix, this module will **work only with Windows Powershell 5.1**
  - cmdlet to update your current schema for a specific provisionning agent / service principal
  - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
  - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
-### 0.7 last public release - beta version
+### 0.7 beta version
  - cmdlet to create an Administrative Unit with hidden members
  - cmdlet to get Administrative Units with hidden members
  - cmdlet to create delta view for users, groups, admin units objects
  - cmdlet to get all updates from a delta view for users, groups, admin units objects
+### 0.8 last public release - beta version
+ - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
+ - new cmdlets to add, get, update Azure AD Dynamic Membership security groupstest dynamic membership
+  * Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (on all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
+`System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup`
+ - new cmdlet to test user membership of dynamic group membership
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -59,17 +65,18 @@ Here are my current issues, I have tried to resolve them with this PowerShell Mo
    - for instance you are limited to the first 100 objects only when you want to get all members of an admin unit... (Get-AzureADAdministrativeUnitMember)
    - the API administrativeUnits is able to handle it but they just forgot to implement it in the PowerShell module...
 ### Azure requests for changes opened
-https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276534-azureadpreview
-https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276597-azureadpreview-get-azureadadministrativeunitmem
-https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276621-azureadpreview-odata-advanced-paging
-https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/39167986-sync-onprem-ad-ous-to-aad-administrative-units
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276534-azureadpreview  
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276597-azureadpreview-get-azureadadministrativeunitmem  
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276621-azureadpreview-odata-advanced-paging  
+https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/39167986-sync-onprem-ad-ous-to-aad-administrative-units  
+https://feedback.azure.com/forums/34192--general-feedback/suggestions/40542640-ms-graph-api-evaluatedynamicmembershipresult-on-gr
 
 ## How-to
 a how-to is available here : https://github.com/MS-LUF/Use-AzureAD/blob/master/Howto.md
 
 ## install Use-AzureAD from PowerShell Gallery repository
-You can easily install it from powershell gallery repository
-https://www.powershellgallery.com/packages/Use-AzureAD/
+You can easily install it from powershell gallery repository  
+https://www.powershellgallery.com/packages/Use-AzureAD/  
 using a simple powershell command and an internet access :-) 
 ```
 	Install-Module -Name Use-AzureAD
@@ -81,7 +88,7 @@ using a simple powershell command and an internet access :-)
 ```
 
 ## module content
-documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD/tree/master/docs
+documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD/tree/master/docs  
 ### function
  - Clear-AzureADAccessToken
  - Connect-AzureADFromAccessToken
@@ -105,3 +112,8 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Get-AzureADObjectDeltaView
  - New-AzureADAdministrativeUnitHidden
  - Get-AzureADAdministrativeUnitHidden
+ - Get-AzureADDynamicGroup
+ - New-AzureADDynamicGroup
+ - Remove-AzureADDynamicGroup
+ - Set-AzureADDynamicGroup
+ - Test-AzureADUserForGroupDynamicMembership

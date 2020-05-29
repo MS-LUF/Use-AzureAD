@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '0.7'
+ModuleVersion = '0.8'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -72,7 +72,8 @@ PowerShellVersion = '5.1'
 FunctionsToExport = 'Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADMyInfo','Get-AzureADTenantInfo','Get-AzureADUserAllInfo',
                     'Invoke-APIMSGraphBeta','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember',
                     'Test-ADModule','Test-AzureADAccesToken','Connect-MSOnlineFromAccessToken', 'Get-AzureADConnectCloudProvisionningServiceSyncSchema', 'Update-AzureADConnectCloudProvisionningServiceSyncSchema',
-                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema', 'New-AzureADAdministrativeUnitHidden', 'Get-AzureADAdministrativeUnitHidden','New-AzureADObjectDeltaView', 'Get-AzureADObjectDeltaView'
+                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema', 'New-AzureADAdministrativeUnitHidden', 'Get-AzureADAdministrativeUnitHidden','New-AzureADObjectDeltaView', 'Get-AzureADObjectDeltaView',
+                    'Get-AzureADDynamicGroup', 'New-AzureADDynamicGroup', 'Remove-AzureADDynamicGroup', 'Set-AzureADDynamicGroup', 'Test-AzureADUserForGroupDynamicMembership'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -110,7 +111,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v0.7 - create an Administrative Unit with hidden members; get Administrative Units with hidden members; create delta view for users, groups, admin units objects; get all updates from a delta view for users, groups, admin units objects'
+        ReleaseNotes = 'v0.7 - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter ProxyUseDefaultCredentials;new cmdlets to add, get, update Azure AD Dynamic Membership security groups; new cmdlet to test dynamic membership for users'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 
