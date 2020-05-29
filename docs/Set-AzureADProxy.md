@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -117,21 +117,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : System.Net.WebProxy
-### Name                  MemberType Definition
-### ----                  ---------- ----------
-### Equals                Method     bool Equals(System.Object obj)
-### GetHashCode           Method     int GetHashCode()
-### GetObjectData         Method     void ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-### GetProxy              Method     uri GetProxy(uri destination), uri IWebProxy.GetProxy(uri destination)
-### GetType               Method     type GetType()
-### IsBypassed            Method     bool IsBypassed(uri host), bool IWebProxy.IsBypassed(uri host)
-### ToString              Method     string ToString()
-### Address               Property   uri Address {get;set;}
-### BypassArrayList       Property   System.Collections.ArrayList BypassArrayList {get;}
-### BypassList            Property   string[] BypassList {get;set;}
-### BypassProxyOnLocal    Property   bool BypassProxyOnLocal {get;set;}
-### Credentials           Property   System.Net.ICredentials Credentials {get;set;}
-### UseDefaultCredentials Property   bool UseDefaultCredentials {get;set;}
 ## NOTES
 
 ## RELATED LINKS

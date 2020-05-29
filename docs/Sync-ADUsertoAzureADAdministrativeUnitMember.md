@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0

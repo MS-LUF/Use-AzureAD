@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -102,19 +102,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : Microsoft.Open.AzureAD.Model.ScopedRoleMembership
-### Name                       MemberType Definition
-### ----                       ---------- ----------
-### Equals                     Method     bool Equals(System.Object obj), bool Equals(Microsoft.Open.AzureAD.Model.ScopedRoleMembership other), bool IEquatable[ScopedRoleMembership].Equals(Microsoft.Open.Azure...
-### GetHashCode                Method     int GetHashCode()
-### GetType                    Method     type GetType()
-### ShouldSerializeId          Method     bool ShouldSerializeId()
-### ToJson                     Method     string ToJson()
-### ToString                   Method     string ToString()
-### Validate                   Method     System.Collections.Generic.IEnumerable[System.ComponentModel.DataAnnotations.ValidationResult] Validate(System.ComponentModel.DataAnnotations.ValidationContext validat...
-### AdministrativeUnitObjectId Property   string AdministrativeUnitObjectId {get;set;}
-### Id                         Property   string Id {get;}
-### RoleMemberInfo             Property   Microsoft.Open.AzureAD.Model.RoleMemberInfo RoleMemberInfo {get;set;}
-### RoleObjectId               Property   string RoleObjectId {get;set;}
 ## NOTES
 
 ## RELATED LINKS

@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -39,17 +39,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : Microsoft.Open.Azure.AD.CommonLibrary.PSAzureContext
-### Name         MemberType Definition
-### ----         ---------- ----------
-### Equals       Method     bool Equals(System.Object obj)
-### GetHashCode  Method     int GetHashCode()
-### GetType      Method     type GetType()
-### ToString     Method     string ToString()
-### Account      Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureAccount Account {get;}
-### Environment  Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureEnvironment Environment {get;}
-### Tenant       Property   Microsoft.Open.Azure.AD.CommonLibrary.AzureTenant Tenant {get;}
-### TenantDomain Property   string TenantDomain {get;}
-### TenantId     Property   guid TenantId {get;}
 ## NOTES
 
 ## RELATED LINKS

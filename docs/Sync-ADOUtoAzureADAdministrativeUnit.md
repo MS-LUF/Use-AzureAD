@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -95,22 +95,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : Microsoft.Open.AzureAD.Model.AdministrativeUnit
-### Name                             MemberType Definition
-### ----                             ---------- ----------
-### Equals                           Method     bool Equals(System.Object obj), bool Equals(Microsoft.Open.AzureAD.Model.AdministrativeUnit other), bool Equals(Microsoft.Open.AzureAD.Model.DirectoryObject, Mic...
-### GetHashCode                      Method     int GetHashCode()
-### GetType                          Method     type GetType()
-### ShouldSerializeDeletionTimeStamp Method     bool ShouldSerializeDeletionTimeStamp()
-### ShouldSerializeObjectId          Method     bool ShouldSerializeObjectId()
-### ShouldSerializeObjectType        Method     bool ShouldSerializeObjectType()
-### ToJson                           Method     string ToJson()
-### ToString                         Method     string ToString()
-### Validate                         Method     System.Collections.Generic.IEnumerable[System.ComponentModel.DataAnnotations.ValidationResult] Validate(System.ComponentModel.DataAnnotations.ValidationContext v...
-### DeletionTimeStamp                Property   System.Nullable[datetime] DeletionTimeStamp {get;}
-### Description                      Property   string Description {get;set;}
-### DisplayName                      Property   string DisplayName {get;set;}
-### ObjectId                         Property   string ObjectId {get;}
-### ObjectType                       Property   string ObjectType {get;}
 ## NOTES
 
 ## RELATED LINKS

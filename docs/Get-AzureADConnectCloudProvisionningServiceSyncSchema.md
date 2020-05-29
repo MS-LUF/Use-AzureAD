@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -72,19 +72,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : System.Management.Automation.PSCustomObject
-### Name                       MemberType   Definition
-### ----                       ----------   ----------
-### Equals                     Method       bool Equals(System.Object obj)
-### GetHashCode                Method       int GetHashCode()
-### GetType                    Method       type GetType()
-### ToString                   Method       string ToString()
-### @odata.context             NoteProperty string @odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals..
-### directories                NoteProperty Object[] directories=System.Object[]
-### directories@odata.context  NoteProperty string directories@odata.context=https://graph.microsoft.com/beta/$metadata#servicePrincipals...
-### id                         NoteProperty string id=AD2AADProvisioning...
-### provisioningTaskIdentifier NoteProperty string provisioningTaskIdentifier=AD2AADProvisioning...
-### synchronizationRules       NoteProperty Object[] synchronizationRules=System.Object[]
-### version                    NoteProperty string version=Date:2020-05-03T16:45:55.0837002Z...
 ## NOTES
 
 ## RELATED LINKS

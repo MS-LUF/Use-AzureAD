@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -56,17 +56,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : System.Management.Automation.PSCustomObject
-### Name           MemberType   Definition
-### ----           ----------   ----------
-### Equals         Method       bool Equals(System.Object obj)
-### GetHashCode    Method       int GetHashCode()
-### GetType        Method       type GetType()
-### ToString       Method       string ToString()
-### AccessToken    NoteProperty string AccessToken=xxxxx...
-### ObjectID       NoteProperty string ObjectID=e3ab4983-22c4-417b-b18d-0271f81a9cde
-### TenantID       NoteProperty string TenantID=fbf266be-12e8-48a4-bd5f-c513713bd96d
-### TokenExpiresOn NoteProperty DateTimeOffset TokenExpiresOn=26/04/2020 16:20:40 +00:00
-### UserName       NoteProperty mailaddress UserName=my-admin@mydomain.tld
 ## NOTES
 
 ## RELATED LINKS

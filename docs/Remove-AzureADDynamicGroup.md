@@ -5,59 +5,57 @@ online version:
 schema: 2.0.0
 ---
 
-# New-AzureADAdministrativeUnitHidden
+# Remove-AzureADDynamicGroup
 
 ## SYNOPSIS
-Create a new Administrative Unit with hidden membership
+Delete an existing Azure AD security dynamic group
 
 ## SYNTAX
 
 ```
-New-AzureADAdministrativeUnitHidden [-displayName] <String> [-description] <String> [<CommonParameters>]
+Remove-AzureADDynamicGroup [[-inputobject] <Group>] [[-ObjectID] <Guid>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Create a new Administrative Unit with hidden membership.
-Only members of the admin unit can see the Admin Unit members.
-Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
+Delete an existing Azure AD security dynamic group
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-Create a new Administrative Unit with hidden membership called testHidden
+Remove an existing group named Dynam_test2 (displayname)
 ```
 
-C:\PS\> New-AzureADAdministrativeUnitHidden -displayName "testHidden" -description "Hidden Test Admin unit"
+C:\PS\> Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup
 
 ## PARAMETERS
 
-### -displayName
--displayName String
-   display name of the new admin unit
+### -inputobject
+-inputobject Microsoft.Open.AzureAD.Model.Group
+   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
 
 ```yaml
-Type: String
+Type: Group
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -description
--description String
-description name of the new admin unit
+### -ObjectID
+-ObjectID Guid
+Guid of an existing Azure AD Group object
 
 ```yaml
-Type: String
+Type: Guid
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False

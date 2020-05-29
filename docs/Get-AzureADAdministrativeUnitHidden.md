@@ -1,5 +1,5 @@
 ---
-external help file: use-AzureAD-help.xml
+external help file: Use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -81,17 +81,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ### TypeName : System.Management.Automation.PSCustomObject
-### Name            MemberType   Definition
-### ----            ----------   ----------
-### Equals          Method       bool Equals(System.Object obj)
-### GetHashCode     Method       int GetHashCode()
-### GetType         Method       type GetType()
-### ToString        Method       string ToString()
-### deletedDateTime NoteProperty object deletedDateTime=null
-### description     NoteProperty string description=Hidden Test Admin unit
-### displayName     NoteProperty string displayName=testHidden
-### id              NoteProperty string id=...
-### visibility      NoteProperty string visibility=HiddenMembership
 ## NOTES
 
 ## RELATED LINKS
