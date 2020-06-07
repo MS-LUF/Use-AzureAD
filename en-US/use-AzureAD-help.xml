@@ -761,6 +761,238 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-AzureADGroupLicenseDetail</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADGroupLicenseDetail</command:noun>
+      <maml:description>
+        <maml:para>Get licensing info of a particular group</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get all licening info (skuid applied, service plans disabled) for a particular Azure AD Group</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADGroupLicenseDetail</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroupLicenseDetail -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupLicenseDetail</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureADGroupMembersWithLicenseErrors</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADGroupMembersWithLicenseErrors</command:noun>
+      <maml:description>
+        <maml:para>Get all Azure AD User with licensing error members of a particular group Get all Azure AD Group containing users with licensing errors</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get all Azure AD User with licensing error members of a particular group Get all Azure AD Group containing users with licensing errors</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADGroupMembersWithLicenseErrors</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>-All Switch Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>-All Switch Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroupMembersWithLicenseErrors -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupMembersWithLicenseErrors</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Get groups containing users with licensing errors</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroupMembersWithLicenseErrors -All</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureADMyInfo</command:name>
       <command:verb>Get</command:verb>
       <command:noun>AzureADMyInfo</command:noun>
@@ -1063,6 +1295,107 @@
         <dev:code>Get all users properties available for the Azure AD account my-admin@mydomain.tld</dev:code>
         <dev:remarks>
           <maml:para>C:\PS&gt; Get-AzureADUserAllInfo -userUPN "my-admin@mydomain.tld"</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureADUserLicenseAssignmentStates</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADUserLicenseAssignmentStates</command:noun>
+      <maml:description>
+        <maml:para>Get licensing assignment type (group or user) of a particular user</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get licensing assignment type (group or user) of a particular user. You can check if the license is assigned directly or inherited from a group membership.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADUserLicenseAssignmentStates</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+          <dev:type>
+            <maml:name>User</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD User object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+        <dev:type>
+          <maml:name>User</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD User object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADUserLicenseAssignmentStates -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdUser -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADUserLicenseAssignmentStates</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2051,6 +2384,208 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Set-AzureADGroupLicense</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureADGroupLicense</command:noun>
+      <maml:description>
+        <maml:para>Add or remove a license on an Azure AD Group</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Add or remove a license (skuid applied, or service plans to be disabled) for a particular Azure AD Group</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureADGroupLicense</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>DisabledPlans</maml:name>
+          <maml:Description>
+            <maml:para>-DisabledPlans Guid - array of guids Guid / array of guids containing the guid of the service plans to be disabled in the SKU provided. To be used only with AddLicense switch. You cannot remove plans disabled from the sku / group. you must remove totally the license (sku) then add it using the new disabled plans.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>SkuID</maml:name>
+          <maml:Description>
+            <maml:para>-SkuID Guid Guid of the SKU to be added or removed to / from the group. Mandatory parameter to be used with AddLicense and RemoveLicense switchs</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AddLicense</maml:name>
+          <maml:Description>
+            <maml:para>-AddLicense switch Use the switch to add a new license to the group</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RemoveLicense</maml:name>
+          <maml:Description>
+            <maml:para>-RemoveLicense switch Use the switch to remove an existing license from the group</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AddLicense</maml:name>
+        <maml:Description>
+          <maml:para>-AddLicense switch Use the switch to add a new license to the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>RemoveLicense</maml:name>
+        <maml:Description>
+          <maml:para>-RemoveLicense switch Use the switch to remove an existing license from the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>DisabledPlans</maml:name>
+        <maml:Description>
+          <maml:para>-DisabledPlans Guid - array of guids Guid / array of guids containing the guid of the service plans to be disabled in the SKU provided. To be used only with AddLicense switch. You cannot remove plans disabled from the sku / group. you must remove totally the license (sku) then add it using the new disabled plans.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>SkuID</maml:name>
+        <maml:Description>
+          <maml:para>-SkuID Guid Guid of the SKU to be added or removed to / from the group. Mandatory parameter to be used with AddLicense and RemoveLicense switchs</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Set-AzureADGroupLicense -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Add license sku 84a661c4-e949-4bd2-a560-ed7766fcaf2b to the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0 and disable service plans 113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9 from this sku</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -AddLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -DisabledPlans @("113feb6c-3fe4-4440-bddc-54d774bf0318", "932ad362-64a8-4783-9106-97849a1a30b9") -verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Set-AzureADProxy</command:name>
       <command:verb>Set</command:verb>
       <command:noun>AzureADProxy</command:noun>
@@ -2638,11 +3173,11 @@
       <command:verb>Test</command:verb>
       <command:noun>AzureADUserForGroupDynamicMembership</command:noun>
       <maml:description>
-        <maml:para>Delete an existing Azure AD security dynamic group</maml:para>
+        <maml:para>Check if a Azure AD user is a member of an Azure AD security dynamic group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Delete an existing Azure AD security dynamic group</maml:para>
+      <maml:para>Check if a Azure AD user is a member of an Azure AD security dynamic group</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2686,7 +3221,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>MemberShipRule</maml:name>
           <maml:Description>
-            <maml:para>{{Fill MemberShipRule Description}}</maml:para>
+            <maml:para>-MembershipRule string Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2737,7 +3272,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>MemberShipRule</maml:name>
         <maml:Description>
-          <maml:para>{{Fill MemberShipRule Description}}</maml:para>
+          <maml:para>-MembershipRule string Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
