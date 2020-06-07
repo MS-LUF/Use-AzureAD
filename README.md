@@ -31,12 +31,18 @@ Waiting for the fix, this module will **work only with Windows Powershell 5.1**
  - cmdlet to get Administrative Units with hidden members
  - cmdlet to create delta view for users, groups, admin units objects
  - cmdlet to get all updates from a delta view for users, groups, admin units objects
-### 0.8 last public release - beta version
+### 0.8 beta version
  - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
  - new cmdlets to add, get, update Azure AD Dynamic Membership security groupstest dynamic membership
   * Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (on all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
 `System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup`
  - new cmdlet to test user membership of dynamic group membership
+### 0.9 - last public release - beta version
+add functions / cmdlets related to group and licensing stuff missing from azureadpreview current module
+ - cmdlet to get all Azure AD User with licensing error members of a particular group
+ - cmdlet to get licensing info of a particular group
+ - cmdlet to add or remove a license on an Azure AD Group
+ - cmdlet to get licensing assignment type (group or user) of a particular user
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -64,6 +70,9 @@ Here are my current issues, I have tried to resolve them with this PowerShell Mo
  - several cmdlet are buggy and not implement paging feature
    - for instance you are limited to the first 100 objects only when you want to get all members of an admin unit... (Get-AzureADAdministrativeUnitMember)
    - the API administrativeUnits is able to handle it but they just forgot to implement it in the PowerShell module...
+ - missing Graph APIs implementations
+   - licensing stuff limited to user object / ressources and not able to investigate licensing issue correctly except by using the deprecated module MSOnline
+
 ### Azure requests for changes opened
 https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276534-azureadpreview  
 https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/40276597-azureadpreview-get-azureadadministrativeunitmem  
@@ -117,3 +126,7 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Remove-AzureADDynamicGroup
  - Set-AzureADDynamicGroup
  - Test-AzureADUserForGroupDynamicMembership
+ - Get-AzureADGroupMembersWithLicenseErrors
+ - Get-AzureADGroupLicenseDetail
+ - Set-AzureADGroupLicense
+ - Get-AzureADUserLicenseAssignmentStates

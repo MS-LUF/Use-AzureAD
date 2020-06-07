@@ -10,8 +10,10 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 ### v0.7 - beta version
 - add example to deal with Administrative Unit with hidden membership
 - add example to deal with delta views
-### v0.8 last public release - beta version
+### v0.8 beta version
 - add examples to deal with Azure AD Security groups with Dynamic Membership
+### v0.9 last public release - beta version
+- add examples to deal with license and group and licensing issues also
 
 (c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -364,3 +366,51 @@ Well, I want to verify is my user Paul is a member of the dynamic group MyLowLev
 ```
     C:\PS> Test-AzureADUserForGroupDynamicMembership -ObjectID (Get-AzureADGroup -SearchString "MyLowLevelAdmin").ObjectId -MemberID (Get-AzureADUser -ObjectId Paul@mydomain.tld) -MemberShipRule 'user.extensionAttribute9 -eq "AdminFlag"'
 ```
+### Example 13
+I was looking for a way to manage my license using group instead direct attribution on users ressources, too much admin task for me... But I did not find any solutions in azureadpreview module, any idea ?  
+Well, yes ;) few cmdlets available for you to deal with licensing stuff in a group context.
+#### Add a license to a group
+first, retrieve your SKU from your tenant
+```
+    C:\PS> Get-AzureADSubscribedSku | Select-Object -Property *
+```
+write down the SKUID you want to add and also service plans you want to remove / disable from the SKU if needed. Ok ? Now, move to the adding part ;)
+we want to add the SKU with the skuid 84a661c4-e949-4bd2-a560-ed7766fcaf2b to the dynamic security group with object id 53cf95f1-49be-463e-9856-77c2b2c3e4a0. And we want to disable the following service plans from this SKU : 113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9
+```
+    C:\PS> Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -AddLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -DisabledPlans @("113feb6c-3fe4-4440-bddc-54d774bf0318", "932ad362-64a8-4783-9106-97849a1a30b9")
+```
+Note : the disabledplans parameters is optional and of course you can set all service plans to your group if you want.
+#### Remove a license from a group
+we want to remove the SKU with the skuid 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the dynamic security group with object id 53cf95f1-49be-463e-9856-77c2b2c3e4a0
+```
+    C:\PS> Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b
+```
+Note : you cannot enable back and disabled plans from your group. You need to remove the SKU and add it back with the new service plans configuration.
+#### Get licenses for a group
+```
+    C:\PS> Get-AzureADGroupLicenseDetail -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+```
+#### Troubleshooting licensing errors
+Everything was going fine with my licenses and workload since a couple of weeks and now several users tell me that they are not able to acess several workloads... I think it could be linked to a licensing issue, how can I investigate ?
+First thing, check if you have any group containing users with licensing error. if you don't know the group that could be the root issue, you can look over all groups with ```-all``` switch
+```
+    C:\PS> Get-AzureADGroupMembersWithLicenseErrors -All
+```
+Great ! only one group contains users with licensing errors, what's the next step ?
+Now we will use the same command to have more info about users with licensing errors in this group.
+```
+    C:\PS> Get-AzureADGroupMembersWithLicenseErrors -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+```
+great ! ten users with errors are listed, what's next ? How I can see what exactly is going on ?
+Keep cool, the answer is coming :) Now, we just need to show the licensing info available from the first user to continue our investigation. Here the object id of the user we want to check is b0cf4323-46b8-4b9f-9227-eeb0bc901805
+```
+    C:\PS> (Get-AzureADUserLicenseAssignmentStates -ObjectID b0cf4323-46b8-4b9f-9227-eeb0bc901805).licenseassignmentstates
+```
+```
+    skuId           : 84a661c4-e949-4bd2-a560-ed7766fcaf2b
+    disabledPlans   : {113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9}
+    assignedByGroup : 53cf95f1-49be-463e-9856-77c2b2c3e4a0
+    state           : Error
+    error           : CountViolation
+```
+You see, you have got your answer ! you need to purchase more licenses to cover your people :)

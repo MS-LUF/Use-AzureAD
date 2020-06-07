@@ -2,7 +2,7 @@
 #
 ## Created by: lucas.cueff[at]lucas-cueff.com
 #
-## released on 04/2020
+## released on 06/2020
 #
 # v0.5 : first public release - beta version - cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
 # Note : currently Powershell Core and AzureADPreview are not working well together (logon / token request issue) : https://github.com/PowerShell/PowerShell/issues/10473 ==> this module will work only with Windows Powershell 5.1
@@ -25,13 +25,18 @@
 # - cmdlet to get Administrative Units with hidden members
 # - cmdlet to create delta view for users, groups, admin units objects
 # - cmdlet to get all updates from a delta view for users, groups, admin units objects
-#
-# v0.8 : last public release - beta version - fix azuread proxy bug when using SSO, add cmdlets to manage Azure AD Dynamic Security Groups
+# v0.8 : beta version - fix azuread proxy bug when using SSO, add cmdlets to manage Azure AD Dynamic Security Groups
 # - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
 # - new cmdlets to add, get, update Azure AD Dynamic Membership security groups
 # - cmdlet to test Dynamic membership for users
 # Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
 # System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup
+#
+# v0.9 : last public release - beta version - add functions / cmdlets related to group and licensing stuff
+# - cmdlet to get all Azure AD User with licensing error members of a particular group
+# - cmdlet to get licensing info of a particular group
+# - cmdlet to add or remove a license on an Azure AD Group
+# - cmdlet to get licensing assignment type (group or user) of a particular user
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -1484,10 +1489,10 @@ Function Set-AzureADDynamicGroup {
 Function Test-AzureADUserForGroupDynamicMembership {
 <#
 	.SYNOPSIS 
-	Delete an existing Azure AD security dynamic group
+	Check if a Azure AD user is a member of an Azure AD security dynamic group
 
 	.DESCRIPTION
-    Delete an existing Azure AD security dynamic group
+    Check if a Azure AD user is a member of an Azure AD security dynamic group
 
     .PARAMETER inputobject
 	-inputobject Microsoft.Open.AzureAD.Model.Group
@@ -1501,8 +1506,8 @@ Function Test-AzureADUserForGroupDynamicMembership {
     -MemberID Guid
     Guid of an Azure AD user account that you want to test from a membership perspective of the group
 
-    .PARAMETER NewMembershipRule
-    -NewMembershipRule string
+    .PARAMETER MembershipRule
+    -MembershipRule string
     Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
 	
 	.OUTPUTS
@@ -1563,6 +1568,310 @@ Function Test-AzureADUserForGroupDynamicMembership {
         } else {
             throw "Azure AD Group not existing in directory"
         }
+    }
+}
+Function Get-AzureADGroupMembersWithLicenseErrors {
+<#
+	.SYNOPSIS 
+    Get all Azure AD User with licensing error members of a particular group
+    Get all Azure AD Group containing users with licensing errors
+
+	.DESCRIPTION
+    Get all Azure AD User with licensing error members of a particular group
+    Get all Azure AD Group containing users with licensing errors
+	
+	.PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+
+    .PARAMETER All
+    -All Switch
+    Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADGroupMembersWithLicenseErrors -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupMembersWithLicenseErrors
+
+    .EXAMPLE
+	Get groups containing users with licensing errors
+    C:\PS> Get-AzureADGroupMembersWithLicenseErrors -All
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID,
+        [parameter(Mandatory=$false)]
+            [switch]$All
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject) -and !($all)) {
+            throw "Please use ObjectID or inputobject parameters or All switch - exiting"
+        }
+        if ($ObjectID -and $inputobject) {
+            throw "Please choose between ObjectID or inputobject parameters - exiting"
+        }
+        $params = @{
+            API = "groups"
+            Method = "GET"
+        }
+        if ($all) {
+            $params.add('APIParameter',"?`$filter=hasMembersWithLicenseErrors+eq+true")
+        } else {
+            if ($inputobject.ObjectID) {
+                $ExistingGroup = Get-AzureADGroup -ObjectId $inputobject.ObjectID
+            } elseif ($ObjectID) {
+                $ExistingGroup = Get-AzureADGroup -ObjectId $ObjectID
+            }
+            if ($ExistingGroup.ObjectID) {
+                $params.add('APIParameter', $ExistingGroup.ObjectID + "/membersWithLicenseErrors")
+            } else {
+                throw "Azure AD Group not existing in directory"
+            }
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Get-AzureADGroupLicenseDetail {
+<#
+	.SYNOPSIS 
+    Get licensing info of a particular group
+
+	.DESCRIPTION
+    Get all licening info (skuid applied, service plans disabled) for a particular Azure AD Group
+	
+	.PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADGroupLicenseDetail -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupLicenseDetail
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject parameters - exiting"
+        }
+        if ($ObjectID -and $inputobject) {
+            throw "Please choose between ObjectID or inputobject parameters - exiting"
+        }
+        $params = @{
+            API = "groups"
+            Method = "GET"
+        }
+        if ($inputobject.ObjectID) {
+            $ExistingGroup = Get-AzureADGroup -ObjectId $inputobject.ObjectID
+        } elseif ($ObjectID) {
+            $ExistingGroup = Get-AzureADGroup -ObjectId $ObjectID
+        }
+        if ($ExistingGroup.ObjectID) {
+            $params.add('APIParameter', $ExistingGroup.ObjectID + "?`$select=assignedLicenses")
+        } else {
+            throw "Azure AD Group not existing in directory"
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Set-AzureADGroupLicense {
+<#
+	.SYNOPSIS 
+    Add or remove a license on an Azure AD Group
+
+	.DESCRIPTION
+    Add or remove a license (skuid applied, or service plans to be disabled) for a particular Azure AD Group
+	
+	.PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.Group
+    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+    .PARAMETER AddLicense
+    -AddLicense switch
+    Use the switch to add a new license to the group
+
+    .PARAMETER RemoveLicense
+    -RemoveLicense switch
+    Use the switch to remove an existing license from the group
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD Group object
+
+    .PARAMETER DisabledPlans
+    -DisabledPlans Guid - array of guids
+    Guid / array of guids containing the guid of the service plans to be disabled in the SKU provided. To be used only with AddLicense switch.
+    You cannot remove plans disabled from the sku / group. you must remove totally the license (sku) then add it using the new disabled plans.
+
+    .PARAMETER SkuID
+    -SkuID Guid
+    Guid of the SKU to be added or removed to / from the group. Mandatory parameter to be used with AddLicense and RemoveLicense switchs
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0
+    C:\PS> Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose
+
+    .EXAMPLE
+	Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0
+    C:\PS> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Set-AzureADGroupLicense -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose
+
+    .EXAMPLE
+    Add license sku 84a661c4-e949-4bd2-a560-ed7766fcaf2b to the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0 and disable service plans 113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9 from this sku
+    C:\PS> Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -AddLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -DisabledPlans @("113feb6c-3fe4-4440-bddc-54d774bf0318", "932ad362-64a8-4783-9106-97849a1a30b9") -verbose
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID,
+        [parameter(Mandatory=$false)]
+            [switch]$AddLicense,
+        [parameter(Mandatory=$false)]
+            [switch]$RemoveLicense,
+        [parameter(mandatory=$false)]
+            [guid[]]$DisabledPlans,
+        [parameter(mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$SkuID
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject parameters - exiting"
+        }
+        if ($RemoveLicense -and $AddLicense) {
+            throw "Please choose between AddLicense and RemoveLicense - exiting"
+        }
+        if (!($RemoveLicense) -and !($AddLicense)) {
+            throw "Please choose between AddLicense and RemoveLicense, one parameter is mandatory - exiting"
+        }
+        if ($ObjectID -and $inputobject) {
+            throw "Please choose between ObjectID or inputobject parameters - exiting"
+        }
+        $params = @{
+            API = "groups"
+            Method = "POST"
+        }
+        if ($inputobject.ObjectID) {
+            $ExistingGroup = Get-AzureADGroup -ObjectId $inputobject.ObjectID
+        } elseif ($ObjectID) {
+            $ExistingGroup = Get-AzureADGroup -ObjectId $ObjectID
+        }
+        if ($ExistingGroup.ObjectID) {
+            $params.add('APIParameter', $ExistingGroup.ObjectID + "/assignLicense")
+        } else {
+            throw "Azure AD Group not existing in directory"
+        }
+        if ($AddLicense) {
+            $tmpbody = @{
+                addLicenses = @(
+                    @{
+                        skuId = $SkuID
+                    }
+                )
+                removeLicenses = @()
+            }
+            if ($DisabledPlans) {
+                $tmpbody.addLicenses[0].add('disabledPlans',@($DisabledPlans))
+            }
+        }
+        if ($RemoveLicense) {
+            $tmpbody = @{
+                addLicenses = @()
+                removeLicenses = @($SkuID)
+            }
+        }
+        $params.add('APIBody', ($tmpbody | ConvertTo-Json -Depth 99))
+        write-verbose -Message $params.APIBody
+        $tmpobj = Invoke-APIMSGraphBeta @params
+        if ($tmpobj) {
+            Get-AzureADGroupLicenseDetail -ObjectID $tmpobj.id
+        }
+    }
+}
+Function Get-AzureADUserLicenseAssignmentStates {
+<#
+	.SYNOPSIS 
+    Get licensing assignment type (group or user) of a particular user
+
+	.DESCRIPTION
+    Get licensing assignment type (group or user) of a particular user. You can check if the license is assigned directly or inherited from a group membership.
+	
+	.PARAMETER inputobject
+	-inputobject Microsoft.Open.AzureAD.Model.User
+    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet
+
+    .PARAMETER ObjectID
+    -ObjectID Guid
+    Guid of an existing Azure AD User object
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADUserLicenseAssignmentStates -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureAdUser -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADUserLicenseAssignmentStates
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.User]$inputobject,
+        [parameter(Mandatory=$false)]
+            [guid]$ObjectID
+    )
+    process {
+        Test-AzureADAccesToken
+        if (!($ObjectID) -and !($inputobject)) {
+            throw "Please use ObjectID or inputobject parameter - exiting"
+        }
+        $params = @{
+            API = "users"
+            Method = "GET"
+        }
+        if ($inputobject.ObjectId) {
+            $params.add('APIParameter',$inputobject.ObjectId + "?`$select=licenseAssignmentStates")
+        } elseif ($ObjectID) {
+            $params.add('APIParameter',$ObjectID.guid + "?`$select=licenseAssignmentStates")
+        }
+        Invoke-APIMSGraphBeta @params
     }
 }
 Function Invoke-APIMSGraphBeta {
@@ -1707,4 +2016,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Get-AzureADConnectCloudProvisionningServiceSyncSchema, Update-AzureADConnectCloudProvisionningServiceSyncSchema,
                                 Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitHidden, Get-AzureADAdministrativeUnitHidden,
                                 New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView, 
+                                Get-AzureADGroupMembersWithLicenseErrors, Get-AzureADGroupLicenseDetail, Set-AzureADGroupLicense, Get-AzureADUserLicenseAssignmentStates, 
                                 Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership
