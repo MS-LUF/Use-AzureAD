@@ -5,43 +5,45 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzureADDynamicGroup
+# Get-AzureADGroupMembersWithLicenseErrors
 
 ## SYNOPSIS
-Retrieve information about an Azure AD security dynamic group
+Get all Azure AD User with licensing error members of a particular group
+Get all Azure AD Group containing users with licensing errors
 
 ## SYNTAX
 
 ```
-Get-AzureADDynamicGroup [[-inputobject] <Group>] [[-ObjectID] <Guid>] [[-DisplayName] <String>] [-All]
+Get-AzureADGroupMembersWithLicenseErrors [[-inputobject] <Group>] [[-ObjectID] <Guid>] [-All]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Retrieve all available properties about an existing security group with dynamic membership
+Get all Azure AD User with licensing error members of a particular group
+Get all Azure AD Group containing users with licensing errors
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-Get dynamic group with ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Get-AzureADDynamicGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+C:\PS\> Get-AzureADGroupMembersWithLicenseErrors -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 
 ### EXEMPLE 2
 ```
-Get all security group with dynamic membership
+Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Get-AzureADDynamicGroup -all
+C:\PS\> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupMembersWithLicenseErrors
 
 ### EXEMPLE 3
 ```
-Get dynamic group with Dynam_test display name
+Get groups containing users with licensing errors
 ```
 
-C:\PS\> Get-AzureADDynamicGroup -DisplayName "Dynam_test"
+C:\PS\> Get-AzureADGroupMembersWithLicenseErrors -All
 
 ## PARAMETERS
 
@@ -77,25 +79,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DisplayName
--DisplayName String
-Displayname of an existing Azure AD Group object
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -All
--All switch
-swith parameter that can be used to retrieve all existing Azure AD security group with dynamic membership rule
+-All Switch
+Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors
 
 ```yaml
 Type: SwitchParameter

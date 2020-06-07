@@ -5,28 +5,35 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-AzureADDynamicGroup
+# Get-AzureADGroupLicenseDetail
 
 ## SYNOPSIS
-Delete an existing Azure AD security dynamic group
+Get licensing info of a particular group
 
 ## SYNTAX
 
 ```
-Remove-AzureADDynamicGroup [[-inputobject] <Group>] [[-ObjectID] <Guid>] [<CommonParameters>]
+Get-AzureADGroupLicenseDetail [[-inputobject] <Group>] [[-ObjectID] <Guid>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Delete an existing Azure AD security dynamic group
+Get all licening info (skuid applied, service plans disabled) for a particular Azure AD Group
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-Remove an existing group named Dynam_test2 (displayname)
+Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup
+C:\PS\> Get-AzureADGroupLicenseDetail -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+### EXEMPLE 2
+```
+Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+```
+
+C:\PS\> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupLicenseDetail
 
 ## PARAMETERS
 

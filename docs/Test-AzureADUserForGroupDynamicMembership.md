@@ -1,5 +1,5 @@
 ---
-external help file: Use-AzureAD-help.xml
+external help file: use-AzureAD-help.xml
 Module Name: Use-AzureAD
 online version:
 schema: 2.0.0
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Test-AzureADUserForGroupDynamicMembership
 
 ## SYNOPSIS
-Delete an existing Azure AD security dynamic group
+Check if a Azure AD user is a member of an Azure AD security dynamic group
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Test-AzureADUserForGroupDynamicMembership [[-inputobject] <Group>] [[-ObjectID] 
 ```
 
 ## DESCRIPTION
-Delete an existing Azure AD security dynamic group
+Check if a Azure AD user is a member of an Azure AD security dynamic group
 
 ## EXAMPLES
 
@@ -87,7 +87,9 @@ Accept wildcard characters: False
 ```
 
 ### -MemberShipRule
-{{Fill MemberShipRule Description}}
+-MembershipRule string
+Membership rule (string) of dynamic group you want to test.
+More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
 
 ```yaml
 Type: String

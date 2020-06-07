@@ -5,37 +5,45 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-AzureADDynamicGroup
+# Get-AzureADUserLicenseAssignmentStates
 
 ## SYNOPSIS
-Delete an existing Azure AD security dynamic group
+Get licensing assignment type (group or user) of a particular user
 
 ## SYNTAX
 
 ```
-Remove-AzureADDynamicGroup [[-inputobject] <Group>] [[-ObjectID] <Guid>] [<CommonParameters>]
+Get-AzureADUserLicenseAssignmentStates [[-inputobject] <User>] [[-ObjectID] <Guid>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Delete an existing Azure AD security dynamic group
+Get licensing assignment type (group or user) of a particular user.
+You can check if the license is assigned directly or inherited from a group membership.
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-Remove an existing group named Dynam_test2 (displayname)
+Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup
+C:\PS\> Get-AzureADUserLicenseAssignmentStates -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+### EXEMPLE 2
+```
+Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+```
+
+C:\PS\> Get-AzureAdUser -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADUserLicenseAssignmentStates
 
 ## PARAMETERS
 
 ### -inputobject
--inputobject Microsoft.Open.AzureAD.Model.Group
-   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+-inputobject Microsoft.Open.AzureAD.Model.User
+   Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet
 
 ```yaml
-Type: Group
+Type: User
 Parameter Sets: (All)
 Aliases:
 
@@ -48,7 +56,7 @@ Accept wildcard characters: False
 
 ### -ObjectID
 -ObjectID Guid
-Guid of an existing Azure AD Group object
+Guid of an existing Azure AD User object
 
 ```yaml
 Type: Guid
