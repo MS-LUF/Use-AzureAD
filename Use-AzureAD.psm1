@@ -513,7 +513,7 @@ Function Sync-ADUsertoAzureADAdministrativeUnitMember {
             $AZADMUnit = Get-AzureADAdministrativeUnit -Filter "displayname eq '$($OU.name)'"
             If ($AZADMUnit) {
                 write-verbose -Message "Azure AD Administrative Unit $($OU.name) found"
-                $AZADMUnitMember = $AZADMUnit | Get-AzureADAdministrativeUnitMember
+                $AZADMUnitMember = $AZADMUnit | Get-AzureADAdministrativeUnitMember -all $true
                 $users = Get-ADUser -SearchBase $OU.DistinguishedName -SearchScope Subtree -Filter * -Properties $CloudUPNAttribute
                 foreach ($user in $users) {
                     try {
