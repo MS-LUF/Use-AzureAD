@@ -12,8 +12,10 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 - add example to deal with delta views
 ### v0.8 beta version
 - add examples to deal with Azure AD Security groups with Dynamic Membership
-### v0.9 last public release - beta version
+### v0.9 - beta version
 - add examples to deal with license and group and licensing issues also
+### v1.0 last public release - beta version
+- add service principal access
 
 (c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -26,6 +28,7 @@ For instance, if you have fiddler installed on your PC :
     C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
 ```
 ### Get an access token for MS Graph Beta API
+#### access with a user account
 First thing to do is to request your Access Token, so the other cmdlet will be able to built the bearer token header to deal with MS API authorization :
 ```
     C:\PS> Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld
@@ -36,6 +39,11 @@ The token is hosted in a global variable (a custom PS Object) that is shared by 
 ```
 This token will give you access to all APIs of MS Graph Beta.
 MFA is supported of course for this authentication, you can renew your token using the same cmdlet every two hours without having the need to be re-authenticated.
+#### access with a service principal
+Since version 1.0 it's now possible to request also a token for a service principal :
+```
+    C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f  -ServicePrincipalTenantDomain mydomain.tld
+```
 ### Use your access token to get an access for classic MS Graph API used by Azure AD MS modules
 When you will have your Access Token, we can use it to request another access to MS Graph API v1.0 (graph.windows.net) used by AzureAD and AzureADPreview modules
 ```
@@ -45,6 +53,7 @@ Now, you can also use the same token to use MSOnline module
 ```
     C:\PS> Connect-MSOnlineFromAccessToken
 ```
+**Note : due to technical limitation, you cannot send your service principal token to MSOnline module, it's limited to user account access only.**
 ## Output of Use-AzureAD functions / cmdlets
 Depending on cmdlet, output could be a PSCustomObject (TypeName: System.Management.Automation.PSCustomObject) or a Microsoft.Open.AzureAD.Model (TypeName : Microsoft.Open.AzureAD.Model.xxxx)
 When I am dealing directly with APIs you will find PSCustomObject, when I am wrapping AzureAD cmdlet you will find Microsoft.Open.AzureAD.Model

@@ -37,12 +37,14 @@ Waiting for the fix, this module will **work only with Windows Powershell 5.1**
   * Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (on all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
 `System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup`
  - new cmdlet to test user membership of dynamic group membership
-### 0.9 - last public release - beta version
+### 0.9 - beta version
 add functions / cmdlets related to group and licensing stuff missing from azureadpreview current module
  - cmdlet to get all Azure AD User with licensing error members of a particular group
  - cmdlet to get licensing info of a particular group
  - cmdlet to add or remove a license on an Azure AD Group
  - cmdlet to get licensing assignment type (group or user) of a particular user
+### 1.0 - last public release - beta version
+- add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -130,3 +132,5 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Get-AzureADGroupLicenseDetail
  - Set-AzureADGroupLicense
  - Get-AzureADUserLicenseAssignmentStates
+ - Get-AzureADServicePrincipalByFilter
+ - Get-AzureADUserByFilter

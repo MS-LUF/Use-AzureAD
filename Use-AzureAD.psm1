@@ -31,12 +31,13 @@
 # - cmdlet to test Dynamic membership for users
 # Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
 # System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup
-#
-# v0.9 : last public release - beta version - add functions / cmdlets related to group and licensing stuff
+# v0.9 : beta version - add functions / cmdlets related to group and licensing stuff
 # - cmdlet to get all Azure AD User with licensing error members of a particular group
 # - cmdlet to get licensing info of a particular group
 # - cmdlet to add or remove a license on an Azure AD Group
 # - cmdlet to get licensing assignment type (group or user) of a particular user
+#
+# v1.0 - last public release - beta version - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -72,43 +73,95 @@ Function Get-AzureADAccessToken {
 #>
     [cmdletbinding()]
 	Param (
-        [parameter(Mandatory=$true)]
-            [System.Net.Mail.MailAddress]$adminUPN
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [System.Net.Mail.MailAddress]$adminUPN,
+        [parameter(Mandatory=$false)]
+        [ValidateScript({test-path "Cert:\LocalMachine\My\$_"})]
+            [string]$ServicePrincipalCertThumbprint,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$ServicePrincipalApplicationID,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$ServicePrincipalTenantDomain
     )
     Process {
-    $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
-    #$clientId = "1950a258-227b-4e31-a9cf-717495945fc2"
-    $redirectUri = "urn:ietf:wg:oauth:2.0:oob"
-    $resourceURI = "https://graph.microsoft.com"
-    $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
-    $AadModule = Test-ADModule -AzureAD
-    try {
+        if ($ServicePrincipalCertThumbprint -and (!($ServicePrincipalApplicationID) -or !($ServicePrincipalTenantDomain))) {
+            throw "please use ServicePrincipalApplicationID with ServicePrincipalCertThumbprint and ServicePrincipalTenantDomain"
+        }
+        if ($ServicePrincipalApplicationID -and (!($ServicePrincipalCertThumbprint) -or !($ServicePrincipalTenantDomain))) {
+            throw "please use ServicePrincipalApplicationID with ServicePrincipalCertThumbprint and ServicePrincipalTenantDomain"
+        }
+        $AadModule = Test-ADModule -AzureAD
         $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
-        $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
         [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
-        [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
-        $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-        $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
-        $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($adminUPN.Address, "OptionalDisplayableId")
-        $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
-    } catch {
-        Write-Error -Message "$($_.Exception.Message)"
-        throw "Not Able to log you on your Azure AD Tenant - exiting"
-    }
-    if ($authResult.result) {
-        $tmpobj = [PSCustomObject]@{
-            UserName = $adminUPN
-            AccessToken = $authResult.result.AccessToken
-            TokenExpiresOn = $authResult.result.ExpiresOn
+        if ($adminUPN) {
+            $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
+            #$clientId = "1950a258-227b-4e31-a9cf-717495945fc2"
+            $redirectUri = "urn:ietf:wg:oauth:2.0:oob"
+            $resourceURI = "https://graph.microsoft.com"
+            $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
+            try {
+                #$adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
+                $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
+                #[System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
+                [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
+                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
+                $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($adminUPN.Address, "OptionalDisplayableId")
+                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
+            } catch {
+                Write-Error -Message "$($_.Exception.Message)"
+                throw "Not able to log you on your Azure AD Tenant using user principal name provided - exiting"
+            }
+            if ($authResult.result) {
+                $tmpobj = [PSCustomObject]@{
+                    UserName = $adminUPN
+                    AccessToken = $authResult.result.AccessToken
+                    TokenExpiresOn = $authResult.result.ExpiresOn
+                }
+                $global:AADConnectInfo = $tmpobj.psobject.Copy()
+                $tmpobj | add-member -MemberType NoteProperty -Name 'ObjectID' -Value (Get-AzureADMyInfo).id
+                $tmpobj | add-member -MemberType NoteProperty -Name 'TenantID' -Value (Get-AzureADTenantInfo -adminUPN $adminUPN).TenantID
+            } else {
+                throw "Authorization Access Token is null, please re-run authentication - exiting"
+            }
+        }
+        if ($ServicePrincipalCertThumbprint -and $ServicePrincipalApplicationID -and $ServicePrincipalTenantDomain) {
+            $CertStore = "Cert:\LocalMachine\My"
+            $CertStorePath = Join-Path $CertStore $ServicePrincipalCertThumbprint
+            $Certificate = Get-Item $CertStorePath
+            if (!$Certificate) {
+              throw "not able to get certificate with $ServicePrincipalCertThumbprint thumbprint in local machine cert store - exiting"
+            }
+            $tenantinfo = Get-AzureADTenantInfo -ServicePrincipalTenantDomain $ServicePrincipalTenantDomain
+            $resourceURI = "https://graph.microsoft.com"
+            $authority = "https://login.microsoftonline.com/$($tenantinfo.TenantID)/oauth2/token"
+            try {
+                $ClientCert = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate -ArgumentList ($ServicePrincipalApplicationID.guid, $Certificate)
+                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientCert)
+            } catch {
+                Write-Error -Message "$($_.Exception.Message)"
+                throw "Not able to log you on your Azure AD Tenant using Service Principal information provided - exiting"
+            }
+            if ($authResult.result) {
+                $tmpobj = [PSCustomObject]@{
+                    ServicePrincipalName = $ServicePrincipalApplicationID
+                    ServicePrincipalCertificate = $ServicePrincipalCertThumbprint
+                    AccessToken = $authResult.result.AccessToken
+                    TokenExpiresOn = $authResult.result.ExpiresOn
+                }
+                $global:AADConnectInfo = $tmpobj.psobject.Copy()
+                $tmpobj | add-member -MemberType NoteProperty -Name 'ObjectID' -Value (Get-AzureADServicePrincipalByFilter -Filter "appid eq '$($ServicePrincipalApplicationID)'").id
+                $tmpobj | add-member -MemberType NoteProperty -Name 'TenantID' -Value $tenantinfo.TenantID
+            } else {
+                throw "Authorization Access Token is null, please re-run authentication - exiting"
+            }
         }
         $global:AADConnectInfo = $tmpobj.psobject.Copy()
-        $tmpobj | add-member -MemberType NoteProperty -Name 'ObjectID' -Value (Get-AzureADMyInfo).id
-        $tmpobj | add-member -MemberType NoteProperty -Name 'TenantID' -Value (Get-AzureADTenantInfo -adminUPN $adminUPN).TenantID
-    } else {
-        throw "Authorization Access Token is null, please re-run authentication - exiting"
-    }
-    $global:AADConnectInfo = $tmpobj.psobject.Copy()
-    $global:AADConnectInfo
+        $global:AADConnectInfo
     }
 }
 Function Get-AzureADMyInfo {
@@ -143,23 +196,41 @@ Function Get-AzureADTenantInfo {
 	
 	.PARAMETER adminUPN
 	-adminUPN System.Net.Mail.MailAddress
-	UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
+    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
+    
+    .PARAMETER ServicePrincipalTenantDomain
+    -ServicePrincipalTenantDomain string
+    Tenant domain name of your Service Principal account
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		
 	.EXAMPLE
-	Get an access token for my admin account (my-admin@mydomain.tld)
-	C:\PS> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
+	Get tenant info from my useraccount (my-admin@mydomain.tld)
+    C:\PS> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
+    
+    .EXAMPLE
+	Get tenant info from my service principal tenant domain name (mydomain.tld)
+	C:\PS> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 #>
     [cmdletbinding()]
 	Param (
-        [parameter(Mandatory=$true)]
-            [System.Net.Mail.MailAddress]$adminUPN
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [System.Net.Mail.MailAddress]$adminUPN,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$ServicePrincipalTenantDomain
     )
     process {
-        $url = "https://login.microsoftonline.com/$($adminUPN.Host)/.well-known/openid-configuration"
-        write-verbose -Message "GET method to $($url)"
+        if ($adminUPN) {
+            $url = "https://login.microsoftonline.com/$($adminUPN.Host)/.well-known/openid-configuration"
+            write-verbose -Message "GET method to $($url)"
+        }
+        if ($ServicePrincipalTenantDomain) {
+            $url = "https://login.microsoftonline.com/$($ServicePrincipalTenantDomain)/.well-known/openid-configuration"
+            write-verbose -Message "GET method to $($url)"
+        }
         Try {
             $tmpobj = (Invoke-WebRequest $url).content | ConvertFrom-Json
         } catch {
@@ -191,24 +262,45 @@ Function Connect-AzureADFromAccessToken {
     Test-AzureADAccesToken
     $AadModule = Test-ADModule -AzureAD
     if ($global:AADConnectInfo.AccessToken) {
-        $resourceURI = "https://graph.windows.net"
-        $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
-        $redirectUri = "urn:ietf:wg:oauth:2.0:oob"
-        $authority = "https://login.microsoftonline.com/$(($global:AADConnectInfo.UserName).host)"
-        try {
-            $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
-            $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
-            [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
-            [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
-            $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-            $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
-            $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($global:AADConnectInfo.UserName, "OptionalDisplayableId")
-            $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
-        } catch {
-            Write-Error -Message "$($_.Exception.Message)"
-            throw "Not Able to log you on your Azure AD Tenant - exiting"
-        }        
-        connect-azuread -tenantid $global:AADConnectInfo.TenantID -AadAccessToken $authResult.result.AccessToken -AccountId $global:AADConnectInfo.ObjectID
+        if ($global:AADConnectInfo.UserName) {
+            $resourceURI = "https://graph.windows.net"
+            $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
+            $redirectUri = "urn:ietf:wg:oauth:2.0:oob"
+            $authority = "https://login.microsoftonline.com/$(($global:AADConnectInfo.UserName).host)"
+            try {
+                $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
+                $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
+                [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
+                [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
+                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
+                $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($global:AADConnectInfo.UserName, "OptionalDisplayableId")
+                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
+            } catch {
+                Write-Error -Message "$($_.Exception.Message)"
+                throw "Not Able to log you on your Azure AD Tenant - exiting"
+            }        
+            connect-azuread -tenantid $global:AADConnectInfo.TenantID -AadAccessToken $authResult.result.AccessToken -AccountId $global:AADConnectInfo.ObjectID
+        }
+        if ($global:AADConnectInfo.ServicePrincipalName) {
+            $CertStore = "Cert:\LocalMachine\My"
+            $CertStorePath = Join-Path $CertStore $global:AADConnectInfo.ServicePrincipalCertificate
+            $Certificate = Get-Item $CertStorePath
+            if (!$Certificate) {
+            throw "not able to get certificate with $ServicePrincipalCertThumbprint thumbprint in local machine cert store - exiting"
+            }
+            $resourceURI = "https://graph.microsoft.net"
+            $authority = "https://login.microsoftonline.com/$($global:AADConnectInfo.TenantID)/oauth2/token"
+            try {
+                $ClientCert = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate -ArgumentList ($global:AADConnectInfo.ServicePrincipalName, $Certificate)
+                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientCert)
+            } catch {
+                Write-Error -Message "$($_.Exception.Message)"
+                throw "Not able to log you on your Azure AD Tenant using Service Principal information provided - exiting"
+            }
+            connect-azuread -tenantid $global:AADConnectInfo.TenantID -ApplicationId $global:AADConnectInfo.ServicePrincipalName -CertificateThumbprint $global:AADConnectInfo.ServicePrincipalCertificate
+        }
     } else {
         throw "No valid Access Token found - exiting"
     }
@@ -234,24 +326,29 @@ Function Connect-MSOnlineFromAccessToken {
         Test-ADModule -MSOnline | out-null
         $AadModule = Test-ADModule -AzureAD
         if ($global:AADConnectInfo.AccessToken) {
-            $resourceURI = "https://graph.windows.net"
-            $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
-            $redirectUri = new-object System.Uri("http://localhost/")
-            $authority = "https://login.microsoftonline.com/$(($global:AADConnectInfo.UserName).host)"
-            try {
-                $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
-                $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
-                [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
-                [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
-                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-                $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
-                $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($global:AADConnectInfo.UserName, "OptionalDisplayableId")
-                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
-            } catch {
-                Write-Error -Message "$($_.Exception.Message)"
-                throw "Not Able to log you on your Azure AD Tenant - exiting"
+            if ($global:AADConnectInfo.UserName) {
+                $resourceURI = "https://graph.windows.net"
+                $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
+                $redirectUri = new-object System.Uri("http://localhost/")
+                $authority = "https://login.microsoftonline.com/$(($global:AADConnectInfo.UserName).host)"
+                try {
+                    $adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
+                    $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
+                    [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
+                    [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
+                    $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
+                    $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
+                    $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($global:AADConnectInfo.UserName, "OptionalDisplayableId")
+                    $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
+                } catch {
+                    Write-Error -Message "$($_.Exception.Message)"
+                    throw "Not Able to log you on your Azure AD Tenant - exiting"
+                }
+                Connect-MsolService -AccessToken $authResult.result.AccessToken
             }
-            Connect-MsolService -AccessToken $authResult.result.AccessToken
+            if ($global:AADConnectInfo.ServicePrincipalName) {
+                Write-Warning -message "Service Principals are not supported for passthrough token to MSOnline."
+            }
         } else {
             throw "No valid Access Token found - exiting"
         }
@@ -480,12 +577,18 @@ Function Sync-ADUsertoAzureADAdministrativeUnitMember {
             [string]$RootOUFilterName,
         [parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
-            [string[]]$OUsDN
+            [string[]]$OUsDN,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$ADUserFilter
     )
     process {
         if (!($AllRootOU.IsPresent) -and !($OUsDN)) {
             throw "AllRootOU switch parameter or OUsDN parameter must be used - exiting"
         }
+        if (!($ADUserFilter)) {
+            $ADUserFilter = "*"
+        } 
         Test-ADModule -AzureAD -AD | Out-Null
         If ($AllRootOU.IsPresent) {
             if ($RootOUFilterName) {
@@ -513,8 +616,8 @@ Function Sync-ADUsertoAzureADAdministrativeUnitMember {
             $AZADMUnit = Get-AzureADAdministrativeUnit -Filter "displayname eq '$($OU.name)'"
             If ($AZADMUnit) {
                 write-verbose -Message "Azure AD Administrative Unit $($OU.name) found"
-                $AZADMUnitMember = $AZADMUnit | Get-AzureADAdministrativeUnitMember
-                $users = Get-ADUser -SearchBase $OU.DistinguishedName -SearchScope Subtree -Filter * -Properties $CloudUPNAttribute
+                $AZADMUnitMember = $AZADMUnit | Get-AzureADAdministrativeUnitAllMembers
+                $users = Get-ADUser -SearchBase $OU.DistinguishedName -SearchScope Subtree -Filter $ADUserFilter -Properties $CloudUPNAttribute
                 foreach ($user in $users) {
                     try {
                         $azureaduser = get-azureaduser -objectid $user.($CloudUPNAttribute)
@@ -524,7 +627,7 @@ Function Sync-ADUsertoAzureADAdministrativeUnitMember {
                     if ($user.($CloudUPNAttribute)) {
                         write-verbose -message "Azure AD User $($user.$CloudUPNAttribute) found"
                         if ($AZADMUnitMember) {
-                            if ($AZADMUnitMember.ObjectID -contains $azureaduser.ObjectID) {
+                            if ($AZADMUnitMember.ID -contains $azureaduser.ObjectID) {
                                 Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) already member of $($OU.name) Azure Administrative Unit"
                             } else {
                                 Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) not member of $($OU.name) Azure Administrative Unit"
@@ -775,9 +878,9 @@ Function Get-AzureADAdministrativeUnitAllMembers {
             Method = "GET"
         }
         if ($inputobject.ObjectId) {
-            $parameter = $inputobject.ObjectId + "/" + "members?"   
+            $parameter = $inputobject.ObjectId + "/members?`$top=999"
         } elseif ($ObjectId) {
-            $parameter = $ObjectId + "/" + "members?$top=999"
+            $parameter = $ObjectId.guid + "/members?`$top=999"
         }
         $params.add('APIParameter',$parameter)
         Invoke-APIMSGraphBeta @params
@@ -1874,6 +1977,78 @@ Function Get-AzureADUserLicenseAssignmentStates {
         Invoke-APIMSGraphBeta @params
     }
 }
+Function Get-AzureADServicePrincipalByFilter {
+<#
+	.SYNOPSIS 
+    Get Azure AD Service Principal by property and value
+
+	.DESCRIPTION
+    Get Azure AD Service Principal by property and value
+	
+	.PARAMETER Filter
+	-Filter string
+    Odata Filter query
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get Azure AD service principals with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADServicePrincipalByFilter -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
+
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+        [ValidateNotNullOrEmpty()]
+            [string]$Filter
+    )
+    process {
+        Test-AzureADAccesToken
+        $params = @{
+            API = "serviceprincipals"
+            Method = "GET"
+            APIParameter = "?`$filter=$($Filter)"
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Get-AzureADUserByFilter {
+<#
+	.SYNOPSIS 
+    Get Azure AD user by property and value
+
+	.DESCRIPTION
+    Get Azure AD user by property and value
+	
+	.PARAMETER Filter
+	-Filter string
+    Odata Filter query
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Get Azure AD user with the immutableid test
+    C:\PS> Get-AzureADUserByFilter -Filter "immutableid eq 'test'"
+
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+        [ValidateNotNullOrEmpty()]
+            [string]$Filter
+    )
+    process {
+        Test-AzureADAccesToken
+        $params = @{
+            API = "users"
+            Method = "GET"
+            APIParameter = "?`$filter=$($Filter)"
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
@@ -2017,4 +2192,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitHidden, Get-AzureADAdministrativeUnitHidden,
                                 New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView, 
                                 Get-AzureADGroupMembersWithLicenseErrors, Get-AzureADGroupLicenseDetail, Set-AzureADGroupLicense, Get-AzureADUserLicenseAssignmentStates, 
-                                Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership
+                                Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership,
+                                Get-AzureADServicePrincipalByFilter, Get-AzureADUserByFilter

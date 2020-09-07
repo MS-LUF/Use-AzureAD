@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '0.9'
+ModuleVersion = '1.0'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -74,7 +74,7 @@ FunctionsToExport = 'Clear-AzureADAccessToken','Connect-AzureADFromAccessToken',
                     'Test-ADModule','Test-AzureADAccesToken','Connect-MSOnlineFromAccessToken', 'Get-AzureADConnectCloudProvisionningServiceSyncSchema', 'Update-AzureADConnectCloudProvisionningServiceSyncSchema',
                     'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema', 'New-AzureADAdministrativeUnitHidden', 'Get-AzureADAdministrativeUnitHidden','New-AzureADObjectDeltaView', 'Get-AzureADObjectDeltaView',
                     'Get-AzureADDynamicGroup', 'New-AzureADDynamicGroup', 'Remove-AzureADDynamicGroup', 'Set-AzureADDynamicGroup', 'Test-AzureADUserForGroupDynamicMembership',
-                    'Get-AzureADGroupMembersWithLicenseErrors', 'Get-AzureADGroupLicenseDetail', 'Set-AzureADGroupLicense', 'Get-AzureADUserLicenseAssignmentStates'
+                    'Get-AzureADGroupMembersWithLicenseErrors', 'Get-AzureADGroupLicenseDetail', 'Set-AzureADGroupLicense', 'Get-AzureADUserLicenseAssignmentStates','Get-AzureADServicePrincipalByFilter', 'Get-AzureADUserByFilter'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -112,7 +112,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v0.9 - add functions / cmdlets related to group and licensing stuff: cmdlet to get all Azure AD User with licensing error members of a particular group; cmdlet to get licensing info of a particular group; cmdlet to add or remove a license on an Azure AD Group; cmdlet to get licensing assignment type (group or user) of a particular user'
+        ReleaseNotes = 'v1.0 - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 
