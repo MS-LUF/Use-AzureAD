@@ -13,7 +13,8 @@ Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Bet
 ## SYNTAX
 
 ```
-Get-AzureADTenantInfo [-adminUPN] <MailAddress> [<CommonParameters>]
+Get-AzureADTenantInfo [[-adminUPN] <MailAddress>] [[-ServicePrincipalTenantDomain] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,24 +25,47 @@ Tenant ID automatically resolved.
 
 ### EXEMPLE 1
 ```
-Get an access token for my admin account (my-admin@mydomain.tld)
+Get tenant info from my useraccount (my-admin@mydomain.tld)
 ```
 
 C:\PS\> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
+
+### EXEMPLE 2
+```
+Get tenant info from my service principal tenant domain name (mydomain.tld)
+```
+
+C:\PS\> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 
 ## PARAMETERS
 
 ### -adminUPN
 -adminUPN System.Net.Mail.MailAddress
-UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
+   UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
 
 ```yaml
 Type: MailAddress
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServicePrincipalTenantDomain
+-ServicePrincipalTenantDomain string
+Tenant domain name of your Service Principal account
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

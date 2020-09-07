@@ -14,7 +14,8 @@ extend AzureADPreview capabilities in Azure AD Administrative Unit management
 ## SYNTAX
 
 ```
-Get-AzureADAccessToken [-adminUPN] <MailAddress> [<CommonParameters>]
+Get-AzureADAccessToken [[-adminUPN] <MailAddress>] [[-ServicePrincipalCertThumbprint] <String>]
+ [[-ServicePrincipalApplicationID] <Guid>] [[-ServicePrincipalTenantDomain] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,8 +38,53 @@ Type: MailAddress
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServicePrincipalCertThumbprint
+{{Fill ServicePrincipalCertThumbprint Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServicePrincipalApplicationID
+{{Fill ServicePrincipalApplicationID Description}}
+
+```yaml
+Type: Guid
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServicePrincipalTenantDomain
+{{Fill ServicePrincipalTenantDomain Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

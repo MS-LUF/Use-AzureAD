@@ -14,7 +14,7 @@ Add Azure AD user account into Azure AD Administrative Unit based on their on pr
 
 ```
 Sync-ADUsertoAzureADAdministrativeUnitMember [-CloudUPNAttribute] <String> [-AllRootOU]
- [[-RootOUFilterName] <String>] [[-OUsDN] <String[]>] [<CommonParameters>]
+ [[-RootOUFilterName] <String>] [[-OUsDN] <String[]>] [[-ADUserFilter] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -97,6 +97,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ADUserFilter
+{{Fill ADUserFilter Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
