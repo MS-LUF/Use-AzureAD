@@ -15,7 +15,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Clear-AzureADAccessToken</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
             <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
@@ -27,10 +27,22 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ServicePrincipalTenantDomain</maml:name>
+          <maml:Description>
+            <maml:para>-ServicePrincipalTenantDomain string domain name / tenant name</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
           <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
@@ -38,6 +50,18 @@
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
           <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ServicePrincipalTenantDomain</maml:name>
+        <maml:Description>
+          <maml:para>-ServicePrincipalTenantDomain string domain name / tenant name</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
