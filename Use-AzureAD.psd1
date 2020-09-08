@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '1.0'
+ModuleVersion = '1.1'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -112,7 +112,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.0 - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance'
+        ReleaseNotes = 'v1.1 - update authority URL for Service Principal to be compliant with last version of ADAL library'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 

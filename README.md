@@ -43,8 +43,10 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - cmdlet to get licensing info of a particular group
  - cmdlet to add or remove a license on an Azure AD Group
  - cmdlet to get licensing assignment type (group or user) of a particular user
-### 1.0 - last public release - beta version
+### 1.0 - beta version
 - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
+### 1.1 - last public release - beta version
+- update authority URL for Service Principal to be compliant with last version of ADAL library
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...

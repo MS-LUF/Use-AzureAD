@@ -36,8 +36,9 @@
 # - cmdlet to get licensing info of a particular group
 # - cmdlet to add or remove a license on an Azure AD Group
 # - cmdlet to get licensing assignment type (group or user) of a particular user
+# v1.0 - beta version - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
 #
-# v1.0 - last public release - beta version - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
+# v1.1 - last public release - beta version - update authority URL for Service Principal to be compliant with last version of ADAL library
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -62,8 +63,20 @@ Function Get-AzureADAccessToken {
 	
 	.PARAMETER adminUPN
 	-adminUPN System.Net.Mail.MailAddress
-	UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
-		
+    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
+    
+    .PARAMETER ServicePrincipalCertThumbprint
+    -ServicePrincipalCertThumbprint string
+    certificate thumbprint of the certificate to load (local machine certificate only)
+    
+    .PARAMETER ServicePrincipalApplicationID
+    -ServicePrincipalApplicationID GUID
+    guid of the application using the service principal
+
+    .PARAMETER ServicePrincipalTenantDomain
+    -ServicePrincipalTenantDomain string
+    domain name / tenant name
+
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		
@@ -103,15 +116,14 @@ Function Get-AzureADAccessToken {
             $resourceURI = "https://graph.microsoft.com"
             $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
             try {
-                #$adallib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.dll"
                 $adalformslib = Join-Path $AadModule.ModuleBase "Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll"
-                #[System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
                 [System.Reflection.Assembly]::LoadFrom($adalformslib) | Out-Null
                 $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
                 $platformParameters = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.PlatformParameters" -ArgumentList "Auto"
                 $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($adminUPN.Address, "OptionalDisplayableId")
                 $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
             } catch {
+                $authResult
                 Write-Error -Message "$($_.Exception.Message)"
                 throw "Not able to log you on your Azure AD Tenant using user principal name provided - exiting"
             }
@@ -137,12 +149,13 @@ Function Get-AzureADAccessToken {
             }
             $tenantinfo = Get-AzureADTenantInfo -ServicePrincipalTenantDomain $ServicePrincipalTenantDomain
             $resourceURI = "https://graph.microsoft.com"
-            $authority = "https://login.microsoftonline.com/$($tenantinfo.TenantID)/oauth2/token"
+            $authority = "https://login.microsoftonline.com/$($tenantinfo.TenantID)"
             try {
                 $ClientCert = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate -ArgumentList ($ServicePrincipalApplicationID.guid, $Certificate)
                 $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
                 $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientCert)
             } catch {
+                $authResult
                 Write-Error -Message "$($_.Exception.Message)"
                 throw "Not able to log you on your Azure AD Tenant using Service Principal information provided - exiting"
             }
@@ -433,14 +446,30 @@ Function Clear-AzureADAccessToken {
 		
 	.EXAMPLE
 	Get an access token for my admin account (my-admin@mydomain.tld)
-	C:\PS> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+    C:\PS> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+    
+    .PARAMETER ServicePrincipalTenantDomain
+    -ServicePrincipalTenantDomain string
+    domain name / tenant name
 #>
     [cmdletbinding()]
 	Param (
-        [parameter(Mandatory=$true)]
-            [System.Net.Mail.MailAddress]$adminUPN
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [System.Net.Mail.MailAddress]$adminUPN,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$ServicePrincipalTenantDomain
     )
-    $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
+    if ($adminUPN) {
+        $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
+    }
+    if ($ServicePrincipalTenantDomain) {
+        $authority = "https://login.microsoftonline.com/$($ServicePrincipalTenantDomain)"
+    }
+    if (!($adminUPN) -and !($ServicePrincipalTenantDomain)) {
+        throw "please use ServicePrincipalTenantDomain or adminUPN parameter"
+    }
     Test-ADModule -AzureAD | Out-Null
     try {
         $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
