@@ -13,7 +13,8 @@ Clear an existing MS Graph APIs and MS Graph APIs Beta Access Token
 ## SYNTAX
 
 ```
-Clear-AzureADAccessToken [-adminUPN] <MailAddress> [<CommonParameters>]
+Clear-AzureADAccessToken [[-adminUPN] <MailAddress>] [[-ServicePrincipalTenantDomain] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,8 +41,24 @@ Type: MailAddress
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServicePrincipalTenantDomain
+-ServicePrincipalTenantDomain string
+domain name / tenant name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
