@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Test-AzureADAccesToken
+# Test-AzureADAccessTokenExpiration
 
 ## SYNOPSIS
 {{Fill in the Synopsis}}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Test-AzureADAccesToken [<CommonParameters>]
+Test-AzureADAccessTokenExpiration [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +22,7 @@ Test-AzureADAccesToken [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
@@ -37,6 +37,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## INPUTS
 
 ### Aucun(e)
+
 ## OUTPUTS
 
 ### System.Object

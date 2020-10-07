@@ -14,7 +14,7 @@ Set a web proxy to connect to Azure AD graph API
 
 ```
 Set-AzureADProxy [-DirectNoProxy] [[-Proxy] <Uri>] [[-ProxyCredential] <PSCredential>]
- [-ProxyUseDefaultCredentials] [<CommonParameters>]
+ [-ProxyUseDefaultCredentials] [-BypassProxyOnLocal] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,6 +36,13 @@ Set a local anonymous proxy 127.0.0.1:8888
 ```
 
 C:\PS\> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
+
+### EXEMPLE 3
+```
+Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy
+```
+
+C:\PS\> Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal
 
 ## PARAMETERS
 
@@ -95,6 +102,21 @@ Accept wildcard characters: False
 must be use with Proxy parameter
 Set the credential to be used with the proxy to set.
 this switch will tell the system to use the current logged in credential to be authenticated with the proxy service.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BypassProxyOnLocal
+{{Fill BypassProxyOnLocal Description}}
 
 ```yaml
 Type: SwitchParameter

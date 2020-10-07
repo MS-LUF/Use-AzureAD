@@ -13,8 +13,9 @@ Add Azure AD user account into Azure AD Administrative Unit based on their on pr
 ## SYNTAX
 
 ```
-Sync-ADUsertoAzureADAdministrativeUnitMember [-CloudUPNAttribute] <String> [-AllRootOU]
- [[-RootOUFilterName] <String>] [[-OUsDN] <String[]>] [[-ADUserFilter] <String>] [<CommonParameters>]
+Sync-ADUsertoAzureADAdministrativeUnitMember [-CloudUPNAttribute] <String> [-AllOUs]
+ [[-OUsFilterName] <String>] [[-SearchBase] <String>] [[-OUsDN] <String[]>] [[-ADUserFilter] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,11 +25,11 @@ Add Azure AD user account into Azure AD Administrative Unit based on their on pr
 
 ### EXEMPLE 1
 ```
-Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name starting with "TP-"
+Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"
 ```
 
 The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit)
-C:\PS\> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllRootOU -RootOUFilterName "TP-*" -Verbose
+C:\PS\> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^(\[a-zA-Z\]{2})(-)(\[a-zA-Z\]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
 
 ## PARAMETERS
 
@@ -49,8 +50,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AllRootOU
--AllRootOU Switch
+### -AllOUs
+-AllOUs Switch
    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)
 
 ```yaml
@@ -65,11 +66,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RootOUFilterName
--RootOUFilterName string
-   must be used with AllRootOU parameter
-   Set a "like" filter to synchronize only OU based on a specific pattern.
-For instance "TP-*" to synchronize only OU with a name starting with TP-
+### -OUsFilterName
+-OUsFilterName string
+   must be used with AllOUs parameter
+   Set a regex filter to synchronize only OU based on a specific pattern.
 
 ```yaml
 Type: String
@@ -83,9 +83,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SearchBase
+-SearchBase string
+must be used with AllOUs parameter
+set the default search base for OU (DN format)
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -OUsDN
 -OUsDN string / array of string
-   must not be used with AllRootOU parameter.
+   must not be used with AllOUs parameter.
 you must choose between these 2 parameters.
    string must be a LDAP Distinguished Name.
 For instance : "OU=TP-VB,DC=domain,DC=xyz"
@@ -96,7 +113,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,7 +128,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -5,46 +5,44 @@ online version:
 schema: 2.0.0
 ---
 
-# Clear-AzureADAccessToken
+# Get-AzureADServicePrincipalCustom
 
 ## SYNOPSIS
-Clear an existing MS Graph APIs and MS Graph APIs Beta Access Token
+Get Azure AD Service Principal by property and value
 
 ## SYNTAX
 
 ```
-Clear-AzureADAccessToken [[-adminUPN] <MailAddress>] [[-ServicePrincipalTenantDomain] <String>]
- [<CommonParameters>]
+Get-AzureADServicePrincipalCustom [[-Filter] <String>] [[-ObjectId] <Guid>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Clear an existing MS Graph APIs and MS Graph APIs Beta Access Token.
-Required to be already authenticated.
+Get Azure AD Service Principal by property and value
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-clear an access token for my admin account (my-admin@mydomain.tld)
+Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+C:\PS\> Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
 
 ### EXEMPLE 2
 ```
-clear an access token for a service principal from mydomain.tld
+Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
 
-C:\PS\> Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld
+C:\PS\> Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 
 ## PARAMETERS
 
-### -adminUPN
--adminUPN System.Net.Mail.MailAddress
-   UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed
+### -Filter
+-Filter string
+   Odata Filter query
 
 ```yaml
-Type: MailAddress
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -55,12 +53,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ServicePrincipalTenantDomain
--ServicePrincipalTenantDomain string
-domain name / tenant name
+### -ObjectId
+-ObjectId guid
+   GUID of the Service Principal
 
 ```yaml
-Type: String
+Type: Guid
 Parameter Sets: (All)
 Aliases:
 
@@ -79,7 +77,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## OUTPUTS
 
-### None
+### TypeName : System.Management.Automation.PSCustomObject
 ## NOTES
 
 ## RELATED LINKS
