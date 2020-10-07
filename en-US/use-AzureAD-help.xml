@@ -2,6 +2,124 @@
 <helpItems schema="maml" xmlns="http://msh">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Add-AzureADAdministrativeUnitMemberCustom</command:name>
+      <command:verb>Add</command:verb>
+      <command:noun>AzureADAdministrativeUnitMemberCustom</command:noun>
+      <maml:description>
+        <maml:para>Get Azure AD Service Principal by property and value</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get Azure AD Service Principal by property and value</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-AzureADAdministrativeUnitMemberCustom</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>RefObjectId</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill RefObjectId Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>RefObjectType</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill RefObjectType Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>RefObjectId</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill RefObjectId Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>RefObjectType</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill RefObjectType Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Add into an Azure AD admin unit (object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a) a user (object id f8395a0b-3256-46b3-8dc8-db2e80a8ad52)</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId f8395a0b-3256-46b3-8dc8-db2e80a8ad52 -RefObjectType users</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Clear-AzureADAccessToken</command:name>
       <command:verb>Clear</command:verb>
       <command:noun>AzureADAccessToken</command:noun>
@@ -18,7 +136,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
-            <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
+            <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -45,7 +163,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
-          <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
+          <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -86,9 +204,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
-        <dev:code>Get an access token for my admin account (my-admin@mydomain.tld)</dev:code>
+        <dev:code>clear an access token for my admin account (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
           <maml:para>C:\PS&gt; Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>clear an access token for a service principal from mydomain.tld</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -190,11 +315,11 @@
       <command:verb>Get</command:verb>
       <command:noun>AzureADAccessToken</command:noun>
       <maml:description>
-        <maml:para>cmdlets to use several APIs of Microsoft Graph Beta web service (mainly users,me,AdministrativeUnit) extend AzureADPreview capabilities in Azure AD Administrative Unit management</maml:para>
+        <maml:para>Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>use-AzureAD.psm1 module provides easy to use cmdlets to manage your Azure AD tenant with a focus on Administrative Unit objects.</maml:para>
+      <maml:para>Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA. Tenant ID automatically resolved.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -202,7 +327,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
-            <maml:para>{{Fill adminUPN Description}}</maml:para>
+            <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -214,7 +339,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ServicePrincipalCertThumbprint</maml:name>
           <maml:Description>
-            <maml:para>{{Fill ServicePrincipalCertThumbprint Description}}</maml:para>
+            <maml:para>-ServicePrincipalCertThumbprint string certificate thumbprint of the certificate to load (local machine certificate only)</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -226,7 +351,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>ServicePrincipalApplicationID</maml:name>
           <maml:Description>
-            <maml:para>{{Fill ServicePrincipalApplicationID Description}}</maml:para>
+            <maml:para>-ServicePrincipalApplicationID GUID guid of the application using the service principal</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -238,7 +363,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>ServicePrincipalTenantDomain</maml:name>
           <maml:Description>
-            <maml:para>{{Fill ServicePrincipalTenantDomain Description}}</maml:para>
+            <maml:para>-ServicePrincipalTenantDomain string domain name / tenant name</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -253,7 +378,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
-          <maml:para>{{Fill adminUPN Description}}</maml:para>
+          <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -265,7 +390,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ServicePrincipalCertThumbprint</maml:name>
         <maml:Description>
-          <maml:para>{{Fill ServicePrincipalCertThumbprint Description}}</maml:para>
+          <maml:para>-ServicePrincipalCertThumbprint string certificate thumbprint of the certificate to load (local machine certificate only)</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -277,7 +402,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>ServicePrincipalApplicationID</maml:name>
         <maml:Description>
-          <maml:para>{{Fill ServicePrincipalApplicationID Description}}</maml:para>
+          <maml:para>-ServicePrincipalApplicationID GUID guid of the application using the service principal</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -289,7 +414,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>ServicePrincipalTenantDomain</maml:name>
         <maml:Description>
-          <maml:para>{{Fill ServicePrincipalTenantDomain Description}}</maml:para>
+          <maml:para>-ServicePrincipalTenantDomain string domain name / tenant name</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -300,7 +425,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Collections.Hashtable+SyncHashtable</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -309,9 +443,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
-        <dev:code>import-module use-AzureAD.psm1</dev:code>
+        <dev:code>Get an access token for my admin account (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -406,6 +547,137 @@
         <dev:code>Get all Azure AD user member of the admin unit TP-AL</dev:code>
         <dev:remarks>
           <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnit -Filter "displayname eq 'TP-AL'" | Get-AzureADAdministrativeUnitAllMembers</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureADAdministrativeUnitCustom</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADAdministrativeUnitCustom</command:noun>
+      <maml:description>
+        <maml:para>Get Azure AD Administrative Unit properties by properties value or ID</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get Azure AD Administrative Unit properties by properties value or ID</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADAdministrativeUnitCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>-Filter string    Odata Filter query</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill All Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Filter</maml:name>
+        <maml:Description>
+          <maml:para>-Filter string    Odata Filter query</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill All Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD Administrative Unit with the displayname 'myadmin'</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Get all Azure AD Administrative Units</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -All</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1274,6 +1546,107 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-AzureADServicePrincipalCustom</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADServicePrincipalCustom</command:noun>
+      <maml:description>
+        <maml:para>Get Azure AD Service Principal by property and value</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get Azure AD Service Principal by property and value</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADServicePrincipalCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>-Filter string    Odata Filter query</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Service Principal</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Filter</maml:name>
+        <maml:Description>
+          <maml:para>-Filter string    Odata Filter query</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Service Principal</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureADTenantInfo</command:name>
       <command:verb>Get</command:verb>
       <command:noun>AzureADTenantInfo</command:noun>
@@ -1569,6 +1942,178 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-AzureADUserCustom</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADUserCustom</command:noun>
+      <maml:description>
+        <maml:para>Get all info available for an existing Azure AD account</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get all info available for an existing Azure AD account (all user properties available including all the hidden one not managed by Get-AzureADUsers)</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADUserCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+          <dev:type>
+            <maml:name>User</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>userUPN</maml:name>
+          <maml:Description>
+            <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>-Filter string    Odata Filter query</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill All Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+        <dev:type>
+          <maml:name>User</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>userUPN</maml:name>
+        <maml:Description>
+          <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill All Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>Filter</maml:name>
+        <maml:Description>
+          <maml:para>-Filter string    Odata Filter query</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all users properties available for the Azure AD account my-admin@mydomain.tld</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserCustom</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get all users properties available for the Azure AD account my-admin@mydomain.tld</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADUserCustom -userUPN "my-admin@mydomain.tld"</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureADUserLicenseAssignmentStates</command:name>
       <command:verb>Get</command:verb>
       <command:noun>AzureADUserLicenseAssignmentStates</command:noun>
@@ -1852,6 +2397,130 @@
         <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
         <dev:remarks>
           <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-AzureADAdministrativeUnitCustom</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>AzureADAdministrativeUnitCustom</command:noun>
+      <maml:description>
+        <maml:para>Create a new Azure AD Administrative Unit</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Create a new Administrative Unit with hidden membership managed. if used, only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureADAdministrativeUnitCustom</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>displayName</maml:name>
+          <maml:Description>
+            <maml:para>-displayName String    display name of the new admin unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>description</maml:name>
+          <maml:Description>
+            <maml:para>-description String    description name of the new admin unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Hidden</maml:name>
+          <maml:Description>
+            <maml:para>-Hidden {switch} use the swith to set administrative unit as hidden</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>displayName</maml:name>
+        <maml:Description>
+          <maml:para>-displayName String    display name of the new admin unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>description</maml:name>
+        <maml:Description>
+          <maml:para>-description String    description name of the new admin unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Hidden</maml:name>
+        <maml:Description>
+          <maml:para>-Hidden {switch} use the swith to set administrative unit as hidden</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create a new Administrative Unit with hidden membership called testHidden</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Create a new Administrative Unit membership called test</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2912,6 +3581,17 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>BypassProxyOnLocal</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill BypassProxyOnLocal Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2963,6 +3643,18 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>BypassProxyOnLocal</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill BypassProxyOnLocal Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues>
@@ -2995,6 +3687,13 @@
           <maml:para>C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888"</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks />
   </command:command>
@@ -3014,9 +3713,9 @@
       <command:syntaxItem>
         <maml:name>Sync-ADOUtoAzureADAdministrativeUnit</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>RootOUFilterName</maml:name>
+          <maml:name>OUsFilterName</maml:name>
           <maml:Description>
-            <maml:para>-RootOUFilterName string    must be used with AllRootOU parameter    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-</maml:para>
+            <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3028,7 +3727,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>OUsDN</maml:name>
           <maml:Description>
-            <maml:para>-OUsDN string / array of string    must not be used with AllRootOU parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+            <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -3037,10 +3736,22 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>AllRootOU</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>SearchBase</maml:name>
           <maml:Description>
-            <maml:para>-AllRootOU Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+            <maml:para>-SearchBase string must be used with AllOUs parameter set the default search base for OU (DN format)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AllOUs</maml:name>
+          <maml:Description>
+            <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3052,9 +3763,9 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>AllRootOU</maml:name>
+        <maml:name>AllOUs</maml:name>
         <maml:Description>
-          <maml:para>-AllRootOU Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+          <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3064,9 +3775,9 @@
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>RootOUFilterName</maml:name>
+        <maml:name>OUsFilterName</maml:name>
         <maml:Description>
-          <maml:para>-RootOUFilterName string    must be used with AllRootOU parameter    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-</maml:para>
+          <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3078,11 +3789,23 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>OUsDN</maml:name>
         <maml:Description>
-          <maml:para>-OUsDN string / array of string    must not be used with AllRootOU parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+          <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
           <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>SearchBase</maml:name>
+        <maml:Description>
+          <maml:para>-SearchBase string must be used with AllOUs parameter set the default search base for OU (DN format)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -3092,7 +3815,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>TypeName : Microsoft.Open.AzureAD.Model.AdministrativeUnit</maml:name>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -3107,9 +3830,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
-        <dev:code>Create new cloud Azure AD administrative Unit for each on prem' OU found with a name starting with "TP-"</dev:code>
+        <dev:code>Create new cloud Azure AD administrative Unit for each on prem' OU found with a pattern like "AB-CD"</dev:code>
         <dev:remarks>
-          <maml:para>The verbose option can be used to write basic message on console (for instance when an admin unit already existing) C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllRootOU -RootOUFilterName "TP-*" -Verbose</maml:para>
+          <maml:para>The verbose option can be used to write basic message on console (for instance when an admin unit already existing) C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3143,9 +3866,9 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>RootOUFilterName</maml:name>
+          <maml:name>OUsFilterName</maml:name>
           <maml:Description>
-            <maml:para>-RootOUFilterName string    must be used with AllRootOU parameter    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-</maml:para>
+            <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3155,9 +3878,21 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>SearchBase</maml:name>
+          <maml:Description>
+            <maml:para>-SearchBase string must be used with AllOUs parameter set the default search base for OU (DN format)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>OUsDN</maml:name>
           <maml:Description>
-            <maml:para>-OUsDN string / array of string    must not be used with AllRootOU parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+            <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -3166,7 +3901,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>ADUserFilter</maml:name>
           <maml:Description>
             <maml:para>{{Fill ADUserFilter Description}}</maml:para>
@@ -3179,9 +3914,9 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>AllRootOU</maml:name>
+          <maml:name>AllOUs</maml:name>
           <maml:Description>
-            <maml:para>-AllRootOU Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+            <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3205,9 +3940,9 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>AllRootOU</maml:name>
+        <maml:name>AllOUs</maml:name>
         <maml:Description>
-          <maml:para>-AllRootOU Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+          <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3217,9 +3952,9 @@
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-        <maml:name>RootOUFilterName</maml:name>
+        <maml:name>OUsFilterName</maml:name>
         <maml:Description>
-          <maml:para>-RootOUFilterName string    must be used with AllRootOU parameter    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-</maml:para>
+          <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3229,9 +3964,21 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>SearchBase</maml:name>
+        <maml:Description>
+          <maml:para>-SearchBase string must be used with AllOUs parameter set the default search base for OU (DN format)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>OUsDN</maml:name>
         <maml:Description>
-          <maml:para>-OUsDN string / array of string    must not be used with AllRootOU parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+          <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -3240,7 +3987,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>ADUserFilter</maml:name>
         <maml:Description>
           <maml:para>{{Fill ADUserFilter Description}}</maml:para>
@@ -3272,9 +4019,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
-        <dev:code>Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name starting with "TP-"</dev:code>
+        <dev:code>Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"</dev:code>
         <dev:remarks>
-          <maml:para>The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit) C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllRootOU -RootOUFilterName "TP-*" -Verbose</maml:para>
+          <maml:para>The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit) C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3368,6 +4115,60 @@
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Aucun(e)</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Test-AzureADAccessTokenExpiration</command:name>
+      <command:verb>Test</command:verb>
+      <command:noun>AzureADAccessTokenExpiration</command:noun>
+      <maml:description>
+        <maml:para>{{Fill in the Synopsis}}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{Fill in the Description}}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Test-AzureADAccessTokenExpiration</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
     <command:inputTypes>
       <command:inputType>
         <dev:type>
@@ -3720,6 +4521,89 @@
         <dev:code>Update your Azure AD Connect Cloud Sync schema for provisionning agent of domain mydomain.tld, new schema available in $schema object</dev:code>
         <dev:remarks>
           <maml:para>C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld -inputobject $schema</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Watch-AzureADAccessToken</command:name>
+      <command:verb>Watch</command:verb>
+      <command:noun>AzureADAccessToken</command:noun>
+      <maml:description>
+        <maml:para>cmdlets to use several APIs of Microsoft Graph Beta web service (mainly users,me,AdministrativeUnit) extend AzureADPreview capabilities in Azure AD Administrative Unit management</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>use-AzureAD.psm1 module provides easy to use cmdlets to manage your Azure AD tenant with a focus on Administrative Unit objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Watch-AzureADAccessToken</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>StartAutoRenewal</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill StartAutoRenewal Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>StopAutoRenewal</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill StopAutoRenewal Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>StartAutoRenewal</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill StartAutoRenewal Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>StopAutoRenewal</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill StopAutoRenewal Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>import-module use-AzureAD.psm1</dev:code>
+        <dev:remarks>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
