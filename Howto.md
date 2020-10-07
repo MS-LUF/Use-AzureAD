@@ -14,8 +14,14 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 - add examples to deal with Azure AD Security groups with Dynamic Membership
 ### v0.9 - beta version
 - add examples to deal with license and group and licensing issues also
-### v1.0 last public release - beta version
+### v1.0
 - add service principal access
+### v1.2 - last public release - beta version
+- update proxy
+- update service principal
+- update example 9 for New-AzureADAdministrativeUnitCustom
+- update for Get-AzureADUserCustom (previously Get-AzureADUserallproperties)
+- add example 14
 
 (c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -27,6 +33,7 @@ For instance, if you have fiddler installed on your PC :
 ```
     C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
 ```
+Note : since 1.2 version you can now bypass proxy for local site using **BypassProxyOnLocal**
 ### Get an access token for MS Graph Beta API
 #### access with a user account
 First thing to do is to request your Access Token, so the other cmdlet will be able to built the bearer token header to deal with MS API authorization :
@@ -44,6 +51,11 @@ Since version 1.0 it's now possible to request also a token for a service princi
 ```
     C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f  -ServicePrincipalTenantDomain mydomain.tld
 ```
+Since 1.2 version you can now put a token watcher to renew automatically your access token before expiration. It can be usefull in script when execution time is longer than one hour.
+```
+    C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f  -ServicePrincipalTenantDomain mydomain.tld
+    C:\PS> Watch-AzureADAccessToken -StartAutoRenewal
+```
 ### Use your access token to get an access for classic MS Graph API used by Azure AD MS modules
 When you will have your Access Token, we can use it to request another access to MS Graph API v1.0 (graph.windows.net) used by AzureAD and AzureADPreview modules
 ```
@@ -60,15 +72,15 @@ When I am dealing directly with APIs you will find PSCustomObject, when I am wra
 
 ## Input of Use-AzureAD functions / cmdlets
 You can pipe object to several functions :-)
-For instance Get-AzureADUserAllInfo function will accept an object from get-azureaduser
+For instance Get-AzureADUserCustom function will accept an object from get-azureaduser
 ```
-    C:\PS> C:\PS> get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserAllInfo
+    C:\PS> C:\PS> get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserCustom
 ```
 
 ## Help on cmdlets / functions
-Get-help is available on all functions, for instance, if you want to consult the help section of Get-AzureADUserAllInfo (input, output, description and examples are available)
+Get-help is available on all functions, for instance, if you want to consult the help section of Get-AzureADUserCustom (input, output, description and examples are available)
 ```
-    C:\PS>Get-Help Get-AzureADUserAllInfo -full
+    C:\PS>Get-Help Get-AzureADUserCustom -full
 ```
 ## Practice example
 Hereunder find a couple of "real" use case playing with the functions provided in my module.
@@ -77,11 +89,11 @@ I have set a couple of user tag in my on premise AD using ExtensionAttribute1 to
 My account is user1
 Well, quite simple :)
 ```
-    C:\PS> get-azureaduser -ObjectId "user1@mydomain.tld" | Get-AzureADUserAllInfo
+    C:\PS> get-azureaduser -ObjectId "user1@mydomain.tld" | Get-AzureADUserCustom
 ```
 or 
 ```
-    C:\PS> Get-AzureADUserAllInfo -userUPN "user1@mydomain.tld"
+    C:\PS> Get-AzureADUserCustom -userUPN "user1@mydomain.tld"
 ```
 ### Example 2
 In my on prem' AD I have organized my object in root Organizational Unit and I want to create one Azure AD Administrative Unit for each of them.
@@ -296,7 +308,7 @@ The answer is yes ! you can use a "hidden" property (indeed, hidden if you use M
 Warning : **this property can be set only during a new creation and cannot be removed after** So if you want to move from public membership to hidden membership or vice-versa, you need to create a new admin unit and remove the previous one... It's a current limitation... Hope it will evolve...
 So back to business, How can I create an admin unit with hidden membership ? For our use case, here is the answer :
 ```
-    C:\PS> New-AzureADAdministrativeUnitHidden -displayName "TopVIP" -description "Top Vip Admin Unit"
+    C:\PS> New-AzureADAdministrativeUnitCustom -displayName "TopVIP" -description "Top Vip Admin Unit" -Hidden
 ```
 Easy ! You just have to add your users accounts in the admin ou and the membership will be hidden by default.
 ### Example 10
@@ -423,3 +435,14 @@ Keep cool, the answer is coming :) Now, we just need to show the licensing info 
     error           : CountViolation
 ```
 You see, you have got your answer ! you need to purchase more licenses to cover your people :)
+### Example 14
+#### application, service principal, API delegations
+I have tried to play with application/service principal and API delegation in an Admin Unit context. The idea was to automate through a service principal/application access the provisionning of new Admin Unit and Admin Unit membership (not managed currently by M$ through, for instance, Azure AD Connect).
+Issue encountered : AzureADPreview cannot use MS Graph API Beta so I was not able to delegate access through API delegation and I was limited to Azure AD Role delegations...
+To fix it and be able to use API delegation (= fine grained delegation compared to Azure AD Role = better in a security point of view), I have added a couple of new functions to do so :
+ - Get-AzureADServicePrincipalCustom
+ - Get-AzureADAdministrativeUnitCustom
+ - Add-AzureADAdministrativeUnitMemberCustom
+ - New-AzureADAdministrativeUnitCustom
+Using those new functions you can use full MS Graph API in beta to manage all Admin Unit operations, meaning you can delegate right using API delegation in a service principal / application context :)
+Last issue encoutered, Access Token expiration during huge Admin Unit membership job (like 100 000 users to map in a multi proxies infra with high latency)... To fix it, I have added a simple token watcher function using multi threaded capacility and hash table sharing between thread ==> you can now have a dedicated thread to renew your Access Token and share it automatically to the main thread running your actions ;-)

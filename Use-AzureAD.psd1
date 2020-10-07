@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '1.1'
+ModuleVersion = '1.2'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -69,12 +69,7 @@ PowerShellVersion = '5.1'
 # NestedModules = @()
 
 # Fonctions a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas leentree. Utilisez un tableau vide si vous neavez aucune fonction a exporter.
-FunctionsToExport = 'Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADMyInfo','Get-AzureADTenantInfo','Get-AzureADUserAllInfo',
-                    'Invoke-APIMSGraphBeta','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember',
-                    'Test-ADModule','Test-AzureADAccesToken','Connect-MSOnlineFromAccessToken', 'Get-AzureADConnectCloudProvisionningServiceSyncSchema', 'Update-AzureADConnectCloudProvisionningServiceSyncSchema',
-                    'Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema', 'New-AzureADAdministrativeUnitHidden', 'Get-AzureADAdministrativeUnitHidden','New-AzureADObjectDeltaView', 'Get-AzureADObjectDeltaView',
-                    'Get-AzureADDynamicGroup', 'New-AzureADDynamicGroup', 'Remove-AzureADDynamicGroup', 'Set-AzureADDynamicGroup', 'Test-AzureADUserForGroupDynamicMembership',
-                    'Get-AzureADGroupMembersWithLicenseErrors', 'Get-AzureADGroupLicenseDetail', 'Set-AzureADGroupLicense', 'Get-AzureADUserLicenseAssignmentStates','Get-AzureADServicePrincipalByFilter', 'Get-AzureADUserByFilter'
+FunctionsToExport = 'Add-AzureADAdministrativeUnitMemberCustom','Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Connect-MSOnlineFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADAdministrativeUnitCustom','Get-AzureADAdministrativeUnitHidden','Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema','Get-AzureADConnectCloudProvisionningServiceSyncSchema','Get-AzureADDynamicGroup','Get-AzureADGroupLicenseDetail','Get-AzureADGroupMembersWithLicenseErrors','Get-AzureADMyInfo','Get-AzureADObjectDeltaView','Get-AzureADServicePrincipalCustom','Get-AzureADTenantInfo','Get-AzureADUserCustom','Get-AzureADUserLicenseAssignmentStates','Invoke-APIMSGraphBeta','New-AzureADAdministrativeUnitCustom','New-AzureADDynamicGroup','New-AzureADObjectDeltaView','Remove-AzureADDynamicGroup','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADDynamicGroup','Set-AzureADGroupLicense','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember','Test-ADModule','Test-AzureADAccessTokenExpiration','Test-AzureADAccesToken','Test-AzureADUserForGroupDynamicMembership','Update-AzureADConnectCloudProvisionningServiceSyncSchema', 'Watch-AzureADAccessToken'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -83,7 +78,7 @@ CmdletsToExport = @()
 # VariablesToExport = @()
 
 # Alias a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas leentree. Utilisez un tableau vide si vous n avez aucun alias a exporter.
-AliasesToExport = @()
+AliasesToExport = @('Get-AzureADUserAllInfo')
 
 # Ressources DSC a exporter depuis ce module
 # DscResourcesToExport = @()
@@ -112,7 +107,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.1 - update authority URL for Service Principal to be compliant with last version of ADAL library'
+        ReleaseNotes = 'v1.2 - add several functions to be able to manage OU to Admin unit sync in a service principal security context with delegated rights on API (must use MS Graph API only instead of mixing Azure AD Graph and MS Graph APIs)'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 

@@ -2,7 +2,7 @@
 #
 ## Created by: lucas.cueff[at]lucas-cueff.com
 #
-## released on 06/2020
+## released on 10/2020
 #
 # v0.5 : first public release - beta version - cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
 # Note : currently Powershell Core and AzureADPreview are not working well together (logon / token request issue) : https://github.com/PowerShell/PowerShell/issues/10473 ==> this module will work only with Windows Powershell 5.1
@@ -37,8 +37,18 @@
 # - cmdlet to add or remove a license on an Azure AD Group
 # - cmdlet to get licensing assignment type (group or user) of a particular user
 # v1.0 - beta version - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
-#
 # v1.1 - last public release - beta version - update authority URL for Service Principal to be compliant with last version of ADAL library
+#
+# v1.2 - last public release - beta version - add several functions to be able to manage OU to Admin unit sync in a service principal security context with delegated rights on API (must use MS Graph API only instead of mixing Azure AD Graph and MS Graph APIs) :
+# - update Sync-ADOUtoAzureADAdministrativeUnit
+# - update cmdlet Sync-ADUsertoAzureADAdministrativeUnitMember
+# - update cmdlet Get-AzureADUserCustom (Get-AzureADUserallproperties)
+# - add cmdlet Get-AzureADServicePrincipalCustom
+# - add cmdlet Get-AzureADAdministrativeUnitCustom
+# - add cmdlet Add-AzureADAdministrativeUnitMemberCustom
+# - add cmdlet New-AzureADAdministrativeUnitCustom (New-AzureADAdministrativeUnitHidden)
+# - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
+# - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
 #
 #'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -53,6 +63,104 @@
 	.EXAMPLE
 	C:\PS> import-module use-AzureAD.psm1
 #>
+Function Watch-AzureADAccessToken {
+<#
+	.SYNOPSIS 
+	Follow an Azure Access Token requested for a service principal and auto renew it before expiration
+
+	.DESCRIPTION
+	Follow an Azure Access Token requested for a service principal and auto renew it before expiration
+	
+	.PARAMETER StartAutoRenewal
+	-StartAutoRenewal switch
+    Start autorenewal for an existing Azure AD Access Token (must be requested first with Get-AzureADAccessToken)
+    limited use with service principal only for security purpose
+    
+    .PARAMETER StopAutoRenewal
+    -StopAutoRenewal switch
+    stop autorenewal for an existing Azure AD Access Token
+    
+	.OUTPUTS
+   	none
+		
+	.EXAMPLE
+    Start to watch Azure AD Access Token requested for Service Principal 38846352-a67c-4a9a-a94c-c115be1fc52f and auto renew it before expiration
+    C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld
+    C:\PS> Watch-AzureADAccessToken -StartAutoRenewal
+    
+    .EXAMPLE
+	Stop autorenewal of Azure AD Access Token for Service Principal 38846352-a67c-4a9a-a94c-c115be1fc52f
+	C:\PS> Watch-AzureADAccessToken -StopAutoRenewal
+#>
+    [cmdletbinding()]
+	Param (
+        [parameter(Mandatory=$false)]
+            [switch]$StartAutoRenewal,
+        [parameter(Mandatory=$false)]
+            [switch]$StopAutoRenewal
+    )
+    process {
+        if ($StartAutoRenewal.IsPresent) {
+            Test-AzureADAccessTokenExpiration | out-null
+            if (!($global:AADConnectInfo.ServicePrincipalName)) {
+                throw "please request an Access token with a Service Principal to use this function - exit"
+            }
+            if (!($global:AADConnectInfo.TokenWatch)) {
+                $global:AADRunSpaceTool = [hashtable]::Synchronized(@{})
+                $global:AADRunSpaceTool.add('Host',$Host)
+                if ($VerbosePreference) {
+                    $global:AADRunSpaceTool.add('Verbose',$true)
+                }
+                $global:AADConnectInfo.add('TokenWatch',$true)
+                $global:AADRunspace = [runspacefactory]::CreateRunspace()
+                $global:AADRunspace.Open()
+                $global:AADRunspace.SessionStateProxy.SetVariable('AADConnectInfo',$AADConnectInfo)
+                $global:AADRunspace.SessionStateProxy.SetVariable('AADRunSpaceTool',$AADRunSpaceTool)
+                $global:AADPwsh = [powershell]::Create()
+                $global:AADPwsh.Runspace = $global:AADRunspace
+                $scriptblock = {
+                    import-module Use-AzureAD -force
+                    while ($AADConnectInfo.TokenWatch) {
+                        if (Test-AzureADAccessTokenExpiration) {
+                            if ($AADRunSpaceTool.verbose) {
+                                $AADRunSpaceTool.host.ui.WriteVerboseLine("expired token found")
+                            }
+                            if ($AADConnectInfo.ServicePrincipalName) {
+                                Clear-AzureADAccessToken -ServicePrincipalTenantDomain $AADConnectInfo.TenantName
+                                Get-AzureADAccessToken -ServicePrincipalCertThumbprint $AADConnectInfo.ServicePrincipalCertificate -ServicePrincipalApplicationID $AADConnectInfo.ServicePrincipalName -ServicePrincipalTenantDomain $AADConnectInfo.TenantName
+                                if ($AADRunSpaceTool.verbose) {
+                                    $AADRunSpaceTool.host.ui.WriteVerboseLine($AADConnectInfo.AccessToken)
+                                }
+                            }
+                        }
+                        start-sleep -Seconds 300
+                        if ($AADRunSpaceTool.verbose) {
+                            $AADRunSpaceTool.host.ui.WriteVerboseLine("token not expired")
+                        }
+                    } 
+                }
+                $global:AADPwsh.AddScript($scriptblock) | Out-Null
+                $global:AADTokenWatch = $global:AADPwsh.BeginInvoke()
+            } else {
+                write-warning -Message "Azure AD Access token already monitored"
+            }
+        }
+        if ($StopAutoRenewal.IsPresent) {
+            if ($global:AADTokenWatch -and $global:AADConnectInfo.TokenWatch) {
+                $global:AADConnectInfo.TokenWatch = $false
+                $global:AADPwsh.EndInvoke($global:AADTokenWatch)
+                $global:AADRunspace.close()
+                $global:AADPwsh.Dispose()
+                $global:AADConnectInfo.remove('TokenWatch')
+                $global:AADConnectInfo.remove('host')
+                Remove-Variable -Name AADTokenWatch -Force -Scope Global
+                Remove-Variable -Name AADPwsh -Force -Scope Global
+                Remove-Variable -Name AADRunspace -Force -Scope Global
+                Remove-Variable -Name AADRunSpaceTool -Force -Scope Global
+            }
+        }
+    }
+}
 Function Get-AzureADAccessToken {
 <#
 	.SYNOPSIS 
@@ -78,11 +186,15 @@ Function Get-AzureADAccessToken {
     domain name / tenant name
 
 	.OUTPUTS
-   	TypeName : System.Management.Automation.PSCustomObject
+   	TypeName : System.Collections.Hashtable+SyncHashtable
 		
 	.EXAMPLE
 	Get an access token for my admin account (my-admin@mydomain.tld)
-	C:\PS> Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+    C:\PS> Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+    
+    .EXAMPLE
+	Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2
+	C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld
 #>
     [cmdletbinding()]
 	Param (
@@ -111,7 +223,6 @@ Function Get-AzureADAccessToken {
         [System.Reflection.Assembly]::LoadFrom($adallib) | Out-Null
         if ($adminUPN) {
             $clientId = "1b730954-1685-4b74-9bfd-dac224a7b894"
-            #$clientId = "1950a258-227b-4e31-a9cf-717495945fc2"
             $redirectUri = "urn:ietf:wg:oauth:2.0:oob"
             $resourceURI = "https://graph.microsoft.com"
             $authority = "https://login.microsoftonline.com/$($adminUPN.Host)"
@@ -123,20 +234,34 @@ Function Get-AzureADAccessToken {
                 $userId = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.UserIdentifier" -ArgumentList ($adminUPN.Address, "OptionalDisplayableId")
                 $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientId, $redirectUri, $platformParameters, $userId)
             } catch {
-                $authResult
                 Write-Error -Message "$($_.Exception.Message)"
                 throw "Not able to log you on your Azure AD Tenant using user principal name provided - exiting"
             }
             if ($authResult.result) {
-                $tmpobj = [PSCustomObject]@{
-                    UserName = $adminUPN
-                    AccessToken = $authResult.result.AccessToken
-                    TokenExpiresOn = $authResult.result.ExpiresOn
+                if (!($global:AADConnectInfo)) {
+                    $global:AADConnectInfo = [hashtable]::Synchronized(@{})
+                    $global:AADConnectInfo.add('UserName',$adminUPN)
+                    $global:AADConnectInfo.add('AccessToken',$authResult.result.AccessToken)
+                    $global:AADConnectInfo.add('TokenExpiresOn',$authResult.result.ExpiresOn)
+                    $global:AADConnectInfo.add('ObjectID',(Get-AzureADMyInfo).id)
+                    $global:AADConnectInfo.add('TenantID',(Get-AzureADTenantInfo -adminUPN $adminUPN).TenantID)
+                    $global:AADConnectInfo.add('TenantName',$adminUPN.Host)
+                } else {
+                    $global:AADConnectInfo.UserName = $adminUPN
+                    $global:AADConnectInfo.AccessToken = $authResult.result.AccessToken
+                    $global:AADConnectInfo.TokenExpiresOn = $authResult.result.ExpiresOn
+                    $global:AADConnectInfo.ObjectID = (Get-AzureADMyInfo).id
+                    $global:AADConnectInfo.TenantID = (Get-AzureADTenantInfo -adminUPN $adminUPN).TenantID
+                    $global:AADConnectInfo.TenantName = $adminUPN.Host
+                    if ($global:AADConnectInfo.ServicePrincipalCertificate) {
+                        $global:AADConnectInfo.remove('ServicePrincipalCertificate')
+                    }
+                    if ($global:AADConnectInfo.ServicePrincipalName) {
+                        $global:AADConnectInfo.remove('ServicePrincipalName')
+                    }
                 }
-                $global:AADConnectInfo = $tmpobj.psobject.Copy()
-                $tmpobj | add-member -MemberType NoteProperty -Name 'ObjectID' -Value (Get-AzureADMyInfo).id
-                $tmpobj | add-member -MemberType NoteProperty -Name 'TenantID' -Value (Get-AzureADTenantInfo -adminUPN $adminUPN).TenantID
             } else {
+                $authResult
                 throw "Authorization Access Token is null, please re-run authentication - exiting"
             }
         }
@@ -151,29 +276,40 @@ Function Get-AzureADAccessToken {
             $resourceURI = "https://graph.microsoft.com"
             $authority = "https://login.microsoftonline.com/$($tenantinfo.TenantID)"
             try {
-                $ClientCert = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate -ArgumentList ($ServicePrincipalApplicationID.guid, $Certificate)
+                $ClientCert = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate" -ArgumentList ($ServicePrincipalApplicationID.guid, $Certificate)
                 $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
                 $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientCert)
             } catch {
-                $authResult
                 Write-Error -Message "$($_.Exception.Message)"
                 throw "Not able to log you on your Azure AD Tenant using Service Principal information provided - exiting"
             }
             if ($authResult.result) {
-                $tmpobj = [PSCustomObject]@{
-                    ServicePrincipalName = $ServicePrincipalApplicationID
-                    ServicePrincipalCertificate = $ServicePrincipalCertThumbprint
-                    AccessToken = $authResult.result.AccessToken
-                    TokenExpiresOn = $authResult.result.ExpiresOn
+                if (!($global:AADConnectInfo)) {
+                    $global:AADConnectInfo = [hashtable]::Synchronized(@{})
+                    $global:AADConnectInfo.add('ServicePrincipalName',$ServicePrincipalApplicationID)
+                    $global:AADConnectInfo.add('ServicePrincipalCertificate',$ServicePrincipalCertThumbprint)
+                    $global:AADConnectInfo.add('AccessToken',$authResult.result.AccessToken)
+                    $global:AADConnectInfo.add('TokenExpiresOn',$authResult.result.ExpiresOn)
+                    $global:AADConnectInfo.add('ObjectID',(Get-AzureADServicePrincipalCustom -Filter "appid eq '$($ServicePrincipalApplicationID)'").id)
+                    $global:AADConnectInfo.add('TenantID',$tenantinfo.TenantID)
+                    $global:AADConnectInfo.add('TenantName',$ServicePrincipalTenantDomain)
+                } else {
+                    $global:AADConnectInfo.ServicePrincipalName = $ServicePrincipalApplicationID
+                    $global:AADConnectInfo.ServicePrincipalCertificate = $ServicePrincipalCertThumbprint
+                    $global:AADConnectInfo.AccessToken = $authResult.result.AccessToken
+                    $global:AADConnectInfo.TokenExpiresOn = $authResult.result.ExpiresOn
+                    $global:AADConnectInfo.ObjectID = (Get-AzureADServicePrincipalCustom -Filter "appid eq '$($ServicePrincipalApplicationID)'").id
+                    $global:AADConnectInfo.TenantID = $tenantinfo.TenantID
+                    $global:AADConnectInfo.TenantName = $ServicePrincipalTenantDomain
+                    if ($global:AADConnectInfo.UserName) {
+                        $global:AADConnectInfo.remove('UserName')
+                    }
                 }
-                $global:AADConnectInfo = $tmpobj.psobject.Copy()
-                $tmpobj | add-member -MemberType NoteProperty -Name 'ObjectID' -Value (Get-AzureADServicePrincipalByFilter -Filter "appid eq '$($ServicePrincipalApplicationID)'").id
-                $tmpobj | add-member -MemberType NoteProperty -Name 'TenantID' -Value $tenantinfo.TenantID
             } else {
+                $authResult
                 throw "Authorization Access Token is null, please re-run authentication - exiting"
             }
         }
-        $global:AADConnectInfo = $tmpobj.psobject.Copy()
         $global:AADConnectInfo
     }
 }
@@ -195,7 +331,7 @@ Function Get-AzureADMyInfo {
     [cmdletbinding()]
 	Param ()
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         Invoke-APIMSGraphBeta -API "me" -Method "GET"
     }
 }
@@ -272,7 +408,7 @@ Function Connect-AzureADFromAccessToken {
 #>
     [cmdletbinding()]
     Param ()
-    Test-AzureADAccesToken
+    Test-AzureADAccessTokenExpiration | out-null
     $AadModule = Test-ADModule -AzureAD
     if ($global:AADConnectInfo.AccessToken) {
         if ($global:AADConnectInfo.UserName) {
@@ -300,17 +436,7 @@ Function Connect-AzureADFromAccessToken {
             $CertStorePath = Join-Path $CertStore $global:AADConnectInfo.ServicePrincipalCertificate
             $Certificate = Get-Item $CertStorePath
             if (!$Certificate) {
-            throw "not able to get certificate with $ServicePrincipalCertThumbprint thumbprint in local machine cert store - exiting"
-            }
-            $resourceURI = "https://graph.microsoft.net"
-            $authority = "https://login.microsoftonline.com/$($global:AADConnectInfo.TenantID)/oauth2/token"
-            try {
-                $ClientCert = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate -ArgumentList ($global:AADConnectInfo.ServicePrincipalName, $Certificate)
-                $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-                $authResult = $authContext.AcquireTokenAsync($resourceURI, $ClientCert)
-            } catch {
-                Write-Error -Message "$($_.Exception.Message)"
-                throw "Not able to log you on your Azure AD Tenant using Service Principal information provided - exiting"
+                throw "not able to get certificate with $ServicePrincipalCertThumbprint thumbprint in local machine cert store - exiting"
             }
             connect-azuread -tenantid $global:AADConnectInfo.TenantID -ApplicationId $global:AADConnectInfo.ServicePrincipalName -CertificateThumbprint $global:AADConnectInfo.ServicePrincipalCertificate
         }
@@ -335,7 +461,7 @@ Function Connect-MSOnlineFromAccessToken {
     #>
         [cmdletbinding()]
         Param ()
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         Test-ADModule -MSOnline | out-null
         $AadModule = Test-ADModule -AzureAD
         if ($global:AADConnectInfo.AccessToken) {
@@ -401,7 +527,11 @@ Function Set-AzureADProxy {
     
     .EXAMPLE
 	Set a local anonymous proxy 127.0.0.1:8888
-	C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
+    C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
+    
+    .EXAMPLE
+	Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy
+	C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal
 #>
     [cmdletbinding()]
 	Param (
@@ -412,7 +542,9 @@ Function Set-AzureADProxy {
 	  [Parameter(Mandatory=$false)]
 	    [Management.Automation.PSCredential]$ProxyCredential,
 	  [Parameter(Mandatory=$false)]
-	    [Switch]$ProxyUseDefaultCredentials
+        [Switch]$ProxyUseDefaultCredentials,
+      [Parameter(Mandatory=$false)]
+        [switch]$BypassProxyOnLocal
     )
     process {
         if ($DirectNoProxy.IsPresent){
@@ -423,7 +555,10 @@ Function Set-AzureADProxy {
                 $proxyobj.Credentials = $ProxyCredential
             } Elseif ($ProxyUseDefaultCredentials.IsPresent){
                 $proxyobj.UseDefaultCredentials = $true
-            } 
+            }
+            if ($BypassProxyOnLocal.IsPresent) {
+                $proxyobj.BypassProxyOnLocal = $true
+            }
             [System.Net.WebRequest]::DefaultWebProxy = $proxyobj
             $proxyobj
         }
@@ -439,18 +574,22 @@ Function Clear-AzureADAccessToken {
 	
 	.PARAMETER adminUPN
 	-adminUPN System.Net.Mail.MailAddress
-	UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed
+    UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed
+    
+    .PARAMETER ServicePrincipalTenantDomain
+    -ServicePrincipalTenantDomain string
+    domain name / tenant name
 		
 	.OUTPUTS
     None
 		
 	.EXAMPLE
-	Get an access token for my admin account (my-admin@mydomain.tld)
+	clear an access token for my admin account (my-admin@mydomain.tld)
     C:\PS> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
-    
-    .PARAMETER ServicePrincipalTenantDomain
-    -ServicePrincipalTenantDomain string
-    domain name / tenant name
+
+    .EXAMPLE
+	clear an access token for a service principal from mydomain.tld
+    C:\PS> Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld
 #>
     [cmdletbinding()]
 	Param (
@@ -486,78 +625,90 @@ Function Sync-ADOUtoAzureADAdministrativeUnit {
 	.DESCRIPTION
 	Create new Azure AD Administrative Unit based on on premise AD Organizational Unit. Can be used to synchronize all existing on prem AD root OU with new cloud Admin unit.
 	
-	.PARAMETER AllRootOU
-	-AllRootOU Switch
+	.PARAMETER AllOUs
+	-AllOUs Switch
     Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)
     
-    .PARAMETER RootOUFilterName
-	-RootOUFilterName string
-    must be used with AllRootOU parameter
-    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-
+    .PARAMETER OUsFilterName
+	-OUsFilterName string
+    must be used with AllOUs parameter
+    Set a regex filter to synchronize only OU based on a specific pattern.
+
+    .PARAMETER SearchBase
+    -SearchBase string
+    must be used with AllOUs parameter
+    set the default search base for OU (DN format)
 
     .PARAMETER OUsDN
 	-OUsDN string / array of string
-    must not be used with AllRootOU parameter. you must choose between these 2 parameters.
+    must not be used with AllOUs parameter. you must choose between these 2 parameters.
     string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"
 		
 	.OUTPUTS
-   	TypeName : Microsoft.Open.AzureAD.Model.AdministrativeUnit
+   	TypeName : System.Management.Automation.PSCustomObject
 		
 	.EXAMPLE
-    Create new cloud Azure AD administrative Unit for each on prem' OU found with a name starting with "TP-"
+    Create new cloud Azure AD administrative Unit for each on prem' OU found with a pattern like "AB-CD"
     The verbose option can be used to write basic message on console (for instance when an admin unit already existing)
-	C:\PS> Sync-ADOUtoAzureADAdministrativeUnit -AllRootOU -RootOUFilterName "TP-*" -Verbose
+	C:\PS> Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
 #>
-    [cmdletbinding()]
-    Param (
-        [parameter(Mandatory=$false)]
-            [switch]$AllRootOU,
-        [parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-            [string]$RootOUFilterName,
-        [parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-            [string[]]$OUsDN
-    )
-    process {
-        if (!($AllRootOU.IsPresent) -and !($OUsDN)) {
-            throw "AllRootOU switch parameter or OUsDN parameter must be used - exiting"
+[cmdletbinding()]
+Param (
+    [parameter(Mandatory=$false)]
+        [switch]$AllOUs,
+    [parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+        [string]$OUsFilterName,
+    [parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+        [string[]]$OUsDN,
+    [parameter(Mandatory=$false)]
+        [string]$SearchBase
+)
+process {
+    if (!($AllOUs.IsPresent) -and !($OUsDN)) {
+        throw "AllOUs switch parameter or OUsDN parameter must be used - exiting"
+    }
+    if ($AllOUs.IsPresent -and !($SearchBase)) {
+        throw "SearchBase parameter must be used with AllOUs switch - exiting"
+    }
+    Test-ADModule -AD | Out-Null
+    Test-AzureADAccessTokenExpiration | out-null
+    If ($AllOUs.IsPresent) {
+        if ($OUsFilterName) {
+            $OUs = Get-ADOrganizationalUnit -Filter * -SearchBase $SearchBase
+            $OUs = $OUs | where-object {$_.Name -match $OUsFilterName}
+        } else {
+            $Ous = Get-ADOrganizationalUnit -Filter {name -ne "Domain Controllers"} -SearchBase $SearchBase
         }
-        Test-ADModule -AzureAD -AD | Out-Null
-        If ($AllRootOU.IsPresent) {
-            if ($RootOUFilterName) {
-                $OUs = Get-ADOrganizationalUnit -Filter {name -like $RootOUFilterName}
-            } else {
-                $Ous = Get-ADOrganizationalUnit -Filter {name -ne "Domain Controllers"}
-            }
-        } elseif ($OUsDN) {
-            $OUs = @()
-            foreach ($OU in $OUsDN) {
-                if ($OU -match "^(?:(?<cn>CN=(?<name>[^,]*)),)?(?:(?<path>(?:(?:CN|OU)=[^,]+,?)+),)?(?<domain>(?:DC=[^,]+,?)+)$") {
-                    try {
-                        $OU = Get-ADOrganizationalUnit -Identity $OU
-                    } Catch {
-                        write-verbose "OU $($OU) not found in directory"
-                    }
-                    if ($OU) {
-                        $OUs += $OU
-                    }
-                }
-            }
-        }
-        foreach ($OU in $OUs) {
-            If (!(Get-AzureADAdministrativeUnit -Filter "displayname eq '$($OU.name)'")) {
+    } elseif ($OUsDN) {
+        $OUs = @()
+        foreach ($OU in $OUsDN) {
+            if ($OU -match "^(?:(?<cn>CN=(?<name>[^,]*)),)?(?:(?<path>(?:(?:CN|OU)=[^,]+,?)+),)?(?<domain>(?:DC=[^,]+,?)+)$") {
                 try {
-                    New-AzureADAdministrativeUnit -Description "Windows Server AD OU $($OU.DistinguishedName)" -DisplayName $OU.name
-                } catch {
-                    Write-Error -Message "$($_.Exception.Message)"
+                    $OU = Get-ADOrganizationalUnit -Identity $OU
+                } Catch {
+                    write-verbose -message "OU $($OU) not found in directory"
                 }
-                write-verbose "$($OU.name) Azure Administrative Unit created"
-            } else {
-                write-verbose "$($OU.name) Azure Administrative Unit already exists"
+                if ($OU) {
+                    $OUs += $OU
+                }
             }
         }
-        Get-AzureADAdministrativeUnit
+    }
+    foreach ($OU in $OUs) {
+        If (!(Get-AzureADAdministrativeUnitCustom -Filter "displayname eq '$($OU.name)'").id) {
+            try {
+                New-AzureADAdministrativeUnitCustom -Description "Windows Server AD OU $($OU.DistinguishedName)" -DisplayName $OU.name
+            } catch {
+                write-error -message $_.Exception.Message
+            }
+            write-verbose -message "$($OU.name) Azure Administrative Unit created"
+        } else {
+            write-verbose -message  "$($OU.name) Azure Administrative Unit already exists"
+        }
+    }
+        Get-AzureADAdministrativeUnitCustom -All
     }
 }
 Function Sync-ADUsertoAzureADAdministrativeUnitMember {
@@ -572,119 +723,128 @@ Function Sync-ADUsertoAzureADAdministrativeUnitMember {
 	-CloudUPNAttribute string
     On premise AD user account attribute hosting the cloud Azure AD User userprincipal name. For instance, it could be also the userPrincipalName attribute or mail attribute.
     
-    .PARAMETER AllRootOU
-	-AllRootOU Switch
+    .PARAMETER AllOUs
+	-AllOUs Switch
     Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)
     
-    .PARAMETER RootOUFilterName
-	-RootOUFilterName string
-    must be used with AllRootOU parameter
-    Set a "like" filter to synchronize only OU based on a specific pattern. For instance "TP-*" to synchronize only OU with a name starting with TP-
+    .PARAMETER OUsFilterName
+	-OUsFilterName string
+    must be used with AllOUs parameter
+    Set a regex filter to synchronize only OU based on a specific pattern.
+
+    .PARAMETER SearchBase
+    -SearchBase string
+    must be used with AllOUs parameter
+    set the default search base for OU (DN format)
 
     .PARAMETER OUsDN
 	-OUsDN string / array of string
-    must not be used with AllRootOU parameter. you must choose between these 2 parameters.
+    must not be used with AllOUs parameter. you must choose between these 2 parameters.
     string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"
 		
 	.OUTPUTS
    	None. verbose can be used to display message on console.
 		
 	.EXAMPLE
-    Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name starting with "TP-"
+    Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"
     The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit)
-	C:\PS> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllRootOU -RootOUFilterName "TP-*" -Verbose
+	C:\PS> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
 #>
-    [cmdletbinding()]
-    Param (
-        [parameter(Mandatory=$true)]
-            [ValidateNotNullOrEmpty()]
-            [string]$CloudUPNAttribute,
-        [parameter(Mandatory=$false)]
-            [switch]$AllRootOU,
-        [parameter(Mandatory=$false)]
+[cmdletbinding()]
+Param (
+    [parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-            [string]$RootOUFilterName,
-        [parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-            [string[]]$OUsDN,
-        [parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-            [string]$ADUserFilter
-    )
-    process {
-        if (!($AllRootOU.IsPresent) -and !($OUsDN)) {
-            throw "AllRootOU switch parameter or OUsDN parameter must be used - exiting"
+        [string]$CloudUPNAttribute,
+    [parameter(Mandatory=$false)]
+        [switch]$AllOUs,
+    [parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+        [string]$OUsFilterName,
+    [parameter(Mandatory=$false)]
+        [string]$SearchBase,
+    [parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+        [string[]]$OUsDN,
+    [parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+        [string]$ADUserFilter
+)
+process {
+    if (!($AllOUs.IsPresent) -and !($OUsDN)) {
+        throw "AllOUs switch parameter or OUsDN parameter must be used - exiting"
+    }
+    if ($AllOUs.IsPresent -and !($SearchBase)) {
+        throw "SearchBase parameter must be used with AllOUs switch - exiting"
+    }
+    if (!($ADUserFilter)) {
+        $ADUserFilter = "*"
+    }
+    Test-ADModule -AD | Out-Null
+    Test-AzureADAccessTokenExpiration | out-null
+    If ($AllOUs.IsPresent) {
+        if ($OUsFilterName) {
+            $OUs = Get-ADOrganizationalUnit -Filter * -SearchScope OneLevel -SearchBase $SearchBase
+            $OUs = $OUs | where-object {$_.Name -match $OUsFilterName}
+        } else {
+            $Ous = Get-ADOrganizationalUnit -Filter {name -ne "Domain Controllers"} -SearchBase $SearchBase
         }
-        if (!($ADUserFilter)) {
-            $ADUserFilter = "*"
-        } 
-        Test-ADModule -AzureAD -AD | Out-Null
-        If ($AllRootOU.IsPresent) {
-            if ($RootOUFilterName) {
-                $OUs = Get-ADOrganizationalUnit -Filter {name -like $RootOUFilterName}
-            } else {
-                $Ous = Get-ADOrganizationalUnit -Filter {name -ne "Domain Controllers"}
-            }
-        } elseif ($OUsDN) {
-            $OUs = @()
-            foreach ($OU in $OUsDN) {
-                if ($OU -match "^(?:(?<cn>CN=(?<name>[^,]*)),)?(?:(?<path>(?:(?:CN|OU)=[^,]+,?)+),)?(?<domain>(?:DC=[^,]+,?)+)$") {
-                    try {
-                        $OU = Get-ADOrganizationalUnit -Identity $OU
-                    } Catch {
-                        write-verbose -message "OU $($OU) not found in directory"
-                    }
-                    if ($OU) {
-                        write-verbose -message "OU $($OU) found in directory"
-                        $OUs += $OU
-                    }
+    } elseif ($OUsDN) {
+        $OUs = @()
+        foreach ($OU in $OUsDN) {
+            if ($OU -match "^(?:(?<cn>CN=(?<name>[^,]*)),)?(?:(?<path>(?:(?:CN|OU)=[^,]+,?)+),)?(?<domain>(?:DC=[^,]+,?)+)$") {
+                try {
+                    $OU = Get-ADOrganizationalUnit -Identity $OU
+                } Catch {
+                    write-error -message "OU $($OU) not found in directory"
                 }
-            }
-        }
-        foreach ($OU in $OUs) {
-            $AZADMUnit = Get-AzureADAdministrativeUnit -Filter "displayname eq '$($OU.name)'"
-            If ($AZADMUnit) {
-                write-verbose -Message "Azure AD Administrative Unit $($OU.name) found"
-                $AZADMUnitMember = $AZADMUnit | Get-AzureADAdministrativeUnitAllMembers
-                $users = Get-ADUser -SearchBase $OU.DistinguishedName -SearchScope Subtree -Filter $ADUserFilter -Properties $CloudUPNAttribute
-                foreach ($user in $users) {
-                    try {
-                        $azureaduser = get-azureaduser -objectid $user.($CloudUPNAttribute)
-                    } catch {
-                        write-verbose -message "Azure AD User $($user.$CloudUPNAttribute) not found"
-                    }
-                    if ($user.($CloudUPNAttribute)) {
-                        write-verbose -message "Azure AD User $($user.$CloudUPNAttribute) found"
-                        if ($AZADMUnitMember) {
-                            if ($AZADMUnitMember.ID -contains $azureaduser.ObjectID) {
-                                Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) already member of $($OU.name) Azure Administrative Unit"
-                            } else {
-                                Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) not member of $($OU.name) Azure Administrative Unit"
-                                try {
-                                    Add-AzureADAdministrativeUnitMember -ObjectId $AZADMUnit.ObjectID -RefObjectId $azureaduser.ObjectID
-                                } catch {
-                                    Write-Error -Message "$($_.Exception.Message)"
-                                    Write-Error -Message "not able to add $($user.($CloudUPNAttribute)) Azure AD User in $($OU.name) Azure Administrative Unit"
-                                }
-                                Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) added in $($OU.name) Azure Administrative Unit" 
-                            }
-                        } else {
-                            Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) not member of $($OU.name) Azure Administrative Unit"
-                            try {
-                                Add-AzureADAdministrativeUnitMember -ObjectId $AZADMUnit.ObjectID -RefObjectId $azureaduser.ObjectID
-                            } catch {
-                                Write-Error -Message "$($_.Exception.Message)"
-                                Write-Error -Message "not able to add $($user.($CloudUPNAttribute)) Azure AD User in $($OU.name) Azure Administrative Unit"
-                            }
-                            Write-Verbose -message "Azure AD User $($user.($CloudUPNAttribute)) added in $($OU.name) Azure Administrative Unit" 
-                        }
-                    }
+                if ($OU) {
+                    write-verbose -message "OU $($OU) found in directory"
+                    $OUs += $OU
                 }
-            } else {
-                write-verbose -message "Azure AD Administrative Unit $($OU.name) not exist"
             }
         }
     }
+    foreach ($OU in $OUs) {
+        $AZADMUnit = Get-AzureADAdministrativeUnitCustom -Filter "displayname eq '$($OU.name)'"
+        If ($AZADMUnit.id) {
+            $AZADMUnitMember = Get-AzureADAdministrativeUnitAllMembers -objectid $AZADMUnit.ID
+            $users = Get-ADUser -SearchBase $OU.DistinguishedName -SearchScope Subtree -Filter $ADUserFilter -Properties $CloudUPNAttribute
+            foreach ($user in $users) {
+                $azureaduser = Get-AzureADUserCustom -userUPN $user.$CloudUPNAttribute
+                if ($azureaduser.error) {
+                    write-verbose -message"Azure AD User $($user.$CloudUPNAttribute) not found"
+                } else {
+                    if ($user.($CloudUPNAttribute)) {
+                        write-verbose -message "Azure AD User $($user.$CloudUPNAttribute) found"
+                        if ($AZADMUnitMember) {
+                            if ($AZADMUnitMember.ID -contains $azureaduser.ID) {
+                                write-verbose -message "Azure AD User $($user.($CloudUPNAttribute)) already member of $($OU.name) Azure Administrative Unit"
+                            } else {
+                                write-verbose -message "Azure AD User $($user.($CloudUPNAttribute)) not member of $($OU.name) Azure Administrative Unit"
+                                try {
+                                    Add-AzureADAdministrativeUnitMemberCustom -ObjectId $AZADMUnit.ID -RefObjectId $azureaduser.ID -RefObjectType users
+                                } catch {
+                                    write-error -message $_.Exception.Message
+                                    write-error -message "not able to add $($user.($CloudUPNAttribute)) Azure AD User in $($OU.name) Azure Administrative Unit"
+                                }
+                                write-verbose -message "Azure AD User $($user.($CloudUPNAttribute)) added in $($OU.name) Azure Administrative Unit"
+                            }
+                        } else {
+                            write-verbose -message "Azure AD User $($user.($CloudUPNAttribute)) not member of $($OU.name) Azure Administrative Unit"
+                            try {
+                                Add-AzureADAdministrativeUnitMemberCustom -ObjectId $AZADMUnit.ID -RefObjectId $azureaduser.ID -RefObjectType users
+                            } catch {
+                                write-error -message $_.Exception.Message
+                                write-error -message "not able to add $($user.($CloudUPNAttribute)) Azure AD User in $($OU.name) Azure Administrative Unit"
+                            }
+                            write-verbose -message "Azure AD User $($user.($CloudUPNAttribute)) added in $($OU.name) Azure Administrative Unit"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 }
 Function Set-AzureADAdministrativeUnitAdminRole {
 <#
@@ -764,6 +924,7 @@ Function Set-AzureADAdministrativeUnitAdminRole {
        $AdminUnit = $PsBoundParameters[$ParameterNameAdmUnit]
        $AdminRole = $PsBoundParameters[$ParameterNameAdmRole]
        Test-ADModule -AzureAD | out-null
+       Test-AzureADAccessTokenExpiration | out-null
        try {
            $UserObj = Get-AzureADUser -ObjectId $userUPN.Address
        } catch {
@@ -814,7 +975,7 @@ Function Set-AzureADAdministrativeUnitAdminRole {
         Get-AzureADScopedRoleMembership -ObjectId $AdminUnitObj.ObjectID
    }
 }
-Function Get-AzureADUserAllInfo {
+Function Get-AzureADUserCustom {
 <#
 	.SYNOPSIS 
 	Get all info available for an existing Azure AD account
@@ -829,31 +990,46 @@ Function Get-AzureADUserAllInfo {
     .PARAMETER inputobject
     -inputobject Microsoft.Open.AzureAD.Model.User
      Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)
+
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the Azure AD user object
+
+    .PARAMETER Filter
+	-Filter string
+    Odata Filter query
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		
 	.EXAMPLE
 	Get all users properties available for the Azure AD account my-admin@mydomain.tld
-    C:\PS> get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserAllInfo
+    C:\PS> get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserCustom
 
     .EXAMPLE
 	Get all users properties available for the Azure AD account my-admin@mydomain.tld
-    C:\PS> Get-AzureADUserAllInfo -userUPN "my-admin@mydomain.tld"
+    C:\PS> Get-AzureADUserCustom -userUPN "my-admin@mydomain.tld"
 #>
     [cmdletbinding()]
     Param (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
             [Microsoft.Open.AzureAD.Model.User]$inputobject,
         [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
             [System.Net.Mail.MailAddress]$userUPN,
         [parameter(Mandatory=$false)]
-            [switch]$All
+            [switch]$All,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$Filter,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$ObjectId
     )
     process {
-        Test-AzureADAccesToken
-        if (!($userUPN) -and !($inputobject) -and !($all.IsPresent)) {
-            throw "Please use userUPN or inputobject parameter or All switch - exiting"
+        Test-AzureADAccessTokenExpiration | out-null
+        if (!($userUPN) -and !($inputobject) -and !($all.IsPresent) -and !($ObjectId) -and ($Filter)) {
+            throw "Please use userUPN or inputobject or Filter or ObjectID Parameter or All switch - exiting"
         }
         $params = @{
             API = "users"
@@ -863,6 +1039,10 @@ Function Get-AzureADUserAllInfo {
             $params.add('APIParameter',$inputobject.ObjectId)
         } elseif ($userUPN.Address) {
             $params.add('APIParameter',$userUPN.Address)
+        } elseif ($ObjectId) {
+            $params.add('APIParameter',$ObjectId.Guid)
+        } elseif ($Filter) {
+            $params.add('APIParameter',"?`$filter=$($Filter)")
         }
         Invoke-APIMSGraphBeta @params
     }
@@ -898,7 +1078,7 @@ Function Get-AzureADAdministrativeUnitAllMembers {
             [guid]$ObjectId
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectId) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject parameter - exiting"
         }
@@ -915,13 +1095,13 @@ Function Get-AzureADAdministrativeUnitAllMembers {
         Invoke-APIMSGraphBeta @params
     }
 }
-Function New-AzureADAdministrativeUnitHidden {
+Function New-AzureADAdministrativeUnitCustom {
 <#
 	.SYNOPSIS 
-	Create a new Administrative Unit with hidden membership
+	Create a new Azure AD Administrative Unit
 
 	.DESCRIPTION
-	Create a new Administrative Unit with hidden membership. Only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
+	Create a new Administrative Unit with hidden membership managed. if used, only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
 	
 	.PARAMETER displayName
 	-displayName String
@@ -929,14 +1109,22 @@ Function New-AzureADAdministrativeUnitHidden {
     
     .PARAMETER description
 	-description String
-	description name of the new admin unit
+    description name of the new admin unit
+    
+    .PARAMETER Hidden
+    -Hidden {switch}
+    use the swith to set administrative unit as hidden
 		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		
 	.EXAMPLE
 	Create a new Administrative Unit with hidden membership called testHidden
-	C:\PS> New-AzureADAdministrativeUnitHidden -displayName "testHidden" -description "Hidden Test Admin unit"
+    C:\PS> New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden
+    
+    .EXAMPLE
+	Create a new Administrative Unit membership called test
+	C:\PS> New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"
 #>
     [cmdletbinding()]
 	Param (
@@ -945,14 +1133,18 @@ Function New-AzureADAdministrativeUnitHidden {
             [String]$displayName,
         [parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-            [String]$description
+            [String]$description,
+        [parameter(Mandatory=$false)]
+            [switch]$Hidden
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         $body = [PSCustomObject]@{
             displayName = $displayName
             description = $description
-            visibility = "HiddenMembership"
+        }
+        if ($Hidden.IsPresent) {
+            $body | add-member -NotePropertyName visibility -NotePropertyValue "HiddenMembership"
         }
         $params = @{
             API = "administrativeUnits"
@@ -999,7 +1191,7 @@ Function Get-AzureADAdministrativeUnitHidden {
             [bool]$public
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         $params = @{
             API = "administrativeUnits"
             Method = "GET"
@@ -1050,6 +1242,7 @@ Function Get-AzureADConnectCloudProvisionningServiceSyncSchema {
             [GUID]$ObjectID
     )
     process {
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($OnPremADFQDN) -and !($ObjectID)) {
             throw "Use OnPremADFQDN or ObjectID parameter - exiting"
         }
@@ -1107,6 +1300,7 @@ Function Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema {
                 [GUID]$ObjectID
         )
         process {
+            Test-AzureADAccessTokenExpiration | out-null
             if (!($OnPremADFQDN) -and !($ObjectID)) {
                 throw "Use OnPremADFQDN or ObjectID parameter - exiting"
             }
@@ -1163,6 +1357,7 @@ Function Update-AzureADConnectCloudProvisionningServiceSyncSchema {
             [pscustomobject]$inputobject
     )
     process {
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($OnPremADFQDN) -and !($ObjectID)) {
             throw "Use OnPremADFQDN or ObjectID parameter - exiting"
         }
@@ -1237,7 +1432,7 @@ Function New-AzureADObjectDeltaView {
             [string[]]$FilterIDs
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         $params = @{
             API = $ObjectType
             Method = "GET"
@@ -1305,7 +1500,7 @@ Function Get-AzureADObjectDeltaView {
             $inputobject
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($inputobject[-1].deltaLink)) {
             throw "Not able to find deltalink property of the object - please use New-AzureADObjectDeltaView cmdlet to generate a view first - exiting"
         } else {
@@ -1366,7 +1561,7 @@ Function Get-AzureADDynamicGroup {
             [switch]$All
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject) -and !($all.IsPresent) -and !($DisplayName)) {
             throw "Please use ObjectID or inputobject or DisplayName parameter or All switch - exiting"
         }
@@ -1427,7 +1622,7 @@ Function New-AzureADDynamicGroup {
             [string]$MemberShipRule
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         $ExistingGroup = Get-AzureADDynamicGroup -DisplayName $DisplayName
         If ($ExistingGroup.id) {
             throw "$($DisplayName) group is already existing with ID $($ExistingGroup.id)"
@@ -1483,7 +1678,7 @@ Function Remove-AzureADDynamicGroup {
             [guid]$ObjectID
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject - exiting"
         }
@@ -1572,7 +1767,7 @@ Function Set-AzureADDynamicGroup {
             [switch]$EnableRuleProcessingState
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject - exiting"
         }
@@ -1666,7 +1861,7 @@ Function Test-AzureADUserForGroupDynamicMembership {
             [string]$MemberShipRule
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject - exiting"
         }
@@ -1749,7 +1944,7 @@ Function Get-AzureADGroupMembersWithLicenseErrors {
             [switch]$All
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject) -and !($all)) {
             throw "Please use ObjectID or inputobject parameters or All switch - exiting"
         }
@@ -1812,7 +2007,7 @@ Function Get-AzureADGroupLicenseDetail {
             [guid]$ObjectID
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject parameters - exiting"
         }
@@ -1901,7 +2096,7 @@ Function Set-AzureADGroupLicense {
             [guid]$SkuID
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject parameters - exiting"
         }
@@ -1990,7 +2185,7 @@ Function Get-AzureADUserLicenseAssignmentStates {
             [guid]$ObjectID
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
         if (!($ObjectID) -and !($inputobject)) {
             throw "Please use ObjectID or inputobject parameter - exiting"
         }
@@ -2006,7 +2201,7 @@ Function Get-AzureADUserLicenseAssignmentStates {
         Invoke-APIMSGraphBeta @params
     }
 }
-Function Get-AzureADServicePrincipalByFilter {
+Function Get-AzureADServicePrincipalCustom {
 <#
 	.SYNOPSIS 
     Get Azure AD Service Principal by property and value
@@ -2017,64 +2212,159 @@ Function Get-AzureADServicePrincipalByFilter {
 	.PARAMETER Filter
 	-Filter string
     Odata Filter query
+
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the Service Principal
     		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		    
     .EXAMPLE
-	Get Azure AD service principals with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-    C:\PS> Get-AzureADServicePrincipalByFilter -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
+	Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
+
+    .EXAMPLE
+	Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 
 #>
     [cmdletbinding()]
     Param (
-        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+        [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
-            [string]$Filter
+            [string]$Filter,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$ObjectId
     )
     process {
-        Test-AzureADAccesToken
+        Test-AzureADAccessTokenExpiration | out-null
+        if (!($Filter) -and !($ObjectId)) {
+            throw "Please use Filter or ObjectId parameter - exiting"
+        }
         $params = @{
             API = "serviceprincipals"
             Method = "GET"
-            APIParameter = "?`$filter=$($Filter)"
+        }
+        if ($ObjectId) {
+        $params.add('APIParameter',$ObjectId.Guid)
+        }
+        if ($Filter) {
+        $params.add('APIParameter',"?`$filter=$($Filter)")
         }
         Invoke-APIMSGraphBeta @params
     }
 }
-Function Get-AzureADUserByFilter {
+Function Get-AzureADAdministrativeUnitCustom {
 <#
 	.SYNOPSIS 
-    Get Azure AD user by property and value
+    Get Azure AD Administrative Unit properties by properties value or ID
 
 	.DESCRIPTION
-    Get Azure AD user by property and value
+    Get Azure AD Administrative Unit properties by properties value or ID
 	
 	.PARAMETER Filter
 	-Filter string
     Odata Filter query
+
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the Administrative Unit
     		
 	.OUTPUTS
    	TypeName : System.Management.Automation.PSCustomObject
 		    
     .EXAMPLE
-	Get Azure AD user with the immutableid test
-    C:\PS> Get-AzureADUserByFilter -Filter "immutableid eq 'test'"
+	Get Azure AD Administrative Unit with the displayname 'myadmin'
+    C:\PS> Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"
+
+    .EXAMPLE
+	Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	Get all Azure AD Administrative Units 
+    C:\PS> Get-AzureADAdministrativeUnitCustom -All
+
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$Filter,
+        [parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$ObjectId,
+        [parameter(Mandatory=$false)]
+            [switch]$All
+    )
+    process {
+        Test-AzureADAccessTokenExpiration | out-null
+        if (!($Filter) -and !($ObjectId) -and !($All)) {
+            throw "Please use Filter or ObjectId parameter or All switch - exiting"
+        }
+        $params = @{
+            API = "administrativeUnits"
+            Method = "GET"
+        }
+        if ($ObjectId) {
+            $params.add('APIParameter',$ObjectId.Guid)
+        }
+        if ($Filter) {
+            $params.add('APIParameter',"?`$filter=$($Filter)")
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Add-AzureADAdministrativeUnitMemberCustom {
+<#
+	.SYNOPSIS 
+    Get Azure AD Service Principal by property and value
+
+	.DESCRIPTION
+    Get Azure AD Service Principal by property and value
+	
+	.PARAMETER Filter
+	-Filter string
+    Odata Filter query
+
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the Administrative Unit
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Add into an Azure AD admin unit (object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a) a user (object id f8395a0b-3256-46b3-8dc8-db2e80a8ad52)
+    C:\PS> Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId f8395a0b-3256-46b3-8dc8-db2e80a8ad52 -RefObjectType users
 
 #>
     [cmdletbinding()]
     Param (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
         [ValidateNotNullOrEmpty()]
-            [string]$Filter
+            [Guid]$ObjectId,
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+            [guid]$RefObjectId,
+        [parameter(Mandatory=$true)]
+        [validateSet("users","groups")]
+            [string]$RefObjectType
     )
     process {
-        Test-AzureADAccesToken
-        $params = @{
-            API = "users"
-            Method = "GET"
-            APIParameter = "?`$filter=$($Filter)"
+        Test-AzureADAccessTokenExpiration | out-null
+        $body = [PSCustomObject]@{
+            "@odata.id" = "https://graph.microsoft.com/beta/$($RefObjectType)/$($RefObjectId.Guid)"
         }
+        $params = @{
+            API = "administrativeUnits"
+            Method = "POST"
+            APIBody = (ConvertTo-Json -InputObject $body -Depth 100)
+            APIParameter = "$($ObjectId.Guid)/members/`$ref"
+        }
+        write-verbose -Message "JSON Body : $(ConvertTo-Json -InputObject $body -Depth 100)"
         Invoke-APIMSGraphBeta @params
     }
 }
@@ -2133,7 +2423,8 @@ Function Invoke-APIMSGraphBeta {
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
             write-verbose -message "Response content:`n$responseBody"
-            throw "Request to $Uri failed with HTTP Status $($ex.Response.StatusCode) $($ex.Response.StatusDescription) - exiting"
+            $responseerror = ConvertFrom-Json $responseBody
+            write-error -message "Request to $Uri failed with HTTP Status $($ex.Response.StatusCode) $($ex.Response.StatusDescription)"
         }
         if ($response.Content) {
             $result = ConvertFrom-Json $response.Content
@@ -2152,6 +2443,8 @@ Function Invoke-APIMSGraphBeta {
                     deltaLink = $result.'@odata.deltaLink'
                 }
             }
+        } elseif ($responseerror ) {
+            $responseerror
         } else {
             Write-Warning "response is null - exiting"
         }
@@ -2207,19 +2500,39 @@ Function Test-ADModule {
     }
 }
 Function Test-AzureADAccesToken {
+    [cmdletbinding()]
+    Param ()
     Process {
         if(!($global:AADConnectInfo.AccessToken)) {
             throw "Not able to find a valid Azure AD Access Token in cache, please use Get-AzureADAccessToken first - exiting"
         }
     }
 }
+Function Test-AzureADAccessTokenExpiration {
+    [cmdletbinding()]
+    Param ()
+    process {
+        Test-AzureADAccesToken
+        if ((get-date).ToUniversalTime() -gt $AADConnectInfo.TokenExpiresOn.DateTime.AddMinutes(-15)) {
+            $remainingtime = $AADConnectInfo.TokenExpiresOn.DateTime.AddMinutes(-15) - (get-date).ToUniversalTime()
+            write-warning -Message "your token is about to expire in $($remainingtime.Minutes.tostring()) minutes."
+            return $true
+        } else {
+            return $false
+        }
+    }
+}
+
+New-Alias -Name Get-AzureADUserAllInfo -Value Get-AzureADUserCustom
 
 Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-AzureADAccessToken, Connect-AzureADFromAccessToken, Clear-AzureADAccessToken, 
-                                Set-AzureADProxy, Test-ADModule, Sync-ADOUtoAzureADAdministrativeUnit, Invoke-APIMSGraphBeta, Get-AzureADUserAllInfo, Test-AzureADAccesToken,
+                                Set-AzureADProxy, Test-ADModule, Sync-ADOUtoAzureADAdministrativeUnit, Invoke-APIMSGraphBeta, Get-AzureADUserCustom, Test-AzureADAccesToken,
                                 Sync-ADUsertoAzureADAdministrativeUnitMember,Set-AzureADAdministrativeUnitAdminRole, Get-AzureADAdministrativeUnitAllMembers, Connect-MSOnlineFromAccessToken,
                                 Get-AzureADConnectCloudProvisionningServiceSyncSchema, Update-AzureADConnectCloudProvisionningServiceSyncSchema,
-                                Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitHidden, Get-AzureADAdministrativeUnitHidden,
+                                Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema, New-AzureADAdministrativeUnitCustom, Get-AzureADAdministrativeUnitHidden,
                                 New-AzureADObjectDeltaView, Get-AzureADObjectDeltaView, 
                                 Get-AzureADGroupMembersWithLicenseErrors, Get-AzureADGroupLicenseDetail, Set-AzureADGroupLicense, Get-AzureADUserLicenseAssignmentStates, 
                                 Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership,
-                                Get-AzureADServicePrincipalByFilter, Get-AzureADUserByFilter
+                                Get-AzureADServicePrincipalCustom, Get-AzureADAdministrativeUnitCustom, Add-AzureADAdministrativeUnitMemberCustom, Test-AzureADAccessTokenExpiration,
+                                Watch-AzureADAccessToken
+Export-ModuleMember -Alias Get-AzureADUserAllInfo

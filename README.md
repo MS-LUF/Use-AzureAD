@@ -45,8 +45,18 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - cmdlet to get licensing assignment type (group or user) of a particular user
 ### 1.0 - beta version
 - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
-### 1.1 - last public release - beta version
+### 1.1 - beta version
 - update authority URL for Service Principal to be compliant with last version of ADAL library
+### 1.2 - last public release - beta version
+ - update Sync-ADOUtoAzureADAdministrativeUnit (update OU filter name to use regex instead)
+ - update cmdlet Sync-ADUsertoAzureADAdministrativeUnitMember (update OU filter name to use regex instead)
+ - update cmdlet Get-AzureADUserCustom (Get-AzureADUserallproperties)
+ - add cmdlet Get-AzureADServicePrincipalCustom
+ - add cmdlet Get-AzureADAdministrativeUnitCustom
+ - add cmdlet Add-AzureADAdministrativeUnitMemberCustom
+ - add cmdlet New-AzureADAdministrativeUnitCustom (New-AzureADAdministrativeUnitHidden)
+ - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
+ - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -105,34 +115,38 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
 ### function
  - Clear-AzureADAccessToken
  - Connect-AzureADFromAccessToken
+ - Connect-MSOnlineFromAccessToken
  - Get-AzureADAccessToken
  - Get-AzureADAdministrativeUnitAllMembers
+ - Get-AzureADAdministrativeUnitCustom
+ - Get-AzureADAdministrativeUnitHidden
+ - Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema
+ - Get-AzureADConnectCloudProvisionningServiceSyncSchema
+ - Get-AzureADDynamicGroup
+ - Get-AzureADGroupLicenseDetail
+ - Get-AzureADGroupMembersWithLicenseErrors
  - Get-AzureADMyInfo
+ - Get-AzureADObjectDeltaView
+ - Get-AzureADServicePrincipalCustom
  - Get-AzureADTenantInfo
- - Get-AzureADUserAllInfo
+ - Get-AzureADUserCustom
+ - Get-AzureADUserLicenseAssignmentStates
  - Invoke-APIMSGraphBeta
+ - New-AzureADAdministrativeUnitCustom
+ - New-AzureADDynamicGroup
+ - New-AzureADObjectDeltaView
+ - Remove-AzureADDynamicGroup
  - Set-AzureADAdministrativeUnitAdminRole
+ - Set-AzureADDynamicGroup
+ - Set-AzureADGroupLicense
  - Set-AzureADProxy
  - Sync-ADOUtoAzureADAdministrativeUnit
  - Sync-ADUsertoAzureADAdministrativeUnitMember
  - Test-ADModule
+ - Test-AzureADAccessTokenExpiration
  - Test-AzureADAccesToken
- - Connect-MSOnlineFromAccessToken
- - Get-AzureADConnectCloudProvisionningServiceSyncSchema
- - Update-AzureADConnectCloudProvisionningServiceSyncSchema
- - Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema
- - New-AzureADObjectDeltaView
- - Get-AzureADObjectDeltaView
- - New-AzureADAdministrativeUnitHidden
- - Get-AzureADAdministrativeUnitHidden
- - Get-AzureADDynamicGroup
- - New-AzureADDynamicGroup
- - Remove-AzureADDynamicGroup
- - Set-AzureADDynamicGroup
  - Test-AzureADUserForGroupDynamicMembership
- - Get-AzureADGroupMembersWithLicenseErrors
- - Get-AzureADGroupLicenseDetail
- - Set-AzureADGroupLicense
- - Get-AzureADUserLicenseAssignmentStates
- - Get-AzureADServicePrincipalByFilter
- - Get-AzureADUserByFilter
+ - Update-AzureADConnectCloudProvisionningServiceSyncSchema
+ - Watch-AzureADAccessToken
+### alias
+- Get-AzureADUserAllInfo
