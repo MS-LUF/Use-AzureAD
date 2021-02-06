@@ -24,19 +24,17 @@ Azure AD user account with advanced roles (Global reader, global administrator..
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
 Create a new Administrative Unit with hidden membership called testHidden
+   C:\PS> New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden
 ```
 
-C:\PS\> New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden
-
-### EXEMPLE 2
+### EXAMPLE 2
 ```
 Create a new Administrative Unit membership called test
+C:\PS> New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"
 ```
-
-C:\PS\> New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"
 
 ## PARAMETERS
 
@@ -89,8 +87,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

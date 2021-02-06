@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-AzureADDynamicGroup
+# Remove-AzureADAdministrativeUnitMemberCustom
 
 ## SYNOPSIS
 Create a new delta view for an Azure AD object

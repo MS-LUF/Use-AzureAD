@@ -5,34 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzureADAdministrativeUnitHidden
+# Get-AzureADUserAdministrativeUnitMemberOfCustom
 
 ## SYNOPSIS
-Get Azure AD Administrative Unit properties by properties value or ID
+Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta
 
 ## SYNTAX
 
 ## DESCRIPTION
-Get Azure AD Administrative Unit properties by properties value or ID
+Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA.
+Tenant ID automatically resolved.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get Azure AD Administrative Unit with the displayname 'myadmin'
-   C:\PS> Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"
+Get tenant info from my useraccount (my-admin@mydomain.tld)
+   C:\PS> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
 ```
 
 ### EXAMPLE 2
 ```
-Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS> Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-```
-
-### EXAMPLE 3
-```
-Get all Azure AD Administrative Units 
-   C:\PS> Get-AzureADAdministrativeUnitCustom -All
+Get tenant info from my service principal tenant domain name (mydomain.tld)
+C:\PS> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 ```
 
 ## PARAMETERS

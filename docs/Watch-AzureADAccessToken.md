@@ -22,7 +22,7 @@ use-AzureAD.psm1 module provides easy to use cmdlets to manage your Azure AD ten
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
 import-module use-AzureAD.psm1
 ```
@@ -30,7 +30,7 @@ import-module use-AzureAD.psm1
 ## PARAMETERS
 
 ### -StartAutoRenewal
-{{Fill StartAutoRenewal Description}}
+{{ Fill StartAutoRenewal Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -45,7 +45,7 @@ Accept wildcard characters: False
 ```
 
 ### -StopAutoRenewal
-{{Fill StopAutoRenewal Description}}
+{{ Fill StopAutoRenewal Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -60,8 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

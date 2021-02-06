@@ -8,70 +8,38 @@ schema: 2.0.0
 # Get-AzureADAdministrativeUnitAllMembers
 
 ## SYNOPSIS
-Get all Azure AD account member of an Azure AD Administrative Unit
+Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta
 
 ## SYNTAX
 
-```
-Get-AzureADAdministrativeUnitAllMembers [[-inputobject] <AdministrativeUnit>] [[-ObjectId] <Guid>]
- [<CommonParameters>]
-```
-
 ## DESCRIPTION
-Get all Azure AD account member of an Azure AD Administrative Unit
+Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA.
+Tenant ID automatically resolved.
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
-Get all Azure AD user member of the admin unit TP-AL
+Get an access token for my admin account (my-admin@mydomain.tld)
+   C:\PS> Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld
 ```
 
-C:\PS\> Get-AzureADAdministrativeUnit -Filter "displayname eq 'TP-AL'" | Get-AzureADAdministrativeUnitAllMembers
+### EXAMPLE 2
+```
+Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2
+C:\PS> Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld
+```
 
 ## PARAMETERS
 
-### -inputobject
--inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit
-Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)
-
-```yaml
-Type: AdministrativeUnit
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -ObjectId
--ObjectId guid
-   GUID of the Administrative Unit
-
-```yaml
-Type: Guid
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ## OUTPUTS
 
-### TypeName : System.Management.Automation.PSCustomObject
+### TypeName : System.Collections.Hashtable+SyncHashtable
 ## NOTES
 
 ## RELATED LINKS

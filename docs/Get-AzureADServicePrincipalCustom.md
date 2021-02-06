@@ -21,19 +21,17 @@ Get Azure AD Service Principal by property and value
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
 Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+   C:\PS> Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
 ```
 
-C:\PS\> Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"
-
-### EXEMPLE 2
+### EXAMPLE 2
 ```
 Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+   C:\PS> Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 ```
-
-C:\PS\> Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
 
 ## PARAMETERS
 
@@ -70,8 +68,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

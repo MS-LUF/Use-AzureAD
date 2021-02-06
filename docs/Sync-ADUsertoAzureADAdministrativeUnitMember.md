@@ -23,13 +23,12 @@ Add Azure AD user account into Azure AD Administrative Unit based on their on pr
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
 Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"
-```
-
 The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit)
-C:\PS\> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^(\[a-zA-Z\]{2})(-)(\[a-zA-Z\]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
+C:\PS> Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
+```
 
 ## PARAMETERS
 
@@ -120,7 +119,7 @@ Accept wildcard characters: False
 ```
 
 ### -ADUserFilter
-{{Fill ADUserFilter Description}}
+{{ Fill ADUserFilter Description }}
 
 ```yaml
 Type: String
@@ -135,8 +134,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

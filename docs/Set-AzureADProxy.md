@@ -23,26 +23,23 @@ Can handle anonymous proxy or authenticating proxy.
 
 ## EXAMPLES
 
-### EXEMPLE 1
+### EXAMPLE 1
 ```
 Remove Proxy
+   C:\PS> Set-AzureADProxy -DirectNoProxy
 ```
 
-C:\PS\> Set-AzureADProxy -DirectNoProxy
-
-### EXEMPLE 2
+### EXAMPLE 2
 ```
 Set a local anonymous proxy 127.0.0.1:8888
+   C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
 ```
 
-C:\PS\> Set-AzureADProxy -Proxy "http://127.0.0.1:8888"
-
-### EXEMPLE 3
+### EXAMPLE 3
 ```
 Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy
+C:\PS> Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal
 ```
-
-C:\PS\> Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal
 
 ## PARAMETERS
 
@@ -116,7 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -BypassProxyOnLocal
-{{Fill BypassProxyOnLocal Description}}
+{{ Fill BypassProxyOnLocal Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -131,8 +128,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
