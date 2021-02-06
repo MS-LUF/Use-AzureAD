@@ -2,9 +2,9 @@
 #
 ## Created by: lucas.cueff[at]lucas-cueff.com
 #
-## released on 10/2020
+## released on 02/2021
 #
-# v0.5 : first public release - beta version - cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
+# v0.5 - first public release - beta version - cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
 # Note : currently Powershell Core and AzureADPreview are not working well together (logon / token request issue) : https://github.com/PowerShell/PowerShell/issues/10473 ==> this module will work only with Windows Powershell 5.1
 # - cmdlet to get a valid access token (MFA supported) for Microsoft Graph Beta APIs
 # - cmdlet to get a valid token for Microsoft Graph API standard / cloud endpoint (ressource graph.windows.net) and be able to use AzureADPreview cmdlets without reauthenticating
@@ -15,31 +15,30 @@
 # - cmdlet to add / synchronize your on premise Active Directory users DN with Azure AD Administrative Unit membership (not managed currently through Azure AD Connect or other Microsoft cmdlets / modules)
 # - cmdlet to add / remove Azure AD user account in Administrative Unit Role (everything managed in an easy and smooth way including, enabling the AAD role if missing and so on)
 # - cmdlet to list all members of an Azure AD Administrative Unit (limited @ first 100 objets with default MS cmdlet... #WTF)
-# v0.6 : beta version - focus on Azure AD Connect Cloud Provisionning Tools
+# v0.6 - beta version - focus on Azure AD Connect Cloud Provisionning Tools
 # - cmdlet to get your current schema for a specific provisionning agent / service principal
 # - cmdlet to update your current schema for a specific provisionning agent / service principal
 # - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
 # - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
-# v0.7 : beta version - update Administrative Unit features (missing features from Microsoft Cmdlets and new API features)
+# v0.7 - beta version - update Administrative Unit features (missing features from Microsoft Cmdlets and new API features)
 # - cmdlet to create an Administrative Unit with hidden members
 # - cmdlet to get Administrative Units with hidden members
 # - cmdlet to create delta view for users, groups, admin units objects
 # - cmdlet to get all updates from a delta view for users, groups, admin units objects
-# v0.8 : beta version - fix azuread proxy bug when using SSO, add cmdlets to manage Azure AD Dynamic Security Groups
+# v0.8 - beta version - fix azuread proxy bug when using SSO, add cmdlets to manage Azure AD Dynamic Security Groups
 # - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
 # - new cmdlets to add, get, update Azure AD Dynamic Membership security groups
 # - cmdlet to test Dynamic membership for users
 # Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
 # System.NullReferenceException,Microsoft.Open.MSGraphBeta.PowerShell.NewMSGroup
-# v0.9 : beta version - add functions / cmdlets related to group and licensing stuff
+# v0.9 - beta version - add functions / cmdlets related to group and licensing stuff
 # - cmdlet to get all Azure AD User with licensing error members of a particular group
 # - cmdlet to get licensing info of a particular group
 # - cmdlet to add or remove a license on an Azure AD Group
 # - cmdlet to get licensing assignment type (group or user) of a particular user
 # v1.0 - beta version - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
-# v1.1 - last public release - beta version - update authority URL for Service Principal to be compliant with last version of ADAL library
-#
-# v1.2 - last public release - beta version - add several functions to be able to manage OU to Admin unit sync in a service principal security context with delegated rights on API (must use MS Graph API only instead of mixing Azure AD Graph and MS Graph APIs) :
+# v1.1 - beta version - update authority URL for Service Principal to be compliant with last version of ADAL library
+# v1.2 - beta version - add several functions to be able to manage OU to Admin unit sync in a service principal security context with delegated rights on API (must use MS Graph API only instead of mixing Azure AD Graph and MS Graph APIs) :
 # - update Sync-ADOUtoAzureADAdministrativeUnit
 # - update cmdlet Sync-ADUsertoAzureADAdministrativeUnitMember
 # - update cmdlet Get-AzureADUserCustom (Get-AzureADUserallproperties)
@@ -50,7 +49,11 @@
 # - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
 # - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
 #
-#'(c) 2020 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
+# v1.3 - last public release - beta version - add function to get administrative units of a user account and remove a user account from an administrative unit
+# - Get-AzureADUserAdministrativeUnitMemberOfCustom
+# - Remove-AzureADAdministrativeUnitMemberCustom
+#
+#'(c) 2021 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
 <#
 	.SYNOPSIS 
@@ -2339,7 +2342,6 @@ Function Add-AzureADAdministrativeUnitMemberCustom {
     .EXAMPLE
 	Add into an Azure AD admin unit (object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a) a user (object id f8395a0b-3256-46b3-8dc8-db2e80a8ad52)
     C:\PS> Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId f8395a0b-3256-46b3-8dc8-db2e80a8ad52 -RefObjectType users
-
 #>
     [cmdletbinding()]
     Param (
@@ -2365,6 +2367,117 @@ Function Add-AzureADAdministrativeUnitMemberCustom {
             APIParameter = "$($ObjectId.Guid)/members/`$ref"
         }
         write-verbose -Message "JSON Body : $(ConvertTo-Json -InputObject $body -Depth 100)"
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Get-AzureADUserAdministrativeUnitMemberOfCustom {
+<#
+	.SYNOPSIS 
+    Get an Administrative Units of an Azure AD User account
+
+	.DESCRIPTION
+    Get an Administrative Units of an Azure AD User account
+	
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the user account
+
+    .PARAMETER inputobject
+    -inputobject Microsoft.Open.AzureAD.Model.User
+     Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	List Administrative Units of the Azure AD user account fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADUserAdministrativeUnitMemberOfCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+
+    .EXAMPLE
+	List Administrative Units of the Azure AD user account my-admin@mydomain.tld
+    C:\PS> get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserAdministrativeUnitMemberOfCustom
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.User]$inputobject,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [Guid]$ObjectId
+    )
+    process {
+        if (!($inputobject) -and !($ObjectId)) {
+            throw "Please inputobject or ObjectID Parameter - exiting"
+        }
+        Test-AzureADAccessTokenExpiration | out-null
+        $params = @{
+            API = "users"
+            Method = "GET"
+        }
+        if ($inputobject.ObjectId) {
+            $params.add('APIParameter',"$($inputobject.ObjectId)/memberOf/`$/Microsoft.Graph.AdministrativeUnit")
+        } elseif ($ObjectId) {
+            $params.add('APIParameter',"$($ObjectId.Guid)/memberOf/`$/Microsoft.Graph.AdministrativeUnit")
+        } 
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Remove-AzureADAdministrativeUnitMemberCustom {
+<#
+	.SYNOPSIS 
+    Remove a member of an Administrative Units
+
+	.DESCRIPTION
+    Remove a member of an Administrative Units
+	
+    .PARAMETER ObjectId
+	-ObjectId guid
+    GUID of the Administrative Unit
+
+    .PARAMETER inputobject
+    -inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit
+     Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance generated by Get-AzureADAdministrativeUnit)
+
+    .PARAMETER RefObjectId
+	-ObjectId RefObjectId
+    GUID of the Administrative Unit member
+    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	Remove Azure AD User account 50b147d8-411f-4359-a09a-e31a0d791900 from Administrative Unit fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Remove-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId 50b147d8-411f-4359-a09a-e31a0d791900
+
+    .EXAMPLE
+	Remove Azure AD User account 50b147d8-411f-4359-a09a-e31a0d791900 from Administrative Unit fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+    C:\PS> Get-AzureADAdministrativeUnit -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Remove-AzureADAdministrativeUnitMemberCustom -RefObjectId 50b147d8-411f-4359-a09a-e31a0d791900
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+            [Microsoft.Open.AzureAD.Model.AdministrativeUnit]$inputobject,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [Guid]$ObjectId,
+        [parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+            [Guid]$RefObjectId	
+    )
+    process {
+        Test-AzureADAccessTokenExpiration | out-null
+        if (!($inputobject) -and !($ObjectId)) {
+            throw "Please inputobject or ObjectID Parameter - exiting"
+        }
+        $params = @{
+            API = "administrativeUnits"
+            Method = "DELETE"
+        }
+        if ($inputobject.ObjectId) {
+            $params.add('APIParameter',"$($inputobject.ObjectId)/members/$($RefObjectId.Guid)/`$ref")
+        } elseif ($ObjectId) {
+            $params.add('APIParameter',"$($ObjectId.Guid)/members/$($RefObjectId.Guid)/`$ref")
+        } 
         Invoke-APIMSGraphBeta @params
     }
 }
@@ -2534,5 +2647,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Get-AzureADGroupMembersWithLicenseErrors, Get-AzureADGroupLicenseDetail, Set-AzureADGroupLicense, Get-AzureADUserLicenseAssignmentStates, 
                                 Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership,
                                 Get-AzureADServicePrincipalCustom, Get-AzureADAdministrativeUnitCustom, Add-AzureADAdministrativeUnitMemberCustom, Test-AzureADAccessTokenExpiration,
-                                Watch-AzureADAccessToken
+                                Watch-AzureADAccessToken, Get-AzureADUserAdministrativeUnitMemberOfCustom, Remove-AzureADAdministrativeUnitMemberCustom
 Export-ModuleMember -Alias Get-AzureADUserAllInfo

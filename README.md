@@ -3,7 +3,7 @@
 # Use-AzureAD
 Simple PowerShell module to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
 
-(c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
+(c) 2021 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
 ## Notes
 currently Powershell Core and AzureADPreview are not working well together (logon / token request issue)
@@ -11,7 +11,7 @@ The issue is opened here : https://github.com/PowerShell/PowerShell/issues/10473
 Waiting for the fix, this module will **work only with Windows Powershell 5.1**
 
 ## Notes version :
-### 0.5 first public release - beta version
+### 0.5 - first public release - beta version
  - cmdlet to get a valid access token (MFA supported) for Microsoft Graph Beta APIs
  - cmdlet to get a valid token for Microsoft Graph API standard / cloud endpoint (ressource graph.windows.net) and be able to use AzureADPreview cmdlets without reauthenticating
  - cmdlet to get all properties available (ex : extensionattribute) for an AAD user account
@@ -26,12 +26,12 @@ Waiting for the fix, this module will **work only with Windows Powershell 5.1**
  - cmdlet to update your current schema for a specific provisionning agent / service principal
  - cmdlet to get your default schema (template) for Azure AD Connect Cloud Provisionning
  - cmdlet to get a valid token (MFA supported) for Microsoft Graph API standard / cloud endpoint and MSOnline endpoint and be able to use MSOnline cmdlets without reauthenticating
-### 0.7 beta version
+### 0.7 - beta version
  - cmdlet to create an Administrative Unit with hidden members
  - cmdlet to get Administrative Units with hidden members
  - cmdlet to create delta view for users, groups, admin units objects
  - cmdlet to get all updates from a delta view for users, groups, admin units objects
-### 0.8 beta version
+### 0.8 - beta version
  - fix Set-AzureADproxy cmdlet : not able to set correctly the parameter *ProxyUseDefaultCredentials*
  - new cmdlets to add, get, update Azure AD Dynamic Membership security groupstest dynamic membership
   * Note : in current release of AzureADPreview I have found a bug regarding Dynamic group (on all *-AzureADMSGroup cmdlets). When you try to use them, you have a Null Reference Exception :  
@@ -47,7 +47,7 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
 - add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
 ### 1.1 - beta version
 - update authority URL for Service Principal to be compliant with last version of ADAL library
-### 1.2 - last public release - beta version
+### 1.2 - beta version
  - update Sync-ADOUtoAzureADAdministrativeUnit (update OU filter name to use regex instead)
  - update cmdlet Sync-ADUsertoAzureADAdministrativeUnitMember (update OU filter name to use regex instead)
  - update cmdlet Get-AzureADUserCustom (Get-AzureADUserallproperties)
@@ -57,6 +57,10 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - add cmdlet New-AzureADAdministrativeUnitCustom (New-AzureADAdministrativeUnitHidden)
  - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
  - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
+### 1.3 - last release - beta version
+- add function to get administrative units of a user account and remove a user account from an administrative unit (thanks to Achraf Amor)
+  - Get-AzureADUserAdministrativeUnitMemberOfCustom
+  - Remove-AzureADAdministrativeUnitMemberCustom
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -148,5 +152,7 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Test-AzureADUserForGroupDynamicMembership
  - Update-AzureADConnectCloudProvisionningServiceSyncSchema
  - Watch-AzureADAccessToken
+ - Get-AzureADUserAdministrativeUnitMemberOfCustom
+ - Remove-AzureADAdministrativeUnitMemberCustom
 ### alias
 - Get-AzureADUserAllInfo

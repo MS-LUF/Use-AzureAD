@@ -3,27 +3,29 @@
 # Use-AzureAD - How-To
 
 ## ChangeLog
-### v0.5 first public release - beta version
+### v0.5 - first public release - beta version
 ### v0.6 - beta version
 - add example on Cloud provisionning schema operation (get / update)
 Enjoy your AzureAD stuff with Power[Shell](Of Love)
 ### v0.7 - beta version
 - add example to deal with Administrative Unit with hidden membership
 - add example to deal with delta views
-### v0.8 beta version
+### v0.8 - beta version
 - add examples to deal with Azure AD Security groups with Dynamic Membership
 ### v0.9 - beta version
 - add examples to deal with license and group and licensing issues also
-### v1.0
+### v1.0 - beta version
 - add service principal access
-### v1.2 - last public release - beta version
+### v1.2 - beta version
 - update proxy
 - update service principal
 - update example 9 for New-AzureADAdministrativeUnitCustom
 - update for Get-AzureADUserCustom (previously Get-AzureADUserallproperties)
 - add example 14
+### v1.3 - last public release - beta version
+- add example 15
 
-(c) 2020 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
+(c) 2021 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
 ## Prerequisites
 ### Set your internet proxy if you need
@@ -446,3 +448,16 @@ To fix it and be able to use API delegation (= fine grained delegation compared 
  - New-AzureADAdministrativeUnitCustom
 Using those new functions you can use full MS Graph API in beta to manage all Admin Unit operations, meaning you can delegate right using API delegation in a service principal / application context :)
 Last issue encoutered, Access Token expiration during huge Admin Unit membership job (like 100 000 users to map in a multi proxies infra with high latency)... To fix it, I have added a simple token watcher function using multi threaded capacility and hash table sharing between thread ==> you can now have a dedicated thread to renew your Access Token and share it automatically to the main thread running your actions ;-)
+### Example 15
+#### back to administrative unit
+hereunder two new examples for the two new functions regarding administrative unit
+#### get the administrative unit membership of a user account
+everything is in the title, get the administrative unit membership of myacount@mydomain.tld
+```
+    C:\PS>  Get-AzureADUser -ObjectId myacount@mydomain.tld | Get-AzureADUserAdministrativeUnitMemberOfCustom
+```
+#### remove an administrative unit member using MS Graph API
+Remove Azure AD User account 4144fc1c-713e-4c76-9980-d1797cbf266e from Administrative Unit 74273da8-7852-483f-911c-717273e920ca
+```
+    C:\PS>  Get-AzureADAdministrativeUnit -ObjectId 74273da8-7852-483f-911c-717273e920ca | Remove-AzureADAdministrativeUnitMemberCustom -RefObjectId 4144fc1c-713e-4c76-9980-d1797cbf266e
+```
