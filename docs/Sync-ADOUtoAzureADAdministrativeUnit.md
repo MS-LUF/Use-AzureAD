@@ -23,12 +23,13 @@ Can be used to synchronize all existing on prem AD root OU with new cloud Admin 
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
 Create new cloud Azure AD administrative Unit for each on prem' OU found with a pattern like "AB-CD"
-The verbose option can be used to write basic message on console (for instance when an admin unit already existing)
-C:\PS> Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
 ```
+
+The verbose option can be used to write basic message on console (for instance when an admin unit already existing)
+C:\PS\> Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^(\[a-zA-Z\]{2})(-)(\[a-zA-Z\]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose
 
 ## PARAMETERS
 
@@ -102,7 +103,8 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

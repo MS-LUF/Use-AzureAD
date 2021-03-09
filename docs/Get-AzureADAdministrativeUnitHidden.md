@@ -8,37 +8,73 @@ schema: 2.0.0
 # Get-AzureADAdministrativeUnitHidden
 
 ## SYNOPSIS
-Get Azure AD Administrative Unit properties by properties value or ID
+Get Administrative Units with hidden membership
 
 ## SYNTAX
 
+```
+Get-AzureADAdministrativeUnitHidden [[-inputobject] <AdministrativeUnit>] [[-public] <Boolean>]
+ [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Get Azure AD Administrative Unit properties by properties value or ID
+Get Administratives Unit with hidden membership.
+Only members of the admin unit can see the Admin Unit members.
+Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
-Get Azure AD Administrative Unit with the displayname 'myadmin'
-   C:\PS> Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"
-```
-
-### EXAMPLE 2
-```
-Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS> Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a
+Get Administrative Units with hidden membership
 ```
 
-### EXAMPLE 3
+C:\PS\> Get-AzureADAdministrativeUnitHidden
+
+### EXEMPLE 2
 ```
-Get all Azure AD Administrative Units 
-   C:\PS> Get-AzureADAdministrativeUnitCustom -All
+Get Administrative Units with public membership
 ```
+
+C:\PS\> Get-AzureADAdministrativeUnitHidden -public $true
 
 ## PARAMETERS
 
+### -inputobject
+-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit
+Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)
+
+```yaml
+Type: AdministrativeUnit
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -public
+-public boolean
+   choose if you want to display Administrative Unit with hidden membership or public membership
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

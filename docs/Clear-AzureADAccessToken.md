@@ -23,17 +23,19 @@ Required to be already authenticated.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
 clear an access token for my admin account (my-admin@mydomain.tld)
-   C:\PS> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
 ```
 
-### EXAMPLE 2
+C:\PS\> Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld
+
+### EXEMPLE 2
 ```
 clear an access token for a service principal from mydomain.tld
-   C:\PS> Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld
 ```
+
+C:\PS\> Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld
 
 ## PARAMETERS
 
@@ -70,7 +72,8 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

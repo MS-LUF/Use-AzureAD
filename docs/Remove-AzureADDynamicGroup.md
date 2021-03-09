@@ -8,33 +8,63 @@ schema: 2.0.0
 # Remove-AzureADDynamicGroup
 
 ## SYNOPSIS
-Create a new delta view for an Azure AD object
+Delete an existing Azure AD security dynamic group
 
 ## SYNTAX
 
+```
+Remove-AzureADDynamicGroup [[-inputobject] <Group>] [[-ObjectID] <Guid>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Create a new delta view for an Azure AD object.
-It can be used on several objects (groups, users, administrative units...) to retrieve change information occured between two moments (properties updated/removed/added, objects updated/removed/added).
-This cmdlet create the initial view (available at server side for 30 days maximum) and the cmdlet Get-AzureADObjectDeltaView will retrieve the changes occured between the first view creation.
+Delete an existing Azure AD security dynamic group
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
-Create an initial delta view for manager and department properties of all users objects
-   C:\PS> New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")
+Remove an existing group named Dynam_test2 (displayname)
 ```
 
-### EXAMPLE 2
-```
-Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects
-C:\PS> New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose
-```
+C:\PS\> Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup
 
 ## PARAMETERS
 
+### -inputobject
+-inputobject Microsoft.Open.AzureAD.Model.Group
+   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+
+```yaml
+Type: Group
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -ObjectID
+-ObjectID Guid
+Guid of an existing Azure AD Group object
+
+```yaml
+Type: Guid
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

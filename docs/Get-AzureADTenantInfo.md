@@ -23,17 +23,19 @@ Tenant ID automatically resolved.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
 Get tenant info from my useraccount (my-admin@mydomain.tld)
-   C:\PS> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
 ```
 
-### EXAMPLE 2
+C:\PS\> Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld
+
+### EXEMPLE 2
 ```
 Get tenant info from my service principal tenant domain name (mydomain.tld)
-C:\PS> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 ```
+
+C:\PS\> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 
 ## PARAMETERS
 
@@ -70,7 +72,8 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

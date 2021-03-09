@@ -22,11 +22,12 @@ Add / remove Azure AD administrative unit role to Azure AD user
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### EXEMPLE 1
 ```
 Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld
-C:\PS> Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose
 ```
+
+C:\PS\> Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose
 
 ## PARAMETERS
 
@@ -63,7 +64,7 @@ Accept wildcard characters: False
 ```
 
 ### -AdministrativeRole
-{{ Fill AdministrativeRole Description }}
+{{Fill AdministrativeRole Description}}
 
 ```yaml
 Type: String
@@ -78,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -AdministrativeUnit
-{{ Fill AdministrativeUnit Description }}
+{{Fill AdministrativeUnit Description}}
 
 ```yaml
 Type: String
@@ -93,7 +94,8 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

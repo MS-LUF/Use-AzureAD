@@ -5,29 +5,28 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzureADMyInfo
+# Get-AzureADOrganizationCustom
 
 ## SYNOPSIS
-Get all Azure AD account properties of current logged in user
+get all properties of an Azure AD organization
 
 ## SYNTAX
 
 ```
-Get-AzureADMyInfo [<CommonParameters>]
+Get-AzureADOrganizationCustom [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get all Azure AD account properties of current logged in user.
-Note : including hidden properties like extensionattribute.
+get all properties of an Azure AD organization
 
 ## EXAMPLES
 
 ### EXEMPLE 1
 ```
-Get all user account properties of my current account (my-admin@mydomain.tld)
+get all properties of your current organization
 ```
 
-C:\PS\> Get-AzureADMyInfo
+C:\PS\> Get-AzureADOrganizationCustom
 
 ## PARAMETERS
 
