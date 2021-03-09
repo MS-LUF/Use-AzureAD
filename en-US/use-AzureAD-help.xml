@@ -30,7 +30,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>RefObjectId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RefObjectId Description }}</maml:para>
+            <maml:para>{{Fill RefObjectId Description}}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -42,7 +42,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>RefObjectType</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RefObjectType Description }}</maml:para>
+            <maml:para>{{Fill RefObjectType Description}}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -69,7 +69,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>RefObjectId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RefObjectId Description }}</maml:para>
+          <maml:para>{{Fill RefObjectId Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -81,7 +81,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>RefObjectType</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RefObjectType Description }}</maml:para>
+          <maml:para>{{Fill RefObjectType Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -109,11 +109,10 @@
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Add into an Azure AD admin unit (object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a) a user (object id f8395a0b-3256-46b3-8dc8-db2e80a8ad52)
-   C:\PS&gt; Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId f8395a0b-3256-46b3-8dc8-db2e80a8ad52 -RefObjectType users</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Add into an Azure AD admin unit (object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a) a user (object id f8395a0b-3256-46b3-8dc8-db2e80a8ad52)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId f8395a0b-3256-46b3-8dc8-db2e80a8ad52 -RefObjectType users</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -204,19 +203,17 @@
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>clear an access token for my admin account (my-admin@mydomain.tld)
-   C:\PS&gt; Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>clear an access token for my admin account (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Clear-AzureADAccessToken -adminUPN my-admin@mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>clear an access token for a service principal from mydomain.tld
-   C:\PS&gt; Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>clear an access token for a service principal from mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -258,11 +255,10 @@
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Connect to your Azure AD Tenant / classic MS Graph endpoint used by AzureADPreview module using an existing Access token requested with Get-AzureADAccessToken
-C:\PS&gt; Connect-AzureADFromAccessToken</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Connect to your Azure AD Tenant / classic MS Graph endpoint used by AzureADPreview module using an existing Access token requested with Get-AzureADAccessToken</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Connect-AzureADFromAccessToken</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -304,11 +300,10 @@ C:\PS&gt; Connect-AzureADFromAccessToken</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Connect to your Azure AD Tenant / classic MS Graph endpoint used by MSOnline module using an existing Access token requested with Get-AzureADAccessToken
-C:\PS&gt; Connect-MSOnlineFromAccessToken</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Connect to your Azure AD Tenant / classic MS Graph endpoint used by MSOnline module using an existing Access token requested with Get-AzureADAccessToken</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Connect-MSOnlineFromAccessToken</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -447,19 +442,17 @@ C:\PS&gt; Connect-MSOnlineFromAccessToken</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get an access token for my admin account (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get an access token for my admin account (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2
-C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -471,23 +464,72 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
       <command:verb>Get</command:verb>
       <command:noun>AzureADAdministrativeUnitAllMembers</command:noun>
       <maml:description>
-        <maml:para>Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta</maml:para>
+        <maml:para>Get all Azure AD account member of an Azure AD Administrative Unit</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get a valid Access Token / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA. Tenant ID automatically resolved.</maml:para>
+      <maml:para>Get all Azure AD account member of an Azure AD Administrative Unit</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADAdministrativeUnitAllMembers</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+          <dev:type>
+            <maml:name>AdministrativeUnit</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+        <dev:type>
+          <maml:name>AdministrativeUnit</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>TypeName : System.Collections.Hashtable+SyncHashtable</maml:name>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -501,19 +543,10 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get an access token for my admin account (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADAccessToken -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all Azure AD user member of the admin unit TP-AL</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get an access token for service principal with application ID 38846352-a67c-4a9a-a94c-c115be1fc52f and a certificate thumbprint of E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2
-C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C49D4BF66C12BF88B2D0A53CDC2 -ServicePrincipalApplicationID 38846352-a67c-4a9a-a94c-c115be1fc52f -ServicePrincipalTenantDomain mydomain.tld</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnit -Filter "displayname eq 'TP-AL'" | Get-AzureADAdministrativeUnitAllMembers</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -561,7 +594,7 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>All</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill All Description }}</maml:para>
+            <maml:para>{{Fill All Description}}</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -599,7 +632,7 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>All</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill All Description }}</maml:para>
+          <maml:para>{{Fill All Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -627,27 +660,24 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Administrative Unit with the displayname 'myadmin'
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD Administrative Unit with the displayname 'myadmin'</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Get all Azure AD Administrative Units 
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -All</dev:code>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Get all Azure AD Administrative Units</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitCustom -All</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -659,18 +689,67 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
       <command:verb>Get</command:verb>
       <command:noun>AzureADAdministrativeUnitHidden</command:noun>
       <maml:description>
-        <maml:para>Get Azure AD Administrative Unit properties by properties value or ID</maml:para>
+        <maml:para>Get Administrative Units with hidden membership</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get Azure AD Administrative Unit properties by properties value or ID</maml:para>
+      <maml:para>Get Administratives Unit with hidden membership. Only members of the admin unit can see the Admin Unit members. Azure AD user account with advanced roles (Global reader, global administrator..) can still see the Admin Unit members.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADAdministrativeUnitHidden</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+          <dev:type>
+            <maml:name>AdministrativeUnit</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>public</maml:name>
+          <maml:Description>
+            <maml:para>-public boolean    choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance created by Get-AzureADAdministrativeUnit)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+        <dev:type>
+          <maml:name>AdministrativeUnit</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>public</maml:name>
+        <maml:Description>
+          <maml:para>-public boolean    choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -689,27 +768,17 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Administrative Unit with the displayname 'myadmin'
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -Filter "displayname eq 'myadmin'"</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Administrative Units with hidden membership</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitHidden</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get Azure AD Administrative Unit with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get Administrative Units with public membership</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Get all Azure AD Administrative Units 
-   C:\PS&gt; Get-AzureADAdministrativeUnitCustom -All</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnitHidden -public $true</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -800,11 +869,10 @@ C:\PS&gt; Get-AzureADAccessToken -ServicePrincipalCertThumbprint E22EE5AE84909C4
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Connect Cloud Sync default schema of domain mydomain.tld
-C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremADFQDN mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD Connect Cloud Sync default schema of domain mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremADFQDN mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -895,11 +963,10 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema -OnPremAD
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
-C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -911,18 +978,114 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
       <command:verb>Get</command:verb>
       <command:noun>AzureADDynamicGroup</command:noun>
       <maml:description>
-        <maml:para>Get Azure AD Connect Cloud Sync schema for a provisionning agent</maml:para>
+        <maml:para>Retrieve information about an Azure AD security dynamic group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get all properties of an Azure AD Connect Cloud Sync schema for a provisionning agent (synchronizationRules, schema, objectMappings rules...)</maml:para>
+      <maml:para>Retrieve all available properties about an existing security group with dynamic membership</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADDynamicGroup</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>DisplayName</maml:name>
+          <maml:Description>
+            <maml:para>-DisplayName String Displayname of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>-All switch swith parameter that can be used to retrieve all existing Azure AD security group with dynamic membership rule</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>DisplayName</maml:name>
+        <maml:Description>
+          <maml:para>-DisplayName String Displayname of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>-All switch swith parameter that can be used to retrieve all existing Azure AD security group with dynamic membership rule</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -941,11 +1104,24 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
-C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get dynamic group with ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADDynamicGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get all security group with dynamic membership</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADDynamicGroup -all</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Get dynamic group with Dynam_test display name</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADDynamicGroup -DisplayName "Dynam_test"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -957,18 +1133,67 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
       <command:verb>Get</command:verb>
       <command:noun>AzureADGroupLicenseDetail</command:noun>
       <maml:description>
-        <maml:para>Get Azure AD Connect Cloud Sync schema for a provisionning agent</maml:para>
+        <maml:para>Get licensing info of a particular group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get all properties of an Azure AD Connect Cloud Sync schema for a provisionning agent (synchronizationRules, schema, objectMappings rules...)</maml:para>
+      <maml:para>Get all licening info (skuid applied, service plans disabled) for a particular Azure AD Group</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADGroupLicenseDetail</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -987,11 +1212,17 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
-C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADGroupLicenseDetail -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing info for Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupLicenseDetail</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1003,18 +1234,90 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
       <command:verb>Get</command:verb>
       <command:noun>AzureADGroupMembersWithLicenseErrors</command:noun>
       <maml:description>
-        <maml:para>Get Azure AD Connect Cloud Sync schema for a provisionning agent</maml:para>
+        <maml:para>Get all Azure AD User with licensing error members of a particular group Get all Azure AD Group containing users with licensing errors</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get all properties of an Azure AD Connect Cloud Sync schema for a provisionning agent (synchronizationRules, schema, objectMappings rules...)</maml:para>
+      <maml:para>Get all Azure AD User with licensing error members of a particular group Get all Azure AD Group containing users with licensing errors</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADGroupMembersWithLicenseErrors</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>-All Switch Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>-All Switch Use this switch instead of ObjectID to retrieve All groups containing users with licensing errors</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -1033,11 +1336,24 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD Connect Cloud Sync schema for a provisionning agent of domain mydomain.tld
-C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADGroupMembersWithLicenseErrors -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing error info for members of Azure AD group fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADGroupMembersWithLicenseErrors</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Get groups containing users with licensing errors</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroupMembersWithLicenseErrors -All</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1079,11 +1395,10 @@ C:\PS&gt; Get-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN my
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get all user account properties of my current account (my-admin@mydomain.tld)
-C:\PS&gt; Get-AzureADMyInfo</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all user account properties of my current account (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADMyInfo</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1150,12 +1465,55 @@ C:\PS&gt; Get-AzureADMyInfo</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get all updates from an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects previously saved in $delta
-   C:\PS&gt; $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose
-   C:\PS&gt; Get-AzureADDeltaFromView -inputobject $delta</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all updates from an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects previously saved in $delta</dev:code>
         <dev:remarks>
+          <maml:para>C:\PS&gt; $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose    C:\PS&gt; Get-AzureADDeltaFromView -inputobject $delta</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureADOrganizationCustom</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADOrganizationCustom</command:noun>
+      <maml:description>
+        <maml:para>get all properties of an Azure AD organization</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>get all properties of an Azure AD organization</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADOrganizationCustom</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
           <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>get all properties of your current organization</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADOrganizationCustom</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1316,19 +1674,17 @@ C:\PS&gt; Get-AzureADMyInfo</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS&gt; Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get Azure AD service principal with the appid fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADServicePrincipalCustom -Filter "appid eq 'fb01091c-a9b2-4cd2-bbc9-130dfc91452a'"</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a
-   C:\PS&gt; Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get Azure AD service principal with the object id fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1419,19 +1775,17 @@ C:\PS&gt; Get-AzureADMyInfo</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get tenant info from my useraccount (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get tenant info from my useraccount (my-admin@mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get tenant info from my service principal tenant domain name (mydomain.tld)
-C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get tenant info from my service principal tenant domain name (mydomain.tld)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1443,18 +1797,67 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
       <command:verb>Get</command:verb>
       <command:noun>AzureADUserAdministrativeUnitMemberOfCustom</command:noun>
       <maml:description>
-        <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta</maml:para>
+        <maml:para>Get an Administrative Units of an Azure AD User account</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA. Tenant ID automatically resolved.</maml:para>
+      <maml:para>Get an Administrative Units of an Azure AD User account</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADUserAdministrativeUnitMemberOfCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+          <dev:type>
+            <maml:name>User</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the user account</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+        <dev:type>
+          <maml:name>User</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the user account</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -1473,19 +1876,17 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get tenant info from my useraccount (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>List Administrative Units of the Azure AD user account fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADUserAdministrativeUnitMemberOfCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get tenant info from my service principal tenant domain name (mydomain.tld)
-C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>List Administrative Units of the Azure AD user account my-admin@mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserAdministrativeUnitMemberOfCustom</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1691,18 +2092,138 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
       <command:verb>Get</command:verb>
       <command:noun>AzureADUserCustom</command:noun>
       <maml:description>
-        <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta</maml:para>
+        <maml:para>Get all info available for an existing Azure AD account</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA. Tenant ID automatically resolved.</maml:para>
+      <maml:para>Get all info available for an existing Azure AD account (all user properties available including all the hidden one not managed by Get-AzureADUsers)</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADUserCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+          <dev:type>
+            <maml:name>User</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>userUPN</maml:name>
+          <maml:Description>
+            <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>-Filter string    Odata Filter query</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill All Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User  Microsoft.Open.AzureAD.Model.User object (for instance generated by Get-AzureADUser)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+        <dev:type>
+          <maml:name>User</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>userUPN</maml:name>
+        <maml:Description>
+          <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill All Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>Filter</maml:name>
+        <maml:Description>
+          <maml:para>-Filter string    Odata Filter query</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -1721,19 +2242,17 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get tenant info from my useraccount (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all users properties available for the Azure AD account my-admin@mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; get-azureaduser -ObjectId "my-admin@mydomain.tld" | Get-AzureADUserCustom</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get tenant info from my service principal tenant domain name (mydomain.tld)
-C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get all users properties available for the Azure AD account my-admin@mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADUserCustom -userUPN "my-admin@mydomain.tld"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1745,18 +2264,67 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
       <command:verb>Get</command:verb>
       <command:noun>AzureADUserLicenseAssignmentStates</command:noun>
       <maml:description>
-        <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta</maml:para>
+        <maml:para>Get licensing assignment type (group or user) of a particular user</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get a valid Access Tokem / Refresh Token for MS Graph APIs and MS Graph APIs Beta, using ADAL library, all authentication supported including MFA. Tenant ID automatically resolved.</maml:para>
+      <maml:para>Get licensing assignment type (group or user) of a particular user. You can check if the license is assigned directly or inherited from a group membership.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureADUserLicenseAssignmentStates</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+          <dev:type>
+            <maml:name>User</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD User object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
+        <dev:type>
+          <maml:name>User</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD User object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -1775,19 +2343,17 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get tenant info from my useraccount (my-admin@mydomain.tld)
-   C:\PS&gt; Get-AzureADTenantInfo -adminUPN my-admin@mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADUserLicenseAssignmentStates -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get tenant info from my service principal tenant domain name (mydomain.tld)
-C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get licensing assignment info for Azure AD user fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureAdUser -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-AzureADUserLicenseAssignmentStates</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2090,19 +2656,17 @@ C:\PS&gt; Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld</dev:
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create a new Administrative Unit with hidden membership called testHidden
-   C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create a new Administrative Unit with hidden membership called testHidden</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "testHidden" -description "Hidden Test Admin unit" -Hidden</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Create a new Administrative Unit membership called test
-C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Create a new Administrative Unit membership called test</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "test" -description "Test Admin unit"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2311,11 +2875,10 @@ C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "test" -description "
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create a new dynamic group Dynam_test5 with a membership rule based on user extensionAttribute9 value "test"
-   C:\PS&gt; New-AzureADDynamicGroup -DisplayName "Dynam_test5" -Description "Dynam_test5" -MemberShipRule '(user.extensionAttribute9 -eq "test")'</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create a new dynamic group Dynam_test5 with a membership rule based on user extensionAttribute9 value "test"</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; New-AzureADDynamicGroup -DisplayName "Dynam_test5" -Description "Dynam_test5" -MemberShipRule '(user.extensionAttribute9 -eq "test")'</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2430,19 +2993,17 @@ C:\PS&gt; New-AzureADAdministrativeUnitCustom -displayName "test" -description "
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of all users objects
-   C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create an initial delta view for manager and department properties of all users objects</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects
-C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2454,18 +3015,91 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
       <command:verb>Remove</command:verb>
       <command:noun>AzureADAdministrativeUnitMemberCustom</command:noun>
       <maml:description>
-        <maml:para>Create a new delta view for an Azure AD object</maml:para>
+        <maml:para>Remove a member of an Administrative Units</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Create a new delta view for an Azure AD object. It can be used on several objects (groups, users, administrative units...) to retrieve change information occured between two moments (properties updated/removed/added, objects updated/removed/added). This cmdlet create the initial view (available at server side for 30 days maximum) and the cmdlet Get-AzureADObjectDeltaView will retrieve the changes occured between the first view creation.</maml:para>
+      <maml:para>Remove a member of an Administrative Units</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-AzureADAdministrativeUnitMemberCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit  Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance generated by Get-AzureADAdministrativeUnit)</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+          <dev:type>
+            <maml:name>AdministrativeUnit</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>RefObjectId</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectId RefObjectId    GUID of the Administrative Unit member</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.AdministrativeUnit  Microsoft.Open.AzureAD.Model.AdministrativeUnit object (for instance generated by Get-AzureADAdministrativeUnit)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">AdministrativeUnit</command:parameterValue>
+        <dev:type>
+          <maml:name>AdministrativeUnit</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>RefObjectId</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectId RefObjectId    GUID of the Administrative Unit member</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -2484,19 +3118,17 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of all users objects
-   C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove Azure AD User account 50b147d8-411f-4359-a09a-e31a0d791900 from Administrative Unit fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Remove-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a -RefObjectId 50b147d8-411f-4359-a09a-e31a0d791900</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects
-C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Remove Azure AD User account 50b147d8-411f-4359-a09a-e31a0d791900 from Administrative Unit fb01091c-a9b2-4cd2-bbc9-130dfc91452a</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADAdministrativeUnit -ObjectId fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Remove-AzureADAdministrativeUnitMemberCustom -RefObjectId 50b147d8-411f-4359-a09a-e31a0d791900</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2508,18 +3140,67 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
       <command:verb>Remove</command:verb>
       <command:noun>AzureADDynamicGroup</command:noun>
       <maml:description>
-        <maml:para>Create a new delta view for an Azure AD object</maml:para>
+        <maml:para>Delete an existing Azure AD security dynamic group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Create a new delta view for an Azure AD object. It can be used on several objects (groups, users, administrative units...) to retrieve change information occured between two moments (properties updated/removed/added, objects updated/removed/added). This cmdlet create the initial view (available at server side for 30 days maximum) and the cmdlet Get-AzureADObjectDeltaView will retrieve the changes occured between the first view creation.</maml:para>
+      <maml:para>Delete an existing Azure AD security dynamic group</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-AzureADDynamicGroup</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
@@ -2538,19 +3219,10 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of all users objects
-   C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department")</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove an existing group named Dynam_test2 (displayname)</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Create an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects
-C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Get-AzureADGroup -SearchString 'Dynam_test2' | Remove-AzureADDynamicGroup</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2598,7 +3270,7 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AdministrativeRole</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AdministrativeRole Description }}</maml:para>
+            <maml:para>{{Fill AdministrativeRole Description}}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2610,7 +3282,7 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AdministrativeUnit</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AdministrativeUnit Description }}</maml:para>
+            <maml:para>{{Fill AdministrativeUnit Description}}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2649,7 +3321,7 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AdministrativeRole</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AdministrativeRole Description }}</maml:para>
+          <maml:para>{{Fill AdministrativeRole Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2661,7 +3333,7 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AdministrativeUnit</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AdministrativeUnit Description }}</maml:para>
+          <maml:para>{{Fill AdministrativeUnit Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2689,11 +3361,10 @@ C:\PS&gt; New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("mana
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld
-C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2705,23 +3376,190 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
       <command:verb>Set</command:verb>
       <command:noun>AzureADDynamicGroup</command:noun>
       <maml:description>
-        <maml:para>Add / remove Azure AD administrative unit role to Azure AD user</maml:para>
+        <maml:para>Update properties of an existing Azure AD security dynamic group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Add / remove Azure AD administrative unit role to Azure AD user</maml:para>
+      <maml:para>Update properties of an existing Azure AD security dynamic group, including processing state of the rule.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureADDynamicGroup</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>NewDisplayName</maml:name>
+          <maml:Description>
+            <maml:para>-NewDisplayName String Displayname of the new group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>NewDescription</maml:name>
+          <maml:Description>
+            <maml:para>-NewDescription String Description of the new group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>NewMemberShipRule</maml:name>
+          <maml:Description>
+            <maml:para>-NewMembershipRule string Membership rule (string) of the dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DisableRuleProcessingState</maml:name>
+          <maml:Description>
+            <maml:para>-DisableRuleProcessingState Switch Disable processing state of the current rule</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>EnableRuleProcessingState</maml:name>
+          <maml:Description>
+            <maml:para>-EnableRuleProcessingState Switch Enable processing state of the current rule</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>NewDisplayName</maml:name>
+        <maml:Description>
+          <maml:para>-NewDisplayName String Displayname of the new group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>NewDescription</maml:name>
+        <maml:Description>
+          <maml:para>-NewDescription String Description of the new group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>NewMemberShipRule</maml:name>
+        <maml:Description>
+          <maml:para>-NewMembershipRule string Membership rule (string) of the dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>DisableRuleProcessingState</maml:name>
+        <maml:Description>
+          <maml:para>-DisableRuleProcessingState Switch Disable processing state of the current rule</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>EnableRuleProcessingState</maml:name>
+        <maml:Description>
+          <maml:para>-EnableRuleProcessingState Switch Enable processing state of the current rule</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>TypeName : Microsoft.Open.AzureAD.Model.ScopedRoleMembership</maml:name>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -2735,11 +3573,17 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld
-C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Update existing dynamic group 17a58653-3654-40bd-85ce-333ece486793 with a new description and membership rule</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADDynamicGroup -ObjectId 17a58653-3654-40bd-85ce-333ece486793 -NewDescription "test description" -NewMemberShipRule '(user.extensionAttribute1 -eq "test2")'</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Update existing dynamic group 17a58653-3654-40bd-85ce-333ece486793 to disable processing state of the current rule</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Set-AzureADDynamicGroup -ObjectId 17a58653-3654-40bd-85ce-333ece486793 -DisableRuleProcessingState</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2751,23 +3595,166 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
       <command:verb>Set</command:verb>
       <command:noun>AzureADGroupLicense</command:noun>
       <maml:description>
-        <maml:para>Add / remove Azure AD administrative unit role to Azure AD user</maml:para>
+        <maml:para>Add or remove a license on an Azure AD Group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Add / remove Azure AD administrative unit role to Azure AD user</maml:para>
+      <maml:para>Add or remove a license (skuid applied, or service plans to be disabled) for a particular Azure AD Group</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureADGroupLicense</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>DisabledPlans</maml:name>
+          <maml:Description>
+            <maml:para>-DisabledPlans Guid - array of guids Guid / array of guids containing the guid of the service plans to be disabled in the SKU provided. To be used only with AddLicense switch. You cannot remove plans disabled from the sku / group. you must remove totally the license (sku) then add it using the new disabled plans.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>SkuID</maml:name>
+          <maml:Description>
+            <maml:para>-SkuID Guid Guid of the SKU to be added or removed to / from the group. Mandatory parameter to be used with AddLicense and RemoveLicense switchs</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AddLicense</maml:name>
+          <maml:Description>
+            <maml:para>-AddLicense switch Use the switch to add a new license to the group</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RemoveLicense</maml:name>
+          <maml:Description>
+            <maml:para>-RemoveLicense switch Use the switch to remove an existing license from the group</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AddLicense</maml:name>
+        <maml:Description>
+          <maml:para>-AddLicense switch Use the switch to add a new license to the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>RemoveLicense</maml:name>
+        <maml:Description>
+          <maml:para>-RemoveLicense switch Use the switch to remove an existing license from the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>DisabledPlans</maml:name>
+        <maml:Description>
+          <maml:para>-DisabledPlans Guid - array of guids Guid / array of guids containing the guid of the service plans to be disabled in the SKU provided. To be used only with AddLicense switch. You cannot remove plans disabled from the sku / group. you must remove totally the license (sku) then add it using the new disabled plans.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>SkuID</maml:name>
+        <maml:Description>
+          <maml:para>-SkuID Guid Guid of the SKU to be added or removed to / from the group. Mandatory parameter to be used with AddLicense and RemoveLicense switchs</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>TypeName : Microsoft.Open.AzureAD.Model.ScopedRoleMembership</maml:name>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -2781,11 +3768,24 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Give the role Password Administrator for the Admin unit TP-NF to my-admin-unit@mydomain.tld
-C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain.tld -RoleAction ADD -AdministrativeUnit TP-NF -AdministrativeRole 'Password Administrator' -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Remove SkuID license 84a661c4-e949-4bd2-a560-ed7766fcaf2b from the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Set-AzureADGroupLicense -RemoveLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -Verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Add license sku 84a661c4-e949-4bd2-a560-ed7766fcaf2b to the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0 and disable service plans 113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9 from this sku</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -AddLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -DisabledPlans @("113feb6c-3fe4-4440-bddc-54d774bf0318", "932ad362-64a8-4783-9106-97849a1a30b9") -verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2855,7 +3855,7 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>BypassProxyOnLocal</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill BypassProxyOnLocal Description }}</maml:para>
+            <maml:para>{{Fill BypassProxyOnLocal Description}}</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2917,7 +3917,7 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>BypassProxyOnLocal</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill BypassProxyOnLocal Description }}</maml:para>
+          <maml:para>{{Fill BypassProxyOnLocal Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2945,27 +3945,24 @@ C:\PS&gt; Set-AzureADAdministrativeUnitAdminRole -userUPN my-admin-unit@mydomain
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove Proxy
-   C:\PS&gt; Set-AzureADProxy -DirectNoProxy</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove Proxy</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADProxy -DirectNoProxy</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Set a local anonymous proxy 127.0.0.1:8888
-   C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888"</dev:code>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Set a local anonymous proxy 127.0.0.1:8888</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888"</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy
-C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal</dev:code>
+        <maml:title>-------------------------- EXEMPLE 3 --------------------------</maml:title>
+        <dev:code>Set a local anonymous proxy 127.0.0.1:8888 and request local traffic to not be sent to proxy</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3103,12 +4100,10 @@ C:\PS&gt; Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal</d
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Create new cloud Azure AD administrative Unit for each on prem' OU found with a pattern like "AB-CD"
-The verbose option can be used to write basic message on console (for instance when an admin unit already existing)
-C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create new cloud Azure AD administrative Unit for each on prem' OU found with a pattern like "AB-CD"</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>The verbose option can be used to write basic message on console (for instance when an admin unit already existing) C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3180,7 +4175,7 @@ C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>ADUserFilter</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ADUserFilter Description }}</maml:para>
+            <maml:para>{{Fill ADUserFilter Description}}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3266,7 +4261,7 @@ C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>ADUserFilter</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ADUserFilter Description }}</maml:para>
+          <maml:para>{{Fill ADUserFilter Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3294,12 +4289,10 @@ C:\PS&gt; Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^([a-zA-Z
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"
-The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit)
-C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Add Azure AD users to administrative unit based on their source Distinguished Name, do it only for users account with a DN containing a root OU name matching a pattern like "AB-CD"</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>The verbose option can be used to write basic message on console (for instance when a user is already member of an admin unit) C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -AllOUs -OUsFilterName "^([a-zA-Z]{2})(-)([a-zA-Z]{2})$" -SearchBase "DC=domain,DC=xyz" -Verbose</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3543,32 +4536,120 @@ C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -
       <command:verb>Test</command:verb>
       <command:noun>AzureADUserForGroupDynamicMembership</command:noun>
       <maml:description>
-        <maml:para>{{Fill in the Synopsis}}</maml:para>
+        <maml:para>Check if a Azure AD user is a member of an Azure AD security dynamic group</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{Fill in the Description}}</maml:para>
+      <maml:para>Check if a Azure AD user is a member of an Azure AD security dynamic group</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-AzureADUserForGroupDynamicMembership</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>MemberID</maml:name>
+          <maml:Description>
+            <maml:para>-MemberID Guid Guid of an Azure AD user account that you want to test from a membership perspective of the group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>MemberShipRule</maml:name>
+          <maml:Description>
+            <maml:para>-MembershipRule string Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
-    <command:inputTypes>
-      <command:inputType>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
-          <maml:name>Aucun(e)</maml:name>
+          <maml:name>Group</maml:name>
+          <maml:uri />
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>-ObjectID Guid Guid of an existing Azure AD Group object</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>MemberID</maml:name>
+        <maml:Description>
+          <maml:para>-MemberID Guid Guid of an Azure AD user account that you want to test from a membership perspective of the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>MemberShipRule</maml:name>
+        <maml:Description>
+          <maml:para>-MembershipRule string Membership rule (string) of dynamic group you want to test. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Object</maml:name>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -3582,10 +4663,17 @@ C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Test if ca57f8b0-0c86-4677-8167-7d37534bd3bc object user account is member of 53cf95f1-49be-463e-9856-77c2b2c3e4a0 dynamic group using a specific rule</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>C:\PS&gt; Test-AzureADUserForGroupDynamicMembership -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -MemberID ca57f8b0-0c86-4677-8167-7d37534bd3bc -MemberShipRule 'user.extensionAttribute9 -eq "test2"'</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Test if ca57f8b0-0c86-4677-8167-7d37534bd3bc object user account is member of 53cf95f1-49be-463e-9856-77c2b2c3e4a0 dynamic group</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Test-AzureADUserForGroupDynamicMembership -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -MemberID ca57f8b0-0c86-4677-8167-7d37534bd3bc</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3700,11 +4788,207 @@ C:\PS&gt; Sync-ADUsertoAzureADAdministrativeUnitMember -CloudUPNAttribute mail -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Update your Azure AD Connect Cloud Sync schema for provisionning agent of domain mydomain.tld, new schema available in $schema object
-C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld -inputobject $schema</dev:code>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Update your Azure AD Connect Cloud Sync schema for provisionning agent of domain mydomain.tld, new schema available in $schema object</dev:code>
         <dev:remarks>
+          <maml:para>C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN mydomain.tld -inputobject $schema</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Update-AzureADOrganizationCustom</command:name>
+      <command:verb>Update</command:verb>
+      <command:noun>AzureADOrganizationCustom</command:noun>
+      <maml:description>
+        <maml:para>update all properties of an Azure AD organization</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>update all properties of an Azure AD organization</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Update-AzureADOrganizationCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>marketingNotificationEmails</maml:name>
+          <maml:Description>
+            <maml:para>-marketingNotificationEmails mailaddress e-mail address to be set for marketing notification</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>securityComplianceNotificationMails</maml:name>
+          <maml:Description>
+            <maml:para>-securityComplianceNotificationMails mailaddress e-mail address to be set for security &amp; compliance notification</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>securityComplianceNotificationPhones</maml:name>
+          <maml:Description>
+            <maml:para>-securityComplianceNotificationPhones string phone number to be set for security &amp; compliance notification</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>technicalNotificationMails</maml:name>
+          <maml:Description>
+            <maml:para>-technicalNotificationMails mailaddress e-mail address to be set for technical notification</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>privacyProfilemail</maml:name>
+          <maml:Description>
+            <maml:para>-privacyProfilemail mailaddress e-mail address to be set for privacy notification this parameter must be used with privacyProfileurl parameter</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+          <dev:type>
+            <maml:name>MailAddress</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+          <maml:name>privacyProfileurl</maml:name>
+          <maml:Description>
+            <maml:para>-privacyProfileurl uri URL of the privacy information this parameter must be used with privacyProfilemail parameter</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+          <dev:type>
+            <maml:name>Uri</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>marketingNotificationEmails</maml:name>
+        <maml:Description>
+          <maml:para>-marketingNotificationEmails mailaddress e-mail address to be set for marketing notification</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>securityComplianceNotificationMails</maml:name>
+        <maml:Description>
+          <maml:para>-securityComplianceNotificationMails mailaddress e-mail address to be set for security &amp; compliance notification</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>securityComplianceNotificationPhones</maml:name>
+        <maml:Description>
+          <maml:para>-securityComplianceNotificationPhones string phone number to be set for security &amp; compliance notification</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>technicalNotificationMails</maml:name>
+        <maml:Description>
+          <maml:para>-technicalNotificationMails mailaddress e-mail address to be set for technical notification</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>privacyProfilemail</maml:name>
+        <maml:Description>
+          <maml:para>-privacyProfilemail mailaddress e-mail address to be set for privacy notification this parameter must be used with privacyProfileurl parameter</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
+        <dev:type>
+          <maml:name>MailAddress</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <maml:name>privacyProfileurl</maml:name>
+        <maml:Description>
+          <maml:para>-privacyProfileurl uri URL of the privacy information this parameter must be used with privacyProfilemail parameter</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
           <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>update privacy information</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Update-AzureADOrganizationCustom -privacyProfilemail test@test.com -privacyProfileurl http://www.google.com</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>update marketing mail contact for notification</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Update-AzureADOrganizationCustom -marketingNotificationEmails lcuaad.xyz@outlook.com</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3728,7 +5012,7 @@ C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>StartAutoRenewal</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StartAutoRenewal Description }}</maml:para>
+            <maml:para>{{Fill StartAutoRenewal Description}}</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3739,7 +5023,7 @@ C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>StopAutoRenewal</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StopAutoRenewal Description }}</maml:para>
+            <maml:para>{{Fill StopAutoRenewal Description}}</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3753,7 +5037,7 @@ C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>StartAutoRenewal</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill StartAutoRenewal Description }}</maml:para>
+          <maml:para>{{Fill StartAutoRenewal Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3765,7 +5049,7 @@ C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>StopAutoRenewal</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill StopAutoRenewal Description }}</maml:para>
+          <maml:para>{{Fill StopAutoRenewal Description}}</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3784,7 +5068,7 @@ C:\PS&gt; Update-AzureADConnectCloudProvisionningServiceSyncSchema -OnPremADFQDN
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
         <dev:code>import-module use-AzureAD.psm1</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
