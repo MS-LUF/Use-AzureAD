@@ -22,8 +22,10 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 - update example 9 for New-AzureADAdministrativeUnitCustom
 - update for Get-AzureADUserCustom (previously Get-AzureADUserallproperties)
 - add example 14
-### v1.3 - last public release - beta version
+### v1.3 - beta version
 - add example 15
+### v1.4 - last public release - beta version
+- add example 16
 
 (c) 2021 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -460,4 +462,17 @@ everything is in the title, get the administrative unit membership of myacount@m
 Remove Azure AD User account 4144fc1c-713e-4c76-9980-d1797cbf266e from Administrative Unit 74273da8-7852-483f-911c-717273e920ca
 ```
     C:\PS>  Get-AzureADAdministrativeUnit -ObjectId 74273da8-7852-483f-911c-717273e920ca | Remove-AzureADAdministrativeUnitMemberCustom -RefObjectId 4144fc1c-713e-4c76-9980-d1797cbf266e
+```
+### example 16
+#### Azure AD organization information
+well, I am looking for a way to check my directory quota and total number of objects in a monitoring purpose, any idea ?
+Quite easy, information is available through the Organization information
+```
+    C:\PS>  (Get-AzureADOrganizationCustom).directorySizeQuota
+```
+#### update my Organization information
+I want to update all my email for notification, any way through powershell to do it ?
+Again, not so complicated :) for instance to update your privacy mail and URL
+```
+    C:\PS>  Update-AzureADOrganizationCustom -privacyProfilemail test@test.com -privacyProfileurl http://www.google.com
 ```

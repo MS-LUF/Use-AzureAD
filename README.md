@@ -57,10 +57,14 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - add cmdlet New-AzureADAdministrativeUnitCustom (New-AzureADAdministrativeUnitHidden)
  - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
  - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
-### 1.3 - last release - beta version
+### 1.3 - beta version
 - add function to get administrative units of a user account and remove a user account from an administrative unit (thanks to Achraf Amor)
   - Get-AzureADUserAdministrativeUnitMemberOfCustom
   - Remove-AzureADAdministrativeUnitMemberCustom
+### 1.4 - last release - beta version
+- add functions to get and update Azure AD organization information
+  - Get-AzureADOrganizationCustom
+  - Update-AzureADOrganizationCustom
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -154,5 +158,7 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Watch-AzureADAccessToken
  - Get-AzureADUserAdministrativeUnitMemberOfCustom
  - Remove-AzureADAdministrativeUnitMemberCustom
+ - Get-AzureADOrganizationCustom
+ - Update-AzureADOrganizationCustom
 ### alias
 - Get-AzureADUserAllInfo

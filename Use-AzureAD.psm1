@@ -2,7 +2,7 @@
 #
 ## Created by: lucas.cueff[at]lucas-cueff.com
 #
-## released on 02/2021
+## released on 03/2021
 #
 # v0.5 - first public release - beta version - cmdlets to manage your Azure Active Directory Tenant (focusing on Administrative Unit features) when AzureADPreview cannot handle it correctly ;-)
 # Note : currently Powershell Core and AzureADPreview are not working well together (logon / token request issue) : https://github.com/PowerShell/PowerShell/issues/10473 ==> this module will work only with Windows Powershell 5.1
@@ -48,10 +48,13 @@
 # - add cmdlet New-AzureADAdministrativeUnitCustom (New-AzureADAdministrativeUnitHidden)
 # - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
 # - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
-#
-# v1.3 - last public release - beta version - add function to get administrative units of a user account and remove a user account from an administrative unit
+# v1.3 - beta version - add function to get administrative units of a user account and remove a user account from an administrative unit
 # - Get-AzureADUserAdministrativeUnitMemberOfCustom
 # - Remove-AzureADAdministrativeUnitMemberCustom
+#
+# v1.4 - last public release - beta version - add functions to get and update organization information
+# - Get-AzureADOrganizationCustom
+# - Update-AzureADOrganizationCustom
 #
 #'(c) 2021 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -2481,11 +2484,136 @@ Function Remove-AzureADAdministrativeUnitMemberCustom {
         Invoke-APIMSGraphBeta @params
     }
 }
+Function Get-AzureADOrganizationCustom {
+<#
+	.SYNOPSIS 
+    get all properties of an Azure AD organization
+
+	.DESCRIPTION
+    get all properties of an Azure AD organization
+	    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	get all properties of your current organization
+    C:\PS> Get-AzureADOrganizationCustom
+#>
+    [cmdletbinding()]
+    Param ()
+    process {
+        Test-AzureADAccessTokenExpiration | out-null
+        $params = @{
+            API = "organization"
+            Method = "GET"
+        }
+        Invoke-APIMSGraphBeta @params
+    }
+}
+Function Update-AzureADOrganizationCustom {
+<#
+	.SYNOPSIS 
+    update all properties of an Azure AD organization
+
+	.DESCRIPTION
+    update all properties of an Azure AD organization
+
+    .PARAMETER marketingNotificationEmails
+    -marketingNotificationEmails mailaddress
+    e-mail address to be set for marketing notification
+
+    .PARAMETER securityComplianceNotificationMails
+    -securityComplianceNotificationMails mailaddress
+    e-mail address to be set for security & compliance notification
+
+    .PARAMETER technicalNotificationMails
+    -technicalNotificationMails mailaddress
+    e-mail address to be set for technical notification
+
+    .PARAMETER privacyProfilemail
+    -privacyProfilemail mailaddress
+    e-mail address to be set for privacy notification
+    this parameter must be used with privacyProfileurl parameter
+
+    .PARAMETER privacyProfileurl
+    -privacyProfileurl uri
+    URL of the privacy information
+    this parameter must be used with privacyProfilemail parameter
+
+    .PARAMETER securityComplianceNotificationPhones
+    -securityComplianceNotificationPhones string
+    phone number to be set for security & compliance notification
+	    		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		    
+    .EXAMPLE
+	update privacy information
+    C:\PS> Update-AzureADOrganizationCustom -privacyProfilemail test@test.com -privacyProfileurl http://www.google.com
+
+    .EXAMPLE
+    update marketing mail contact for notification
+    C:\PS> Update-AzureADOrganizationCustom -marketingNotificationEmails lcuaad.xyz@outlook.com
+#>
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [mailaddress]$marketingNotificationEmails,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [mailaddress]$securityComplianceNotificationMails,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [string]$securityComplianceNotificationPhones,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [mailaddress]$technicalNotificationMails,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [mailaddress]$privacyProfilemail,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+            [uri]$privacyProfileurl
+    )
+    process {
+        if (($privacyProfileurl -and !($privacyProfilemail)) -or (!($privacyProfileurl) -and $privacyProfilemail)) {
+            throw "please use privacyProfilemail and privacyProfilemail together"
+        }
+        Test-AzureADAccessTokenExpiration | out-null
+        $params = @{
+            API = "organization"
+            Method = "PATCH"
+            APIParameter = "$($AADConnectInfo.TenantID)/"
+        }
+        $body = @{}
+        if ($marketingNotificationEmails) {
+            $body.add("marketingNotificationEmails",@($marketingNotificationEmails.Address))
+        }
+        if ($securityComplianceNotificationMails) {
+            $body.add("securityComplianceNotificationMails",@($securityComplianceNotificationMails.Address))
+        }
+        if ($securityComplianceNotificationPhones) {
+            $body.add("securityComplianceNotificationPhones",@($securityComplianceNotificationPhones))
+        }
+        if ($technicalNotificationMails) {
+            $body.add("technicalNotificationMails",@($technicalNotificationMails.Address))
+        }
+        if ($privacyProfilemail -and $privacyProfileurl) {
+            $body.add("privacyProfile",@{"contactEmail" = $privacyProfilemail.Address;"statementUrl" = $privacyProfileurl.AbsoluteUri})
+        }
+        if ($body) {
+            $params.add("APIBody",(ConvertTo-Json -InputObject $body -Depth 100))
+            write-verbose -Message "JSON Body : $(ConvertTo-Json -InputObject $body -Depth 100)"
+            Invoke-APIMSGraphBeta @params
+        }
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
         [parameter(Mandatory=$false)]
-        [validateSet("users","me","administrativeUnits","serviceprincipals","groups")]
+        [validateSet("users","me","administrativeUnits","serviceprincipals","groups","organization")]
             [string]$API,
         [parameter(Mandatory=$true)]
         [validateSet("GET","POST","PUT","PATCH","DELETE")]
@@ -2647,5 +2775,6 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Get-AzureADGroupMembersWithLicenseErrors, Get-AzureADGroupLicenseDetail, Set-AzureADGroupLicense, Get-AzureADUserLicenseAssignmentStates, 
                                 Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership,
                                 Get-AzureADServicePrincipalCustom, Get-AzureADAdministrativeUnitCustom, Add-AzureADAdministrativeUnitMemberCustom, Test-AzureADAccessTokenExpiration,
-                                Watch-AzureADAccessToken, Get-AzureADUserAdministrativeUnitMemberOfCustom, Remove-AzureADAdministrativeUnitMemberCustom
+                                Watch-AzureADAccessToken, Get-AzureADUserAdministrativeUnitMemberOfCustom, Remove-AzureADAdministrativeUnitMemberCustom,
+                                Get-AzureADOrganizationCustom, Update-AzureADOrganizationCustom
 Export-ModuleMember -Alias Get-AzureADUserAllInfo
