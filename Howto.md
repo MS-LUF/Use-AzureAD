@@ -24,8 +24,10 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 - add example 14
 ### v1.3 - beta version
 - add example 15
-### v1.4 - last public release - beta version
+### v1.4 - beta version
 - add example 16
+### v1.5 - last public release - beta version
+- add example 17
 
 (c) 2021 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -475,4 +477,15 @@ I want to update all my email for notification, any way through powershell to do
 Again, not so complicated :) for instance to update your privacy mail and URL
 ```
     C:\PS>  Update-AzureADOrganizationCustom -privacyProfilemail test@test.com -privacyProfileurl http://www.google.com
+```
+
+### example 17
+#### Get Azure AD Connect synchronization errors
+I don't want to use MSOnline module anymore because it's deprecated. How can I get Azure AD Connect synchronization errors ? Previously I was using Get-AzureADOnPremisesProvisionningErrors
+Easy Peasy !
+```
+    C:\PS>  Get-AzureADOnPremisesProvisionningErrors
+```
+```
+    C:\PS>  Get-AzureADOnPremisesProvisionningErrors -filterObjectType "contacts"
 ```

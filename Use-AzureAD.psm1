@@ -51,10 +51,12 @@
 # v1.3 - beta version - add function to get administrative units of a user account and remove a user account from an administrative unit
 # - Get-AzureADUserAdministrativeUnitMemberOfCustom
 # - Remove-AzureADAdministrativeUnitMemberCustom
-#
-# v1.4 - last public release - beta version - add functions to get and update organization information
+# v1.4 - beta version - add functions to get and update organization information
 # - Get-AzureADOrganizationCustom
 # - Update-AzureADOrganizationCustom
+#
+# v1.5 - last public release - beta version - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
+# - Get-AzureADOnPremisesProvisionningErrors
 #
 #'(c) 2021 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -435,7 +437,7 @@ Function Connect-AzureADFromAccessToken {
                 Write-Error -Message "$($_.Exception.Message)"
                 throw "Not Able to log you on your Azure AD Tenant - exiting"
             }        
-            connect-azuread -tenantid $global:AADConnectInfo.TenantID -AadAccessToken $authResult.result.AccessToken -AccountId $global:AADConnectInfo.ObjectID
+            connect-azuread -tenantid $global:AADConnectInfo.TenantID -AadAccessToken $authResult.result.AccessToken -MsAccessToken $global:AADConnectInfo.AccessToken -AccountId $global:AADConnectInfo.ObjectID
         }
         if ($global:AADConnectInfo.ServicePrincipalName) {
             $CertStore = "Cert:\LocalMachine\My"
@@ -2609,11 +2611,68 @@ Function Update-AzureADOrganizationCustom {
         }
     }
 }
+Function Get-AzureADOnPremisesProvisionningErrors {
+<#
+	.SYNOPSIS 
+	Get all Azure AD Connect provisionning errors
+
+	.DESCRIPTION
+	Get all Azure AD Connect provisionning errors for groups, users, contacts object. Can replace old MSOnline function Get-MsolDirSyncProvisioningError
+
+    .PARAMETER filterObjectType
+    -filterObjectType string
+    set an object type filter, value must be "users","groups","contacts" or "all" for all object type.
+		
+	.OUTPUTS
+   	TypeName : System.Management.Automation.PSCustomObject
+		
+	.EXAMPLE
+	Get all Azure AD Connect provisionning errors for all object types
+	C:\PS> Get-AzureADOnPremisesProvisionningErrors
+
+    .EXAMPLE
+	Get all Azure AD Connect provisionning errors for all contact object type
+	C:\PS> Get-AzureADOnPremisesProvisionningErrors -filterObjectType "contacts"
+#>
+    [cmdletbinding()]
+    Param (
+        [parameter(Mandatory=$false)]
+        [validateSet("users","groups","contacts","all")]
+            [string]$filterObjectType = "all"
+    )
+    process {
+        Test-AzureADAccessTokenExpiration | out-null
+        if ($filterObjectType -ne "all") {
+                $params = @{
+                    API = "users"
+                    Method = "GET"
+                    APIParameter = "?`$filter=onPremisesProvisioningErrors/any(i:i/category eq 'PropertyConflict')&select=onPremisesProvisioningErrors,id,displayname,mail"
+                }
+                $result = Invoke-APIMSGraphBeta @params
+                if ($result.value) {
+                    $result
+                }
+        } else {
+            $filtersObjecttype = @("users","groups","contacts")
+            foreach ($filtertype in $filtersObjecttype) {
+                $params = @{
+                    API = $filtertype
+                    Method = "GET"
+                    APIParameter = "?`$filter=onPremisesProvisioningErrors/any(i:i/category eq 'PropertyConflict')&select=onPremisesProvisioningErrors,id,displayname,mail"
+                }
+                $result = Invoke-APIMSGraphBeta @params
+                if ($result.value) {
+                    $result
+                }
+            }
+        }
+    }
+}
 Function Invoke-APIMSGraphBeta {
     [cmdletbinding()]
 	Param (
         [parameter(Mandatory=$false)]
-        [validateSet("users","me","administrativeUnits","serviceprincipals","groups","organization")]
+        [validateSet("users","me","administrativeUnits","serviceprincipals","groups","organization","contacts")]
             [string]$API,
         [parameter(Mandatory=$true)]
         [validateSet("GET","POST","PUT","PATCH","DELETE")]
@@ -2776,5 +2835,5 @@ Export-ModuleMember -Function Get-AzureADTenantInfo, Get-AzureADMyInfo, Get-Azur
                                 Get-AzureADDynamicGroup, New-AzureADDynamicGroup, Remove-AzureADDynamicGroup, Set-AzureADDynamicGroup, Test-AzureADUserForGroupDynamicMembership,
                                 Get-AzureADServicePrincipalCustom, Get-AzureADAdministrativeUnitCustom, Add-AzureADAdministrativeUnitMemberCustom, Test-AzureADAccessTokenExpiration,
                                 Watch-AzureADAccessToken, Get-AzureADUserAdministrativeUnitMemberOfCustom, Remove-AzureADAdministrativeUnitMemberCustom,
-                                Get-AzureADOrganizationCustom, Update-AzureADOrganizationCustom
+                                Get-AzureADOrganizationCustom, Update-AzureADOrganizationCustom, Get-AzureADOnPremisesProvisionningErrors
 Export-ModuleMember -Alias Get-AzureADUserAllInfo
