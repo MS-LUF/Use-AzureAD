@@ -1476,6 +1476,83 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-AzureADOnPremisesProvisionningErrors</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureADOnPremisesProvisionningErrors</command:noun>
+      <maml:description>
+        <maml:para>Get all Azure AD Connect provisionning errors</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get all Azure AD Connect provisionning errors for groups, users, contacts object. Can replace old MSOnline function Get-MsolDirSyncProvisioningError</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureADOnPremisesProvisionningErrors</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>filterObjectType</maml:name>
+          <maml:Description>
+            <maml:para>-filterObjectType string set an object type filter, value must be "users","groups","contacts" or "all" for all object type.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>All</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>filterObjectType</maml:name>
+        <maml:Description>
+          <maml:para>-filterObjectType string set an object type filter, value must be "users","groups","contacts" or "all" for all object type.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>All</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Get all Azure AD Connect provisionning errors for all object types</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADOnPremisesProvisionningErrors</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Get all Azure AD Connect provisionning errors for all contact object type</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADOnPremisesProvisionningErrors -filterObjectType "contacts"</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureADOrganizationCustom</command:name>
       <command:verb>Get</command:verb>
       <command:noun>AzureADOrganizationCustom</command:noun>
