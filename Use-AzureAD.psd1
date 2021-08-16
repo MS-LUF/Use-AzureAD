@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '1.5'
+ModuleVersion = '1.5.1'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()

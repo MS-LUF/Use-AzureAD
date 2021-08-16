@@ -55,7 +55,7 @@
 # - Get-AzureADOrganizationCustom
 # - Update-AzureADOrganizationCustom
 #
-# v1.5 - last public release - beta version - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
+# v1.5.1 - last public release - beta version - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
 # - Get-AzureADOnPremisesProvisionningErrors
 #
 #'(c) 2021 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
@@ -2644,7 +2644,7 @@ Function Get-AzureADOnPremisesProvisionningErrors {
         Test-AzureADAccessTokenExpiration | out-null
         if ($filterObjectType -ne "all") {
                 $params = @{
-                    API = "users"
+                    API = $filterObjectType
                     Method = "GET"
                     APIParameter = "?`$filter=onPremisesProvisioningErrors/any(i:i/category eq 'PropertyConflict')&select=onPremisesProvisioningErrors,id,displayname,mail"
                 }
