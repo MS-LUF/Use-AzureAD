@@ -18,7 +18,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+            <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -57,7 +57,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -136,7 +136,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
-            <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
+            <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -163,7 +163,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
-          <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
+          <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -327,7 +327,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
-            <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
+            <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -378,7 +378,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
-          <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
+          <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -488,7 +488,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+            <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -515,7 +515,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -570,7 +570,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Filter</maml:name>
           <maml:Description>
-            <maml:para>-Filter string    Odata Filter query</maml:para>
+            <maml:para>-Filter string Odata Filter query</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -582,7 +582,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+            <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -608,7 +608,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Filter</maml:name>
         <maml:Description>
-          <maml:para>-Filter string    Odata Filter query</maml:para>
+          <maml:para>-Filter string Odata Filter query</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -620,7 +620,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -713,7 +713,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>public</maml:name>
           <maml:Description>
-            <maml:para>-public boolean    choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
+            <maml:para>-public boolean choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
           <dev:type>
@@ -740,7 +740,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>public</maml:name>
         <maml:Description>
-          <maml:para>-public boolean    choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
+          <maml:para>-public boolean choose if you want to display Administrative Unit with hidden membership or public membership</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
         <dev:type>
@@ -908,7 +908,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectID</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the SPN used by your provisionning agent</maml:para>
+            <maml:para>-ObjectId guid GUID of the SPN used by your provisionning agent</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -935,7 +935,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectID</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the SPN used by your provisionning agent</maml:para>
+          <maml:para>-ObjectId guid GUID of the SPN used by your provisionning agent</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -990,7 +990,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -1040,7 +1040,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -1145,7 +1145,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -1172,7 +1172,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -1246,7 +1246,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -1284,7 +1284,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -1422,7 +1422,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject PSCustomObject    PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet</maml:para>
+            <maml:para>-inputobject PSCustomObject PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -1437,7 +1437,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject PSCustomObject    PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet</maml:para>
+          <maml:para>-inputobject PSCustomObject PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -1468,7 +1468,7 @@
         <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
         <dev:code>Get all updates from an initial delta view for manager and department properties of fb01091c-a9b2-4cd2-bbc9-130dfc91452a and 2092d280-2821-45ae-9e47-e9433a65868d users objects previously saved in $delta</dev:code>
         <dev:remarks>
-          <maml:para>C:\PS&gt; $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose    C:\PS&gt; Get-AzureADDeltaFromView -inputobject $delta</maml:para>
+          <maml:para>C:\PS&gt; $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose C:\PS&gt; Get-AzureADDeltaFromView -inputobject $delta</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1684,7 +1684,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Filter</maml:name>
           <maml:Description>
-            <maml:para>-Filter string    Odata Filter query</maml:para>
+            <maml:para>-Filter string Odata Filter query</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1696,7 +1696,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Service Principal</maml:para>
+            <maml:para>-ObjectId guid GUID of the Service Principal</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -1711,7 +1711,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Filter</maml:name>
         <maml:Description>
-          <maml:para>-Filter string    Odata Filter query</maml:para>
+          <maml:para>-Filter string Odata Filter query</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1723,7 +1723,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Service Principal</maml:para>
+          <maml:para>-ObjectId guid GUID of the Service Principal</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -1785,7 +1785,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>adminUPN</maml:name>
           <maml:Description>
-            <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
+            <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -1812,7 +1812,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>adminUPN</maml:name>
         <maml:Description>
-          <maml:para>-adminUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
+          <maml:para>-adminUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -1898,7 +1898,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the user account</maml:para>
+            <maml:para>-ObjectId guid GUID of the user account</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -1925,7 +1925,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the user account</maml:para>
+          <maml:para>-ObjectId guid GUID of the user account</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -2193,7 +2193,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>userUPN</maml:name>
           <maml:Description>
-            <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+            <maml:para>-userUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
           <dev:type>
@@ -2205,7 +2205,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>Filter</maml:name>
           <maml:Description>
-            <maml:para>-Filter string    Odata Filter query</maml:para>
+            <maml:para>-Filter string Odata Filter query</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2217,7 +2217,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+            <maml:para>-ObjectId guid GUID of the Azure AD user object</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -2255,7 +2255,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>userUPN</maml:name>
         <maml:Description>
-          <maml:para>-userUPN System.Net.Mail.MailAddress    UserPrincipalName of an Azure AD account</maml:para>
+          <maml:para>-userUPN System.Net.Mail.MailAddress UserPrincipalName of an Azure AD account</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">MailAddress</command:parameterValue>
         <dev:type>
@@ -2279,7 +2279,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>Filter</maml:name>
         <maml:Description>
-          <maml:para>-Filter string    Odata Filter query</maml:para>
+          <maml:para>-Filter string Odata Filter query</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2291,7 +2291,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Azure AD user object</maml:para>
+          <maml:para>-ObjectId guid GUID of the Azure AD user object</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -2353,7 +2353,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
           <dev:type>
@@ -2380,7 +2380,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User    Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.User Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">User</command:parameterValue>
         <dev:type>
@@ -2627,6 +2627,85 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Invoke-APIMSGraphBetaPaging</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>APIMSGraphBetaPaging</command:noun>
+      <maml:description>
+        <maml:para>{{Fill in the Synopsis}}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{Fill in the Description}}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-APIMSGraphBetaPaging</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Paging</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Paging Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+          <dev:type>
+            <maml:name>Uri</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Paging</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Paging Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Aucun(e)</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>New-AzureADAdministrativeUnitCustom</command:name>
       <command:verb>New</command:verb>
       <command:noun>AzureADAdministrativeUnitCustom</command:noun>
@@ -2643,7 +2722,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>displayName</maml:name>
           <maml:Description>
-            <maml:para>-displayName String    display name of the new admin unit</maml:para>
+            <maml:para>-displayName String display name of the new admin unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2655,7 +2734,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>description</maml:name>
           <maml:Description>
-            <maml:para>-description String    description name of the new admin unit</maml:para>
+            <maml:para>-description String description name of the new admin unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2681,7 +2760,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>displayName</maml:name>
         <maml:Description>
-          <maml:para>-displayName String    display name of the new admin unit</maml:para>
+          <maml:para>-displayName String display name of the new admin unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2693,7 +2772,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>description</maml:name>
         <maml:Description>
-          <maml:para>-description String    description name of the new admin unit</maml:para>
+          <maml:para>-description String description name of the new admin unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2979,7 +3058,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ObjectType</maml:name>
           <maml:Description>
-            <maml:para>-ObjectType String {"Users","Groups","AdministrativeUnits"}    target object type you want to use for the delta view</maml:para>
+            <maml:para>-ObjectType String {"Users","Groups","AdministrativeUnits"} target object type you want to use for the delta view</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3018,7 +3097,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>ObjectType</maml:name>
         <maml:Description>
-          <maml:para>-ObjectType String {"Users","Groups","AdministrativeUnits"}    target object type you want to use for the delta view</maml:para>
+          <maml:para>-ObjectType String {"Users","Groups","AdministrativeUnits"} target object type you want to use for the delta view</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3116,7 +3195,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+            <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -3128,7 +3207,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>RefObjectId</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId RefObjectId    GUID of the Administrative Unit member</maml:para>
+            <maml:para>-ObjectId RefObjectId GUID of the Administrative Unit member</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -3155,7 +3234,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the Administrative Unit</maml:para>
+          <maml:para>-ObjectId guid GUID of the Administrative Unit</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -3167,7 +3246,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>RefObjectId</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId RefObjectId    GUID of the Administrative Unit member</maml:para>
+          <maml:para>-ObjectId RefObjectId GUID of the Administrative Unit member</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
@@ -3229,7 +3308,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -3256,7 +3335,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -3465,7 +3544,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -3550,7 +3629,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -3684,7 +3763,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -3757,7 +3836,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -3886,7 +3965,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>Proxy</maml:name>
           <maml:Description>
-            <maml:para>-Proxy uri    Set the proxy settings to URI provided. Must be provided as a valid URI like http://proxy:port</maml:para>
+            <maml:para>-Proxy uri Set the proxy settings to URI provided. Must be provided as a valid URI like http://proxy:port</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
           <dev:type>
@@ -3898,7 +3977,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ProxyCredential</maml:name>
           <maml:Description>
-            <maml:para>-ProxyCredential Management.Automation.PSCredential    must be use with Proxy parameter    Set the credential to be used with the proxy to set. Must be provided as a valid PSCredential object (can be generated with Get-Credential)</maml:para>
+            <maml:para>-ProxyCredential Management.Automation.PSCredential must be use with Proxy parameter Set the credential to be used with the proxy to set. Must be provided as a valid PSCredential object (can be generated with Get-Credential)</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
           <dev:type>
@@ -3910,7 +3989,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>DirectNoProxy</maml:name>
           <maml:Description>
-            <maml:para>-DirectNoProxy Swith    Remove proxy set, set to "direct" connection</maml:para>
+            <maml:para>-DirectNoProxy Swith Remove proxy set, set to "direct" connection</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3946,7 +4025,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>DirectNoProxy</maml:name>
         <maml:Description>
-          <maml:para>-DirectNoProxy Swith    Remove proxy set, set to "direct" connection</maml:para>
+          <maml:para>-DirectNoProxy Swith Remove proxy set, set to "direct" connection</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3958,7 +4037,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>Proxy</maml:name>
         <maml:Description>
-          <maml:para>-Proxy uri    Set the proxy settings to URI provided. Must be provided as a valid URI like http://proxy:port</maml:para>
+          <maml:para>-Proxy uri Set the proxy settings to URI provided. Must be provided as a valid URI like http://proxy:port</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         <dev:type>
@@ -3970,7 +4049,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ProxyCredential</maml:name>
         <maml:Description>
-          <maml:para>-ProxyCredential Management.Automation.PSCredential    must be use with Proxy parameter    Set the credential to be used with the proxy to set. Must be provided as a valid PSCredential object (can be generated with Get-Credential)</maml:para>
+          <maml:para>-ProxyCredential Management.Automation.PSCredential must be use with Proxy parameter Set the credential to be used with the proxy to set. Must be provided as a valid PSCredential object (can be generated with Get-Credential)</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         <dev:type>
@@ -4063,7 +4142,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>OUsFilterName</maml:name>
           <maml:Description>
-            <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
+            <maml:para>-OUsFilterName string must be used with AllOUs parameter Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4075,7 +4154,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>OUsDN</maml:name>
           <maml:Description>
-            <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+            <maml:para>-OUsDN string / array of string must not be used with AllOUs parameter. you must choose between these 2 parameters. string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -4099,7 +4178,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AllOUs</maml:name>
           <maml:Description>
-            <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+            <maml:para>-AllOUs Switch Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -4113,7 +4192,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AllOUs</maml:name>
         <maml:Description>
-          <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+          <maml:para>-AllOUs Switch Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4125,7 +4204,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>OUsFilterName</maml:name>
         <maml:Description>
-          <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
+          <maml:para>-OUsFilterName string must be used with AllOUs parameter Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4137,7 +4216,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>OUsDN</maml:name>
         <maml:Description>
-          <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+          <maml:para>-OUsDN string / array of string must not be used with AllOUs parameter. you must choose between these 2 parameters. string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -4204,7 +4283,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>CloudUPNAttribute</maml:name>
           <maml:Description>
-            <maml:para>-CloudUPNAttribute string    On premise AD user account attribute hosting the cloud Azure AD User userprincipal name. For instance, it could be also the userPrincipalName attribute or mail attribute.</maml:para>
+            <maml:para>-CloudUPNAttribute string On premise AD user account attribute hosting the cloud Azure AD User userprincipal name. For instance, it could be also the userPrincipalName attribute or mail attribute.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4216,7 +4295,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>OUsFilterName</maml:name>
           <maml:Description>
-            <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
+            <maml:para>-OUsFilterName string must be used with AllOUs parameter Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4240,7 +4319,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>OUsDN</maml:name>
           <maml:Description>
-            <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+            <maml:para>-OUsDN string / array of string must not be used with AllOUs parameter. you must choose between these 2 parameters. string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -4264,7 +4343,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AllOUs</maml:name>
           <maml:Description>
-            <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+            <maml:para>-AllOUs Switch Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -4278,7 +4357,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>CloudUPNAttribute</maml:name>
         <maml:Description>
-          <maml:para>-CloudUPNAttribute string    On premise AD user account attribute hosting the cloud Azure AD User userprincipal name. For instance, it could be also the userPrincipalName attribute or mail attribute.</maml:para>
+          <maml:para>-CloudUPNAttribute string On premise AD user account attribute hosting the cloud Azure AD User userprincipal name. For instance, it could be also the userPrincipalName attribute or mail attribute.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4290,7 +4369,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AllOUs</maml:name>
         <maml:Description>
-          <maml:para>-AllOUs Switch    Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
+          <maml:para>-AllOUs Switch Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4302,7 +4381,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>OUsFilterName</maml:name>
         <maml:Description>
-          <maml:para>-OUsFilterName string    must be used with AllOUs parameter    Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
+          <maml:para>-OUsFilterName string must be used with AllOUs parameter Set a regex filter to synchronize only OU based on a specific pattern.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4326,7 +4405,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>OUsDN</maml:name>
         <maml:Description>
-          <maml:para>-OUsDN string / array of string    must not be used with AllOUs parameter. you must choose between these 2 parameters.    string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
+          <maml:para>-OUsDN string / array of string must not be used with AllOUs parameter. you must choose between these 2 parameters. string must be a LDAP Distinguished Name. For instance : "OU=TP-VB,DC=domain,DC=xyz"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -4625,7 +4704,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
           <maml:name>inputobject</maml:name>
           <maml:Description>
-            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+            <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
           <dev:type>
@@ -4676,7 +4755,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
         <maml:name>inputobject</maml:name>
         <maml:Description>
-          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group    Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
+          <maml:para>-inputobject Microsoft.Open.AzureAD.Model.Group Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
         <dev:type>
@@ -4786,7 +4865,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>ObjectID</maml:name>
           <maml:Description>
-            <maml:para>-ObjectId guid    GUID of the SPN used by your provisionning agent</maml:para>
+            <maml:para>-ObjectId guid GUID of the SPN used by your provisionning agent</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
@@ -4825,7 +4904,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>ObjectID</maml:name>
         <maml:Description>
-          <maml:para>-ObjectId guid    GUID of the SPN used by your provisionning agent</maml:para>
+          <maml:para>-ObjectId guid GUID of the SPN used by your provisionning agent</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
