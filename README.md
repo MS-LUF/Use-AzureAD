@@ -65,9 +65,12 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
 - add functions to get and update Azure AD organization information
   - Get-AzureADOrganizationCustom
   - Update-AzureADOrganizationCustom
-### 1.5 - last release - beta version
+### 1.5 - beta version
 - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
   - Get-AzureADOnPremisesProvisionningErrors
+### 1.6 - last release - beta version
+- fix CallDepthOverflow on huge pages response
+- add function Invoke-APIMSGraphBetaPaging
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -164,5 +167,6 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Get-AzureADOrganizationCustom
  - Update-AzureADOrganizationCustom
  - Get-AzureADOnPremisesProvisionningErrors
+ - Invoke-APIMSGraphBetaPaging
 ### alias
 - Get-AzureADUserAllInfo

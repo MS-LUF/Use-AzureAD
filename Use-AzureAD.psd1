@@ -12,7 +12,7 @@
 RootModule = 'use-AzureAD.psm1'
 
 # Numero de version de ce module.
-ModuleVersion = '1.5.1'
+ModuleVersion = '1.6'
 
 # editions PS prises en charge
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ PowerShellVersion = '5.1'
 # NestedModules = @()
 
 # Fonctions a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas leentree. Utilisez un tableau vide si vous neavez aucune fonction a exporter.
-FunctionsToExport = 'Add-AzureADAdministrativeUnitMemberCustom','Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Connect-MSOnlineFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADAdministrativeUnitCustom','Get-AzureADAdministrativeUnitHidden','Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema','Get-AzureADConnectCloudProvisionningServiceSyncSchema','Get-AzureADDynamicGroup','Get-AzureADGroupLicenseDetail','Get-AzureADGroupMembersWithLicenseErrors','Get-AzureADMyInfo','Get-AzureADObjectDeltaView','Get-AzureADServicePrincipalCustom','Get-AzureADTenantInfo','Get-AzureADUserCustom','Get-AzureADUserLicenseAssignmentStates','Invoke-APIMSGraphBeta','New-AzureADAdministrativeUnitCustom','New-AzureADDynamicGroup','New-AzureADObjectDeltaView','Remove-AzureADDynamicGroup','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADDynamicGroup','Set-AzureADGroupLicense','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember','Test-ADModule','Test-AzureADAccessTokenExpiration','Test-AzureADAccesToken','Test-AzureADUserForGroupDynamicMembership','Update-AzureADConnectCloudProvisionningServiceSyncSchema', 'Watch-AzureADAccessToken', 'Get-AzureADUserAdministrativeUnitMemberOfCustom', 'Remove-AzureADAdministrativeUnitMemberCustom', 'Get-AzureADOrganizationCustom','Update-AzureADOrganizationCustom','Get-AzureADOnPremisesProvisionningErrors'
+FunctionsToExport = 'Add-AzureADAdministrativeUnitMemberCustom','Clear-AzureADAccessToken','Connect-AzureADFromAccessToken','Connect-MSOnlineFromAccessToken','Get-AzureADAccessToken','Get-AzureADAdministrativeUnitAllMembers','Get-AzureADAdministrativeUnitCustom','Get-AzureADAdministrativeUnitHidden','Get-AzureADConnectCloudProvisionningServiceSyncDefaultSchema','Get-AzureADConnectCloudProvisionningServiceSyncSchema','Get-AzureADDynamicGroup','Get-AzureADGroupLicenseDetail','Get-AzureADGroupMembersWithLicenseErrors','Get-AzureADMyInfo','Get-AzureADObjectDeltaView','Get-AzureADServicePrincipalCustom','Get-AzureADTenantInfo','Get-AzureADUserCustom','Get-AzureADUserLicenseAssignmentStates','Invoke-APIMSGraphBeta','Invoke-APIMSGraphBetaPaging','New-AzureADAdministrativeUnitCustom','New-AzureADDynamicGroup','New-AzureADObjectDeltaView','Remove-AzureADDynamicGroup','Set-AzureADAdministrativeUnitAdminRole','Set-AzureADDynamicGroup','Set-AzureADGroupLicense','Set-AzureADProxy','Sync-ADOUtoAzureADAdministrativeUnit','Sync-ADUsertoAzureADAdministrativeUnitMember','Test-ADModule','Test-AzureADAccessTokenExpiration','Test-AzureADAccesToken','Test-AzureADUserForGroupDynamicMembership','Update-AzureADConnectCloudProvisionningServiceSyncSchema', 'Watch-AzureADAccessToken', 'Get-AzureADUserAdministrativeUnitMemberOfCustom', 'Remove-AzureADAdministrativeUnitMemberCustom', 'Get-AzureADOrganizationCustom','Update-AzureADOrganizationCustom','Get-AzureADOnPremisesProvisionningErrors'
 
 # Applets de commande a exporter a partir de ce module. Pour de meilleures performances, neutilisez pas de caracteres generiques et ne supprimez pas l entree. Utilisez un tableau vide si vous neavez aucune applet de commande e exporter.
 CmdletsToExport = @()
@@ -107,7 +107,7 @@ PrivateData = @{
         IconUri = 'http://www.lucas-cueff.com/files/gallery.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.5 - last public release - beta version - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError'
+        ReleaseNotes = 'v1.6 - last public release - beta version - fix CallDepthOverflow on huge pages response'
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
 
