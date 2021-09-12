@@ -46,7 +46,7 @@ C:\PS\> Get-AzureADAdministrativeUnitCustom -All
 
 ### -Filter
 -Filter string
-   Odata Filter query
+Odata Filter query
 
 ```yaml
 Type: String
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Administrative Unit
+GUID of the Administrative Unit
 
 ```yaml
 Type: Guid

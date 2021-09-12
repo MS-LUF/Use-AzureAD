@@ -40,7 +40,7 @@ C:\PS\> Test-AzureADUserForGroupDynamicMembership -ObjectID 53cf95f1-49be-463e-9
 
 ### -inputobject
 -inputobject Microsoft.Open.AzureAD.Model.Group
-   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
 
 ```yaml
 Type: Group

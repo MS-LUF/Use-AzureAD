@@ -56,7 +56,7 @@ Accept wildcard characters: False
 
 ### -userUPN
 -userUPN System.Net.Mail.MailAddress
-   UserPrincipalName of an Azure AD account
+UserPrincipalName of an Azure AD account
 
 ```yaml
 Type: MailAddress
@@ -87,7 +87,7 @@ Accept wildcard characters: False
 
 ### -Filter
 -Filter string
-   Odata Filter query
+Odata Filter query
 
 ```yaml
 Type: String
@@ -103,7 +103,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Azure AD user object
+GUID of the Azure AD user object
 
 ```yaml
 Type: Guid

@@ -49,7 +49,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Administrative Unit
+GUID of the Administrative Unit
 
 ```yaml
 Type: Guid

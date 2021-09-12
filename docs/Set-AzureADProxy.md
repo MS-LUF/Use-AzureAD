@@ -48,7 +48,7 @@ C:\PS\> Set-AzureADProxy -Proxy "http://127.0.0.1:8888" -BypassProxyOnLocal
 
 ### -DirectNoProxy
 -DirectNoProxy Swith
-   Remove proxy set, set to "direct" connection
+Remove proxy set, set to "direct" connection
 
 ```yaml
 Type: SwitchParameter
@@ -64,7 +64,7 @@ Accept wildcard characters: False
 
 ### -Proxy
 -Proxy uri
-   Set the proxy settings to URI provided.
+Set the proxy settings to URI provided.
 Must be provided as a valid URI like http://proxy:port
 
 ```yaml
@@ -81,8 +81,8 @@ Accept wildcard characters: False
 
 ### -ProxyCredential
 -ProxyCredential Management.Automation.PSCredential
-   must be use with Proxy parameter
-   Set the credential to be used with the proxy to set.
+must be use with Proxy parameter
+Set the credential to be used with the proxy to set.
 Must be provided as a valid PSCredential object (can be generated with Get-Credential)
 
 ```yaml

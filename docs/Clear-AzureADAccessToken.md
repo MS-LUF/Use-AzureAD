@@ -41,7 +41,7 @@ C:\PS\> Clear-AzureADAccessToken -ServicePrincipalTenantDomain mydomain.tld
 
 ### -adminUPN
 -adminUPN System.Net.Mail.MailAddress
-   UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed
+UserPrincipalName of the Azure AD account currently logged in that you want the access token to be removed
 
 ```yaml
 Type: MailAddress

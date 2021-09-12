@@ -39,7 +39,7 @@ C:\PS\> Get-AzureAdGroup -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-Az
 
 ### -inputobject
 -inputobject Microsoft.Open.AzureAD.Model.Group
-   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
 
 ```yaml
 Type: Group

@@ -42,7 +42,7 @@ C:\PS\> New-AzureADAdministrativeUnitCustom -displayName "test" -description "Te
 
 ### -displayName
 -displayName String
-   display name of the new admin unit
+display name of the new admin unit
 
 ```yaml
 Type: String
@@ -58,7 +58,7 @@ Accept wildcard characters: False
 
 ### -description
 -description String
-   description name of the new admin unit
+description name of the new admin unit
 
 ```yaml
 Type: String

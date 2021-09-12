@@ -40,7 +40,7 @@ C:\PS\> Get-AzureAdUser -ObjectID fb01091c-a9b2-4cd2-bbc9-130dfc91452a | Get-Azu
 
 ### -inputobject
 -inputobject Microsoft.Open.AzureAD.Model.User
-   Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet
+Microsoft.Open.AzureAD.Model.User generated previously with Get-AzureADUser cmdlet
 
 ```yaml
 Type: User

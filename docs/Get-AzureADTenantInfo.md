@@ -41,7 +41,7 @@ C:\PS\> Get-AzureADTenantInfo -ServicePrincipalTenantDomain mydomain.tld
 
 ### -adminUPN
 -adminUPN System.Net.Mail.MailAddress
-   UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
+UserPrincipalName of an Azure AD account with rights on Directory (for instance a user with Global Admin right)
 
 ```yaml
 Type: MailAddress

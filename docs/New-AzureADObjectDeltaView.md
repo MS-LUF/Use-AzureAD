@@ -42,7 +42,7 @@ C:\PS\> New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manage
 
 ### -ObjectType
 -ObjectType String {"Users","Groups","AdministrativeUnits"}
-   target object type you want to use for the delta view
+target object type you want to use for the delta view
 
 ```yaml
 Type: String

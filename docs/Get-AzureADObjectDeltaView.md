@@ -30,13 +30,13 @@ Get all updates from an initial delta view for manager and department properties
 ```
 
 C:\PS\> $delta = New-AzureADObjectDeltaView -ObjectType Users -SelectProperties @("manager","department") -FilterIDs @("fb01091c-a9b2-4cd2-bbc9-130dfc91452a","2092d280-2821-45ae-9e47-e9433a65868d") -Verbose
-   C:\PS\> Get-AzureADDeltaFromView -inputobject $delta
+C:\PS\> Get-AzureADDeltaFromView -inputobject $delta
 
 ## PARAMETERS
 
 ### -inputobject
 -inputobject PSCustomObject
-   PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet
+PSCustomObject generated previously with New-AzureADObjectDeltaView cmdlet
 
 ```yaml
 Type: Object

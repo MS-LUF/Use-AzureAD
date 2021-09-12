@@ -33,7 +33,7 @@ C:\PS\> Add-AzureADAdministrativeUnitMemberCustom -ObjectId fb01091c-a9b2-4cd2-b
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Administrative Unit
+GUID of the Administrative Unit
 
 ```yaml
 Type: Guid

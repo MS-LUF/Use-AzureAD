@@ -56,7 +56,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the user account
+GUID of the user account
 
 ```yaml
 Type: Guid

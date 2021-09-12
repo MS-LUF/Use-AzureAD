@@ -41,7 +41,7 @@ C:\PS\> Set-AzureADDynamicGroup -ObjectId 17a58653-3654-40bd-85ce-333ece486793 -
 
 ### -inputobject
 -inputobject Microsoft.Open.AzureAD.Model.Group
-   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
 
 ```yaml
 Type: Group

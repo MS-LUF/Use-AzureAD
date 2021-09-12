@@ -39,7 +39,7 @@ C:\PS\> Get-AzureADServicePrincipalCustom -ObjectId fb01091c-a9b2-4cd2-bbc9-130d
 
 ### -Filter
 -Filter string
-   Odata Filter query
+Odata Filter query
 
 ```yaml
 Type: String
@@ -55,7 +55,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Service Principal
+GUID of the Service Principal
 
 ```yaml
 Type: Guid

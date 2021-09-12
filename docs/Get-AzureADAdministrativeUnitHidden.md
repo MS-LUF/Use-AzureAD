@@ -58,7 +58,7 @@ Accept wildcard characters: False
 
 ### -public
 -public boolean
-   choose if you want to display Administrative Unit with hidden membership or public membership
+choose if you want to display Administrative Unit with hidden membership or public membership
 
 ```yaml
 Type: Boolean

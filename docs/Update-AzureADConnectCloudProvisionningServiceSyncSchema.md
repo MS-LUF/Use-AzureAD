@@ -49,7 +49,7 @@ Accept wildcard characters: False
 
 ### -ObjectID
 -ObjectId guid
-   GUID of the SPN used by your provisionning agent
+GUID of the SPN used by your provisionning agent
 
 ```yaml
 Type: Guid

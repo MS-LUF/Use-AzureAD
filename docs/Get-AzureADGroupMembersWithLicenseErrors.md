@@ -49,7 +49,7 @@ C:\PS\> Get-AzureADGroupMembersWithLicenseErrors -All
 
 ### -inputobject
 -inputobject Microsoft.Open.AzureAD.Model.Group
-   Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
+Microsoft.Open.AzureAD.Model.Group generated previously with Get-AzureADGroup cmdlet
 
 ```yaml
 Type: Group

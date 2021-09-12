@@ -56,7 +56,7 @@ Accept wildcard characters: False
 
 ### -ObjectId
 -ObjectId guid
-   GUID of the Administrative Unit
+GUID of the Administrative Unit
 
 ```yaml
 Type: Guid
@@ -72,7 +72,7 @@ Accept wildcard characters: False
 
 ### -RefObjectId
 -ObjectId RefObjectId
-   GUID of the Administrative Unit member
+GUID of the Administrative Unit member
 
 ```yaml
 Type: Guid

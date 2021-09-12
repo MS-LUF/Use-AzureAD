@@ -35,7 +35,7 @@ C:\PS\> Sync-ADOUtoAzureADAdministrativeUnit -AllOUs -OUsFilterName "^(\[a-zA-Z\
 
 ### -AllOUs
 -AllOUs Switch
-   Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)
+Synchronize all existing OU to new cloud Admin Unit (except default OU like Domain Controllers)
 
 ```yaml
 Type: SwitchParameter
@@ -51,8 +51,8 @@ Accept wildcard characters: False
 
 ### -OUsFilterName
 -OUsFilterName string
-   must be used with AllOUs parameter
-   Set a regex filter to synchronize only OU based on a specific pattern.
+must be used with AllOUs parameter
+Set a regex filter to synchronize only OU based on a specific pattern.
 
 ```yaml
 Type: String
@@ -68,9 +68,9 @@ Accept wildcard characters: False
 
 ### -OUsDN
 -OUsDN string / array of string
-   must not be used with AllOUs parameter.
+must not be used with AllOUs parameter.
 you must choose between these 2 parameters.
-   string must be a LDAP Distinguished Name.
+string must be a LDAP Distinguished Name.
 For instance : "OU=TP-VB,DC=domain,DC=xyz"
 
 ```yaml
