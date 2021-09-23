@@ -3042,6 +3042,251 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>New-AzureADMSGroupCustom</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>AzureADMSGroupCustom</command:noun>
+      <maml:description>
+        <maml:para>Create a new Azure AD Office 365 dynamic or static group</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Create a new Azure AD Office 365 dynamic or static group with resourceBehaviorOptions and resourceProvisioningOptions support : https://docs.microsoft.com/en-us/graph/group-set-options</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureADMSGroupCustom</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>DisplayName</maml:name>
+          <maml:Description>
+            <maml:para>-DisplayName String Displayname of the new group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Description</maml:name>
+          <maml:Description>
+            <maml:para>-Description String Description of the new group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>MailNickname</maml:name>
+          <maml:Description>
+            <maml:para>-MailNickname string mail nickname to be used for the group. if not defined, the displayname value is used.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>groupType</maml:name>
+          <maml:Description>
+            <maml:para>-groupType string ("StaticMembership","DynamicMembership") use "StaticMembership" value to create a standard group with classic members, use "DynamicMembership" value to create a dynamic group with members managed by rules. when using "DynamicMembership", the parameter "MembershipRule" must be use also to define the rule</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>StaticMembership</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>visibility</maml:name>
+          <maml:Description>
+            <maml:para>-visibility string ("private","public","Hiddenmembership") use "private" to create a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Private</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+          <maml:name>MemberShipRule</maml:name>
+          <maml:Description>
+            <maml:para>-MembershipRule string Membership rule (string) of the new dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+          <maml:name>resourceBehaviorOptions</maml:name>
+          <maml:Description>
+            <maml:para>-resourceBehaviorOptions array of string ("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled","SubscribeNewGroupMembers") more information here : https://docs.microsoft.com/en-us/graph/group-set-options</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+          <maml:name>resourceProvisioningOptions</maml:name>
+          <maml:Description>
+            <maml:para>-resourceProvisioningOptions array of string ("Teams") more information here : https://docs.microsoft.com/en-us/graph/group-set-options</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>DisplayName</maml:name>
+        <maml:Description>
+          <maml:para>-DisplayName String Displayname of the new group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Description</maml:name>
+        <maml:Description>
+          <maml:para>-Description String Description of the new group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>MailNickname</maml:name>
+        <maml:Description>
+          <maml:para>-MailNickname string mail nickname to be used for the group. if not defined, the displayname value is used.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>groupType</maml:name>
+        <maml:Description>
+          <maml:para>-groupType string ("StaticMembership","DynamicMembership") use "StaticMembership" value to create a standard group with classic members, use "DynamicMembership" value to create a dynamic group with members managed by rules. when using "DynamicMembership", the parameter "MembershipRule" must be use also to define the rule</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>StaticMembership</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>visibility</maml:name>
+        <maml:Description>
+          <maml:para>-visibility string ("private","public","Hiddenmembership") use "private" to create a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Private</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <maml:name>MemberShipRule</maml:name>
+        <maml:Description>
+          <maml:para>-MembershipRule string Membership rule (string) of the new dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+        <maml:name>resourceBehaviorOptions</maml:name>
+        <maml:Description>
+          <maml:para>-resourceBehaviorOptions array of string ("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled","SubscribeNewGroupMembers") more information here : https://docs.microsoft.com/en-us/graph/group-set-options</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+        <maml:name>resourceProvisioningOptions</maml:name>
+        <maml:Description>
+          <maml:para>-resourceProvisioningOptions array of string ("Teams") more information here : https://docs.microsoft.com/en-us/graph/group-set-options</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Create a new static group testapigroup4 with resourceBehaviorOptions set</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; New-AzureADMSGroupCustom -DisplayName "testapigroup4" -Description "testapigroup4" -resourceBehaviorOptions @("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled")</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Create a new dynamic group testapigroup5 with resourceBehaviorOptions and resourceProvisioningOptions set</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; New-AzureADMSGroupCustom -DisplayName "testapigroup5" -Description "testapigroup5" -resourceBehaviorOptions @("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled") -MailNickname "testapigroup55" -groupType DynamicMembership -visibility public -MemberShipRule "(user.userType -eq `"Guest`")" -resourceProvisioningOptions Teams -Verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>New-AzureADObjectDeltaView</command:name>
       <command:verb>New</command:verb>
       <command:noun>AzureADObjectDeltaView</command:noun>
@@ -3942,6 +4187,227 @@
         <dev:code>Add license sku 84a661c4-e949-4bd2-a560-ed7766fcaf2b to the group 53cf95f1-49be-463e-9856-77c2b2c3e4a0 and disable service plans 113feb6c-3fe4-4440-bddc-54d774bf0318, 932ad362-64a8-4783-9106-97849a1a30b9 from this sku</dev:code>
         <dev:remarks>
           <maml:para>C:\PS&gt; Set-AzureADGroupLicense -ObjectID 53cf95f1-49be-463e-9856-77c2b2c3e4a0 -AddLicense -SkuID 84a661c4-e949-4bd2-a560-ed7766fcaf2b -DisabledPlans @("113feb6c-3fe4-4440-bddc-54d774bf0318", "932ad362-64a8-4783-9106-97849a1a30b9") -verbose</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-AzureADMSGroupCustom</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureADMSGroupCustom</command:noun>
+      <maml:description>
+        <maml:para>Update an existing Azure AD Office 365 dynamic or static group</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Update an existing Azure AD Office 365 dynamic or static group with resourceExchangeOptions support : https://docs.microsoft.com/en-us/graph/api/group-update?view=graph-rest-beta&amp;tabs=http</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureADMSGroupCustom</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+          <maml:name>inputobject</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill inputobject Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+          <dev:type>
+            <maml:name>Group</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>ObjectID</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill ObjectID Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+          <dev:type>
+            <maml:name>Guid</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>NewDisplayName</maml:name>
+          <maml:Description>
+            <maml:para>-NewDisplayname String Updated displayname of the new group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>NewDescription</maml:name>
+          <maml:Description>
+            <maml:para>-NewDescription String Updated description of the group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>NewMailNickname</maml:name>
+          <maml:Description>
+            <maml:para>NewMailNickname string updated mail nickname to be used for the group. if not defined, the new displayname value is used.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+          <maml:name>Newvisibility</maml:name>
+          <maml:Description>
+            <maml:para>-Newvisibility string ("private","public","Hiddenmembership") use "private" to update to a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+          <maml:name>ResourceExchangeOptions</maml:name>
+          <maml:Description>
+            <maml:para>-ResourceExchangeOptions hastable  available key name : allowExternalSenders, autoSubscribeNewMembers, hideFromAddressLists, hideFromOutlookClients, isSubscribedByMail, unseenCount available value : boolean for all key except unseenCount int32</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+          <dev:type>
+            <maml:name>Hashtable</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="none">
+        <maml:name>inputobject</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill inputobject Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Group</command:parameterValue>
+        <dev:type>
+          <maml:name>Group</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>ObjectID</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill ObjectID Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>NewDisplayName</maml:name>
+        <maml:Description>
+          <maml:para>-NewDisplayname String Updated displayname of the new group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>NewDescription</maml:name>
+        <maml:Description>
+          <maml:para>-NewDescription String Updated description of the group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>NewMailNickname</maml:name>
+        <maml:Description>
+          <maml:para>NewMailNickname string updated mail nickname to be used for the group. if not defined, the new displayname value is used.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <maml:name>Newvisibility</maml:name>
+        <maml:Description>
+          <maml:para>-Newvisibility string ("private","public","Hiddenmembership") use "private" to update to a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+        <maml:name>ResourceExchangeOptions</maml:name>
+        <maml:Description>
+          <maml:para>-ResourceExchangeOptions hastable  available key name : allowExternalSenders, autoSubscribeNewMembers, hideFromAddressLists, hideFromOutlookClients, isSubscribedByMail, unseenCount available value : boolean for all key except unseenCount int32</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>TypeName : System.Management.Automation.PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 1 --------------------------</maml:title>
+        <dev:code>Update a group to set several Exchange options</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroup -ObjectId fd04a7ae-65e2-44ba-a940-b75efbd95d7e | set-AzureADMSGroupCustom -ResourceExchangeOptions @{"hideFromAddressLists"=$true;"allowExternalSenders"=$false;"autoSubscribeNewMembers"=$false;"hideFromOutlookClients"=$true;"isSubscribedByMail"=$false;"unseenCount"=10}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXEMPLE 2 --------------------------</maml:title>
+        <dev:code>Update a group to set a new description</dev:code>
+        <dev:remarks>
+          <maml:para>C:\PS&gt; Get-AzureADGroup -ObjectId fd04a7ae-65e2-44ba-a940-b75efbd95d7e | set-AzureADMSGroupCustom -NewDescription "testapigroup55 test"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
