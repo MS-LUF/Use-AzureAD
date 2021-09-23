@@ -7,7 +7,7 @@ Simple PowerShell module to manage your Azure Active Directory Tenant (focusing 
 
 ## Notes
 currently Powershell Core and AzureADPreview are not working well together (logon / token request issue)
-The issue is opened here : https://github.com/PowerShell/PowerShell/issues/10473  
+The issue is opened [here](https://github.com/PowerShell/PowerShell/issues/10473)  
 Waiting for the fix, this module will **work only with Windows Powershell 5.1**
 
 ## Notes version :
@@ -44,7 +44,7 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - cmdlet to add or remove a license on an Azure AD Group
  - cmdlet to get licensing assignment type (group or user) of a particular user
 ### 1.0 - beta version
-- add service principal management for authentication and fix / improve code using DaveyRance remark : https://github.com/DaveyRance
+- add service principal management for authentication and fix / improve code using [DaveyRance](https://github.com/DaveyRance) remark
 ### 1.1 - beta version
 - update authority URL for Service Principal to be compliant with last version of ADAL library
 ### 1.2 - beta version
@@ -58,19 +58,23 @@ add functions / cmdlets related to group and licensing stuff missing from azurea
  - add cmdlet Watch-AzureADAccessToken (be able to watch and auto renew Access Token of a service principal before expiration - useful in a script context when operation can take more than one hour)
  - update cmdlet Set-AzureADProxy (add bypassproxy on local option)
 ### 1.3 - beta version
-- add function to get administrative units of a user account and remove a user account from an administrative unit (thanks to Achraf Amor)
+- add cmdlet to get administrative units of a user account and remove a user account from an administrative unit (thanks to Achraf Amor)
   - Get-AzureADUserAdministrativeUnitMemberOfCustom
   - Remove-AzureADAdministrativeUnitMemberCustom
 ### 1.4 - beta version
-- add functions to get and update Azure AD organization information
+- add cmdlets to get and update Azure AD organization information
   - Get-AzureADOrganizationCustom
   - Update-AzureADOrganizationCustom
 ### 1.5 - beta version
-- add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
+- add cmdlet to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
   - Get-AzureADOnPremisesProvisionningErrors
-### 1.6 - last release - beta version
+### 1.6 - beta version
 - fix CallDepthOverflow on huge pages response
-- add function Invoke-APIMSGraphBetaPaging
+- add cmdlet Invoke-APIMSGraphBetaPaging
+### 1.7 - last release - beta version
+- add cmdlets to create / update Office 365 groups with [resourceBehaviorOptions and resourceProvisioningOptions](https://docs.microsoft.com/en-us/graph/group-set-options)
+ - New-AzureADMSGroupCustom
+ - Set-AzureADMSGroupCustom
 
 ## Why another Azure AD module ?
 I am a new player on all Azure AD stuff. Currently, I am interesting in all directory stuff, including synchronization for my new job. When I was trying to understand how this **** works, I understand quickly that the current tools available from MS are buggy and / or not managing everything...
@@ -109,7 +113,7 @@ https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/3916
 https://feedback.azure.com/forums/34192--general-feedback/suggestions/40542640-ms-graph-api-evaluatedynamicmembershipresult-on-gr
 
 ## How-to
-a how-to is available here : https://github.com/MS-LUF/Use-AzureAD/blob/master/Howto.md
+a how-to is available [here](https://github.com/MS-LUF/Use-AzureAD/blob/master/Howto.md)  
 
 ## install Use-AzureAD from PowerShell Gallery repository
 You can easily install it from powershell gallery repository  
@@ -125,7 +129,7 @@ using a simple powershell command and an internet access :-)
 ```
 
 ## module content
-documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD/tree/master/docs  
+documentation in markdown available [here](https://github.com/MS-LUF/Use-AzureAD/tree/master/docs)  
 ### function
  - Clear-AzureADAccessToken
  - Connect-AzureADFromAccessToken
@@ -168,5 +172,7 @@ documentation in markdown available here : https://github.com/MS-LUF/Use-AzureAD
  - Update-AzureADOrganizationCustom
  - Get-AzureADOnPremisesProvisionningErrors
  - Invoke-APIMSGraphBetaPaging
+ - New-AzureADMSGroupCustom
+ - Set-AzureADMSGroupCustom
 ### alias
 - Get-AzureADUserAllInfo

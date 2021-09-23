@@ -56,9 +56,12 @@
 # - Update-AzureADOrganizationCustom
 # v1.5.1 - beta version - add function to get Azure AD Connect synchronization errors through MS Graph API to replace Get-MsolDirSyncProvisioningError
 # - Get-AzureADOnPremisesProvisionningErrors
-# 
-# v1.6 - last public version - beta version - fix CallDepthOverflow on huge pages response
+# v1.6 - beta version - fix CallDepthOverflow on huge pages response
 #
+# v1.7 - last public version - beta version - add functions to create / update Office 365 groups with resourceBehaviorOptions and resourceProvisioningOptions : https://docs.microsoft.com/en-us/graph/group-set-options
+# - New-AzureADMSGroupCustom
+# - Set-AzureADMSGroupCustom
+# 
 #'(c) 2021 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
 <#
@@ -72,7 +75,7 @@
 	.EXAMPLE
 	C:\PS> import-module use-AzureAD.psm1
 #>
-Function Watch-AzureADAccessToken {
+    Function Watch-AzureADAccessToken {
     <#
         .SYNOPSIS 
         Follow an Azure Access Token requested for a service principal and auto renew it before expiration
@@ -1656,6 +1659,251 @@ Function Watch-AzureADAccessToken {
             }
         }
     }
+    Function New-AzureADMSGroupCustom {
+    <#
+        .SYNOPSIS 
+        Create a new Azure AD Office 365 dynamic or static group
+    
+        .DESCRIPTION
+        Create a new Azure AD Office 365 dynamic or static group with resourceBehaviorOptions and resourceProvisioningOptions support : https://docs.microsoft.com/en-us/graph/group-set-options
+        
+        .PARAMETER Description
+        -Description String
+        Description of the new group
+    
+        .PARAMETER Displayname
+        -DisplayName String
+        Displayname of the new group
+    
+        .PARAMETER MembershipRule
+        -MembershipRule string
+        Membership rule (string) of the new dynamic group. More info about rule definition here : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership
+        
+        .PARAMETER MailNickname
+        -MailNickname string
+        mail nickname to be used for the group. if not defined, the displayname value is used.
+
+        .PARAMETER groupType
+        -groupType string ("StaticMembership","DynamicMembership")
+        use "StaticMembership" value to create a standard group with classic members, use "DynamicMembership" value to create a dynamic group with members managed by rules. when using "DynamicMembership", the parameter "MembershipRule" must be use also to define the rule
+        
+        .PARAMETER visibility
+        -visibility string ("private","public","Hiddenmembership")
+        use "private" to create a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership
+        
+        .PARAMETER resourceBehaviorOptions
+        -resourceBehaviorOptions array of string ("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled","SubscribeNewGroupMembers")
+        more information here : https://docs.microsoft.com/en-us/graph/group-set-options
+        
+        .PARAMETER resourceProvisioningOptions
+        -resourceProvisioningOptions array of string ("Teams")
+        more information here : https://docs.microsoft.com/en-us/graph/group-set-options
+
+        .OUTPUTS
+           TypeName : System.Management.Automation.PSCustomObject
+                
+        .EXAMPLE
+        Create a new static group testapigroup4 with resourceBehaviorOptions set
+        C:\PS> New-AzureADMSGroupCustom -DisplayName "testapigroup4" -Description "testapigroup4" -resourceBehaviorOptions @("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled")
+
+        .EXAMPLE
+        Create a new dynamic group testapigroup5 with resourceBehaviorOptions and resourceProvisioningOptions set
+        C:\PS> New-AzureADMSGroupCustom -DisplayName "testapigroup5" -Description "testapigroup5" -resourceBehaviorOptions @("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled") -MailNickname "testapigroup55" -groupType DynamicMembership -visibility public -MemberShipRule "(user.userType -eq `"Guest`")" -resourceProvisioningOptions Teams -Verbose
+    #>
+        [cmdletbinding()]
+        Param (
+            [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+                [ValidateNotNullOrEmpty()]
+                [string]$DisplayName,
+            [parameter(Mandatory=$true)]
+                [ValidateNotNullOrEmpty()]
+                [string]$Description,
+            [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+                [string]$MailNickname,
+            [parameter(Mandatory=$false)]
+                [validateSet("StaticMembership","DynamicMembership")]
+                [string]$groupType = "StaticMembership",
+            [parameter(Mandatory=$false)]
+            [validateSet("private","public","Hiddenmembership")]
+                [string]$visibility = "private",
+            [parameter(Mandatory=$false)]
+                [ValidateNotNullOrEmpty()]
+                [string]$MemberShipRule,
+            [parameter(Mandatory=$false)]
+                [validateSet("AllowOnlyMembersToPost","HideGroupInOutlook","WelcomeEmailDisabled","SubscribeNewGroupMembers")]
+                    [string[]]$resourceBehaviorOptions,
+            [parameter(Mandatory=$false)]
+                [validateSet("Teams")]
+                    [string[]]$resourceProvisioningOptions
+        )
+        process {
+            Test-AzureADAccessTokenExpiration | out-null
+            if (($groupType -eq "DynamicMembership") -and !($MemberShipRule)) {
+                throw "Please set MemberShipRule parameter when using 'DynamicMembership' value as groupType parameter"
+            }
+            $ExistingGroup = Get-AzureADGroup -Filter "displayname eq '$DisplayName'"
+            if ($ExistingGroup) {
+                throw "$($DisplayName) group is already existing with ID $($ExistingGroup.ObjectId)"
+            }
+            if (!($MailNickname)) {
+                $MailNickname = ($DisplayName -replace '[^a-zA-Z0-9]', '')
+            }
+            if ($groupType -eq "DynamicMembership") {
+                $groupTypes = @("Unified",$groupType)
+            } else {
+                $groupTypes = @("Unified")
+            }
+            $tmpbody = @{
+                description = $Description
+                displayName = $DisplayName
+                groupTypes = $groupTypes
+                mailEnabled = $true
+                mailNickname = $MailNickname
+                SecurityEnabled = $false
+                visibility = $visibility
+            }
+            if ($MemberShipRule) {
+                $tmpbody.Add("membershipRule",$MemberShipRule)
+                $tmpbody.add("membershipruleProcessingState","on")
+            }
+            if ($resourceBehaviorOptions) {
+                $tmpbody.Add("resourceBehaviorOptions",$resourceBehaviorOptions)
+            }
+            if ($resourceProvisioningOptions) {
+                $tmpbody.Add("resourceProvisioningOptions",$resourceProvisioningOptions)
+            }
+            $params = @{
+                API = "groups"
+                Method = "POST"
+                APIBody = $tmpbody | ConvertTo-Json -Depth 99
+            }
+            write-verbose -Message $params.APIBody
+            Invoke-APIMSGraphBeta @params
+        }
+    }
+    Function Set-AzureADMSGroupCustom {
+    <#
+        .SYNOPSIS 
+        Update an existing Azure AD Office 365 dynamic or static group
+    
+        .DESCRIPTION
+        Update an existing Azure AD Office 365 dynamic or static group with resourceExchangeOptions support : https://docs.microsoft.com/en-us/graph/api/group-update?view=graph-rest-beta&tabs=http
+        
+        .PARAMETER NewDescription
+        -NewDescription String
+        Updated description of the group
+    
+        .PARAMETER NewDisplayname
+        -NewDisplayname String
+        Updated displayname of the new group
+            
+        .PARAMETER NewMailNickname
+        NewMailNickname string
+        updated mail nickname to be used for the group. if not defined, the new displayname value is used.
+
+        .PARAMETER Newvisibility
+        -Newvisibility string ("private","public","Hiddenmembership")
+        use "private" to update to a private group, "public" for a public group or "Hiddenmembership" for private group with hidden membership
+        
+        .PARAMETER ResourceExchangeOptions
+        -ResourceExchangeOptions hastable 
+        available key name : allowExternalSenders, autoSubscribeNewMembers, hideFromAddressLists, hideFromOutlookClients, isSubscribedByMail, unseenCount
+        available value : boolean for all key except unseenCount int32
+        
+        .OUTPUTS
+           TypeName : System.Management.Automation.PSCustomObject
+                
+        .EXAMPLE
+        Update a group to set several Exchange options
+        C:\PS> Get-AzureADGroup -ObjectId fd04a7ae-65e2-44ba-a940-b75efbd95d7e | set-AzureADMSGroupCustom -ResourceExchangeOptions @{"hideFromAddressLists"=$true;"allowExternalSenders"=$false;"autoSubscribeNewMembers"=$false;"hideFromOutlookClients"=$true;"isSubscribedByMail"=$false;"unseenCount"=10}
+
+        .EXAMPLE
+        Update a group to set a new description
+        C:\PS> Get-AzureADGroup -ObjectId fd04a7ae-65e2-44ba-a940-b75efbd95d7e | set-AzureADMSGroupCustom -NewDescription "testapigroup55 test"
+    #>
+        [cmdletbinding()]
+        Param (
+            [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ValueFromPipeline=$true)]
+                [Microsoft.Open.AzureAD.Model.Group]$inputobject,
+            [parameter(Mandatory=$false)]
+                [guid]$ObjectID,
+            [Parameter(Mandatory=$false)]
+                [ValidateNotNullOrEmpty()]
+                [string]$NewDisplayName,
+            [parameter(Mandatory=$false)]
+                [ValidateNotNullOrEmpty()]
+                [string]$NewDescription,
+            [parameter(Mandatory=$false)]
+            [ValidateNotNullOrEmpty()]
+                [string]$NewMailNickname,
+            [parameter(Mandatory=$false)]
+            [validateSet("private","public","Hiddenmembership")]
+                [string]$Newvisibility,
+            [parameter(Mandatory=$false,HelpMessage="boolean value for all keys except unseenCount : int, supported key name : allowExternalSenders, autoSubscribeNewMembers, hideFromAddressLists, hideFromOutlookClients, isSubscribedByMail, unseenCount")]
+                [Hashtable]$ResourceExchangeOptions
+        )
+        process {
+            Test-AzureADAccessTokenExpiration | out-null
+            if (!($ObjectID) -and !($inputobject)) {
+                throw "Please use ObjectID or inputobject - exiting"
+            }
+            if (!($NewDisplayName) -and !($NewDescription) -and !($NewMailNickname) -and !($ResourceExchangeOptions)) {
+                throw "Please select at least one parameter to update : NewDisplayName, NewDescription, NewMailNickname, ResourceExchangeOptions - exiting"
+            }
+            if ($ResourceExchangeOptions -and ($NewDisplayName -or $NewDescription -or $NewMailNickname -or $Newvisibility)) {
+                throw "you cannot use ResourceExchangeOptions with other options - exiting"
+            }
+            if ($inputobject.ObjectID) {
+                $ExistingGroup = Get-AzureADGroup -ObjectId $inputobject.ObjectID
+            } elseif ($ObjectID) {
+                $ExistingGroup = Get-AzureADGroup -ObjectId $ObjectID
+            }
+            if (!($ExistingGroup)) {
+                throw "Azure AD Group not existing in directory."
+            } else {
+                if ($ResourceExchangeOptions) {
+                    foreach ($option in $ResourceExchangeOptions.Keys) {
+                        $tmpbody = @{
+                            $option = $ResourceExchangeOptions[$option]
+                        }
+                        $params = @{
+                            API = "groups"
+                            Method = "PATCH"
+                            APIParameter = $ExistingGroup.ObjectId
+                            APIBody = $tmpbody | ConvertTo-Json -Depth 99
+                        }
+                        write-verbose -Message $params.APIBody
+                        Invoke-APIMSGraphBeta @params
+                    }
+                } else {
+                    $tmpbody = @{}
+                    if ($NewDisplayName) {
+                        $tmpbody.Add("displayName", $newDisplayName)
+                    }
+                    if ($NewDescription) {
+                        $tmpbody.Add("description", $NewDescription)
+                    }
+                    if ($Newvisibility) {
+                        $tmpbody.Add("visibility", $Newvisibility)
+                    }
+                    if ($NewMailNickname) {
+                        $tmpbody.Add("mailNickname", $NewMailNickname)
+                    } elseif ($NewDisplayName -and !($NewMailNickname)) {
+                        $tmpbody.Add("mailNickname", ($NewDisplayName -replace '[^a-zA-Z0-9]', ''))
+                    }
+                    $params = @{
+                        API = "groups"
+                        Method = "PATCH"
+                        APIBody = $tmpbody | ConvertTo-Json -Depth 99
+                        APIParameter = $ExistingGroup.ObjectId
+                    }
+                    write-verbose -Message $params.APIBody
+                    Invoke-APIMSGraphBeta @params
+                }
+            }
+        }
+    }
     Function Remove-AzureADDynamicGroup {
     <#
         .SYNOPSIS 
@@ -2746,7 +2994,7 @@ Function Watch-AzureADAccessToken {
             }
         }
     }
-    function Invoke-APIMSGraphBetaPaging {
+    Function Invoke-APIMSGraphBetaPaging {
         [cmdletbinding()]
         Param (
             [Parameter(Mandatory=$true)]
@@ -2901,5 +3149,6 @@ Function Watch-AzureADAccessToken {
                                     Get-AzureADServicePrincipalCustom, Get-AzureADAdministrativeUnitCustom, Add-AzureADAdministrativeUnitMemberCustom, Test-AzureADAccessTokenExpiration,
                                     Watch-AzureADAccessToken, Get-AzureADUserAdministrativeUnitMemberOfCustom, Remove-AzureADAdministrativeUnitMemberCustom,
                                     Get-AzureADOrganizationCustom, Update-AzureADOrganizationCustom, Get-AzureADOnPremisesProvisionningErrors,
-                                    Invoke-APIMSGraphBetaPaging, Invoke-APIMSGraphBeta
+                                    Invoke-APIMSGraphBetaPaging, Invoke-APIMSGraphBeta,
+                                    New-AzureADMSGroupCustom, Set-AzureADMSGroupCustom
     Export-ModuleMember -Alias Get-AzureADUserAllInfo

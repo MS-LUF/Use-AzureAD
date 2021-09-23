@@ -26,8 +26,10 @@ Enjoy your AzureAD stuff with Power[Shell](Of Love)
 - add example 15
 ### v1.4 - beta version
 - add example 16
-### v1.5 - last public release - beta version
+### v1.5 - beta version
 - add example 17
+### v1.6 - last release - beta version
+- add example 18
 
 (c) 2021 lucas-cueff.com Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).
 
@@ -330,7 +332,7 @@ And for the public one :
 ### Example 11
 Well, I have a huge migration scheduled, I have planned to manage some migration waves, migrating 1000 users by day. It would be perfect if can check every day the **delta** from day before to verify new users are correctly provisionned with all correct values.
 when I was reading Microsoft Docs online, I have found a very useful API called "Delta" that can do the job for you ! It's quite simple, you make a first request to create a kind of initial "view" then you can retrieve all updates done since your first request in a max period of time of 30 days. You can retrieve, added/updated/deleted objects and also properties of objects. It's magic :) Not all objects are supported right now, but "directory" speaking : users, groups and admin units are already supported :)
-More information here : https://docs.microsoft.com/en-us/graph/delta-query-overview  
+More information [here](https://docs.microsoft.com/en-us/graph/delta-query-overview)  
 In our use case, find below how to manage it with my cmdlet :
 #### create the initial view
 in our sample use case, we will imagine, we want to focus especially on two attributes manager and department :
@@ -354,7 +356,7 @@ When you will get your updated view, this update generate also a new "initial vi
 ### Example 12
 Well, I have tried to play with Azure AD Security Group with Dynamic membership in PowerShell and unfortunately, it seems the default AzureADPreview cmdlets are buggy... Any other solutions available ?
 #### Rules membership
-All you want/need to know abou the rules : https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership  
+All you want/need to know about the [rules](https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/groups-dynamic-membership)  
 #### Get Azure AD Group with Dynamic membership
 I want to get all info about the dynamic group Dynam_test. Please help me.
 ```
@@ -488,4 +490,20 @@ Easy Peasy !
 ```
 ```
     C:\PS>  Get-AzureADOnPremisesProvisionningErrors -filterObjectType "contacts"
+```
+
+### example 18
+#### Create an Office 365 group including specific resource options like "welcome message" disabled
+It is annoying that you have to first create an Office 365 group with default exchange options and then patch the group to setup all the options. For instance, you first create a dynamic group with welcome message enable so all the users will receive the welcome message, and then you can disable the welcome message...
+Could we manage it in one shot during the creation ?
+Yes you can :)
+```
+    C:\PS>  New-AzureADMSGroupCustom -DisplayName "testgroup" -Description "testgroup" -resourceBehaviorOptions @("WelcomeEmailDisabled")
+```
+Other hidden options are also available like hiding the group in Outlook for instance. More information [here](https://docs.microsoft.com/en-us/graph/group-set-options)
+#### Update an Office 365 group including special exchange options
+Unfortunaly, even with MS Graph API beta and last Groups resource, you cannot set all exchange options during the creation, you must patch it in a second time. So I have a build a 'set' function to manage all available Exchange options managed by the last beta API and groups resource.
+Here a sample to illustrate all the possible value, more information [here](https://docs.microsoft.com/en-us/graph/api/group-post-groups?view=graph-rest-beta&tabs=http)
+```
+    C:\PS>  Get-AzureADGroup -ObjectId fd04a7ae-65e2-44ba-a940-b75efbd95d7e | set-AzureADMSGroupCustom -ResourceExchangeOptions @{"hideFromAddressLists"=$true;"allowExternalSenders"=$false;"autoSubscribeNewMembers"=$false;"hideFromOutlookClients"=$true;"isSubscribedByMail"=$false;"unseenCount"=10}
 ```
